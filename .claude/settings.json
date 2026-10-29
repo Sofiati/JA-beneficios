@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "neon@claude-plugins-official": true,
+    "impeccable@impeccable": true
+  }
+}

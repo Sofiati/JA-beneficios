@@ -1,0 +1,9 @@
+name = "assistente-ja-beneficios"
+main = "index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# ORIGINS: domínios separados por vírgula. Adicione domínio Netlify e Hostinger.
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://jadigital.com.br"
+# Modelo usado SOMENTE quando a busca na FAQ não encontra correspondência confiável.
+GEMINI_MODEL = "gemini-3.8-flash"

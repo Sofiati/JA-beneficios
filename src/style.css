@@ -1,0 +1,885 @@
+@import "./styles/base.css";
+
+/* ===== Buttons ===== */
+.btn{display:inline-block;border:2px solid var(--color-primary);border-radius:var(--radius-control);
+  /* Centralização óptica: o ascent folgado da Trebuchet + os descendentes (Q, q) deixavam
+     ~.08em mais de espaço vazio acima das letras do que abaixo. Padding assimétrico
+     (±.08em) equaliza o bloco de glifos sem alterar a altura da cápsula. */
+  padding:calc(14px - .08em) 30px calc(14px + .08em);font-weight:600;font-size:.95rem;cursor:pointer;transition:var(--t-base);font-family:inherit}
+/* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez). */
+.btn-sm{padding:calc(9px - .08em) 20px calc(9px + .08em);font-size:.92rem;white-space:nowrap}
+/* CTA do header: rótulo completo no desktop; curto em telas estreitas (medido p/ caber em 360px). */
+.btn-label-short{display:none}
+.btn-solid{background:var(--button-bg);color:var(--button-fg)}
+.btn-solid:hover{background:var(--button-hover-bg);border-color:var(--button-hover-bg);transform:translateY(-2px)}
+.btn-cream{background:var(--color-background);color:var(--color-primary);border-color:var(--color-background)}
+.btn-cream:hover{transform:translateY(-2px)}
+.btn-yellow{background:var(--color-accent);border-color:var(--color-accent);color:var(--color-on-accent)}
+.btn-yellow:hover{filter:brightness(1.08);transform:translateY(-2px)}
+/* Envio em andamento: botão travado sem hover/pulada e com cursor de espera. */
+.btn:disabled{opacity:.75;cursor:wait;transform:none;pointer-events:none}
+.btn:active{transform:none}
+.link-arrow{color:var(--color-primary);font-weight:600;display:inline-block;margin-top:10px}
+.link-arrow:hover{text-decoration:underline}
+
+/* ===== Header ===== */
+.site-header{position:sticky;top:0;z-index:var(--z-header);background:color-mix(in srgb,var(--neutral-50) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid color-mix(in srgb,var(--neutral-black) 5%,transparent)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);height:76px}
+.brand{display:inline-flex;flex:0 0 auto;align-items:center}
+/* Os SVGs incluem área livre = largura do acento em cada lado (manual p.3).
+   As medidas abaixo incluem essa área; não recortar o viewBox. */
+.brand--header{background:transparent;border-radius:14px;padding:6px 10px}
+.brand-logo{display:block;height:auto;width:90px}
+.brand-logo--footer{width:132px}
+/* Nav: 4 itens medidos (PIL/Trebuchet) para caber em 1112px úteis; nowrap impede quebra. */
+.main-nav{display:flex;align-items:center;gap:var(--space-4);font-size:.92rem;font-weight:500}
+.main-nav>a{white-space:nowrap}
+.main-nav>a:not(.btn):hover{color:var(--color-primary);text-decoration:underline;text-underline-offset:5px;
+  text-decoration-thickness:2px}
+/* Estado ativo — sincronizado com aria-current="location" pelo scroll-spy em main.ts. */
+.main-nav>a.active{color:var(--color-primary);font-weight:600;text-decoration:underline;
+  text-underline-offset:5px;text-decoration-thickness:2px}
+/* Grupo de ações separado dos links (intenção do P1.3): no desktop o espaço entre nav e ações
+   vem do justify-content:space-between; no mobile o nav sai do fluxo e o margin-left:auto
+   empurra CTA + hambúrguer para a direita. */
+.header-actions{display:flex;align-items:center;gap:14px}
+/* font:inherit evita o default do UA (Arial 13px) — os glifos seguem a fonte do body. */
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;flex-direction:column;justify-content:center;gap:6px;align-items:center;font:inherit}
+.nav-toggle span{width:24px;height:3px;background:var(--color-text);border-radius:2px;transition:var(--t-mid)}
+.nav-toggle.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+/* ===== Hero ===== */
+.hero{overflow:hidden;background:var(--color-background)}
+/* A caixa adota a proporção real da arte (1672×941 no desktop, 816×941 no
+   mobile). É isso que garante a exibição EM ALTURA TOTAL: com `cover` e a
+   mesma proporção da imagem, nada é cortado. O `min-height` antigo deixava a
+   caixa mais baixa que a arte e o `cover` cortava a base da foto. */
+.hero-banner{position:relative;aspect-ratio:1672/941;min-height:0;container-type:inline-size}
+/* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
+   direta do banner (posicionamento absoluto e contexto de container intactos). */
+.hero-banner picture{display:contents}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+/* Textos reais sobre hero01.png — caixas em % e fontes em vw espelham a arte
+   (1672×941); o banner ocupa 100% da largura, então vw ≈ cqi. O overlay é
+   absoluto para não esticar a caixa: se esticasse, a arte voltaria a ser
+   cortada. */
+.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;
+  padding:var(--space-8) 0 var(--space-12) 6%;color:var(--color-on-primary)}
+/* Sem logo no hero: o header sticky já carrega a marca a 77px de distância
+   (crítica: "a marca ocupa o espaço mais caro da página antes de dizer o valor").
+   O espaço livre fica com a headline. */
+.hero-copy{width:35%;margin-top:0;flex:1;display:flex;flex-direction:column;justify-content:center}
+.hero-copy h1{font-family:var(--font-display);font-weight:700;font-size:4.05vw;
+  line-height:1.04;letter-spacing:-.02em}
+/* Destaque do h1 no hero escuro: mostarda (uva não teria contraste aqui). */
+.hero-copy .hl{color:var(--ja-mostarda)}
+/* Pisos de legibilidade com max(): vw puro deixava parágrafo/rótulos pequenos
+   entre ~700-1100px; acima do piso o comportamento vw continua igual. */
+.hero-copy p{margin-top:1.5%;font-size:max(1.58vw,14px);line-height:1.5;width:100%}
+/* CTA do hero: align-self:flex-start evita que o <a> estique para a largura
+   inteira da coluna flex (487px medidos para um rótulo de 9 caracteres) —
+   a cápsula passa a acompanhar o texto. */
+.hero-cta{display:inline-block;align-self:flex-start;margin-top:var(--space-8);white-space:nowrap;padding:calc(12px - .08em) 24px calc(12px + .08em)}
+.hero-benefits{list-style:none;display:flex;width:31%;margin-top:auto;padding-top:var(--space-10)}
+.hero-benefits li{flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:var(--space-4);padding:var(--space-3) clamp(var(--space-2),1.05vw,var(--space-5)) 0;text-align:center}
+.hero-benefits li+li{border-left:2px solid var(--ja-verde)}
+.hero-benefits img,.hero-benefits i{width:3vw;height:3vw;font-size:3vw}
+/* Composição "vários benefícios em um só cartão": um cartão central com
+   ícones de categoria de benefício encostando nos cantos (alimentação, saúde,
+   educação). Os ícones FA são máscaras 1em×1em dimensionadas por font-size
+   (ver .fa-solid), então o container fixa o tamanho e os filhos escalam por
+   % dele. Os <i> precisam de caixa própria — sem isso herdariam width/height
+   de 3vw da regra genérica acima e os offsets ficariam desalinhados. */
+.hero-benefits .hero-ico{position:relative;display:inline-block;width:3vw;height:3vw;
+  font-size:3vw;line-height:1}
+.hero-benefits .hero-ico i{width:1em;height:1em;display:inline-block;line-height:1}
+.hero-benefits .hero-ico .hero-ico__main{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);font-size:78%;color:inherit}
+.hero-benefits .hero-ico .hero-ico__mini{position:absolute;font-size:44%;
+  color:var(--ja-mostarda)}
+.hero-benefits .hero-ico__mini--a{top:0;left:0;transform:translate(-48%,0)}
+.hero-benefits .hero-ico__mini--b{top:0;right:0;transform:translate(48%,0)}
+.hero-benefits .hero-ico__mini--c{bottom:0;left:50%;transform:translate(-50%,0)}
+.hero-benefits span{font-size:max(1.1vw,12px);line-height:1.4}
+@supports (font-size:1cqi){
+  .hero-cta{padding:calc(clamp(10px,1.4cqi,24px) - .08em) clamp(16px,3cqi,34px)
+    calc(clamp(10px,1.4cqi,24px) + .08em) clamp(16px,3cqi,34px);font-size:clamp(15px,1.72cqi,28px)}
+}
+/* Desktop largo (≥1024px): a caixa tem a proporção da arte, então o texto
+   também é proporcional a ela — é o que mantém a composição alinhada com a
+   arte original (a esquerda plum da foto é o vazio reservado ao texto).
+   Em 1024px a caixa 16:9 ainda é baixa para a escala desktop; por isso os
+   respiros do topo/CTA e a margem da cópia encolhem com a largura e a linha
+   de benefícios ganha 37% (o suficiente para o 3º rótulo em 2 linhas). Os
+   clamps chegam ao valor original a partir de ~1366px. */
+@media (min-width:1024px){
+  .hero-overlay{padding-top:clamp(16px,2vw,32px);padding-bottom:clamp(24px,2.6vw,40px)}
+  .hero-copy{width:36%;margin-top:clamp(16px,2.6vw,40px)}
+  .hero-copy h1{font-size:clamp(28px,3.9vw,58px)}
+  .hero-copy p{width:100%;margin-top:var(--space-4);font-size:max(1.5vw,14px)}
+  .hero-cta{margin-top:clamp(16px,2vw,32px)}
+  .hero-benefits{width:37%;padding-top:var(--space-8)}
+  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
+    width:clamp(26px,3vw,46px);height:clamp(26px,3vw,46px);font-size:clamp(26px,3vw,46px)}
+  .hero-benefits span{font-size:max(1.02vw,12px)}
+}
+/* Notebook 1366×768 (o tamanho mais comum): a caixa 16:9 dá 760px e, com o
+   header, passa da dobra — a linha de benefícios era cortada. Em viewport baixo
+   o banner passa a ocupar a altura útil e o texto desce um passo; a foto perde
+   um pouco das laterais (a arte tem margem morta ali). */
+@media (min-width:1024px) and (max-height:820px){
+  .hero-banner{aspect-ratio:auto;height:calc(100svh - 77px);min-height:540px}
+  .hero-overlay{padding-block:clamp(16px,2.2vh,26px)}
+  .hero-copy h1{font-size:clamp(28px,3.5vw,52px)}
+  .hero-copy p{font-size:max(1.35vw,14px);margin-top:var(--space-3)}
+  .hero-cta{margin-top:var(--space-4)}
+  .hero-benefits{padding-top:var(--space-5)}
+  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
+    width:clamp(24px,2.6vw,40px);height:clamp(24px,2.6vw,40px);font-size:clamp(24px,2.6vw,40px)}
+}
+/* Tablet deitado (768–1023px): a caixa 16:9 é baixa (424px em 768 de largura) e
+   a coluna de texto não cabe nela com a escala da arte. A composição compacta
+   encurta o topo e o CTA e dá à linha de benefícios a largura que ela precisa
+   (abaixo do cartão da arte) para os rótulos de 12px caberem inteiros. Sem
+   corte: a caixa continua com a proporção da arte. */
+@media (min-width:768px) and (max-width:1023px){
+  .hero-overlay{padding-top:var(--space-3);padding-bottom:var(--space-8)}
+  .hero-copy{width:38%;margin-top:var(--space-8)}
+  .hero-copy h1{font-size:clamp(24px,3.3vw,34px)}
+  .hero-copy p{width:100%;margin-top:var(--space-3);font-size:clamp(13px,1.5vw,15px)}
+  .hero-cta{margin-top:var(--space-3);padding:var(--space-2) var(--space-6);font-size:15px}
+  /* A linha de benefícios pode ser mais larga que a coluna de texto: ela fica
+     abaixo do cartão, sobre o fundo plum da arte. */
+  .hero-benefits{width:42%;padding-top:var(--space-3)}
+  .hero-benefits li{gap:var(--space-2)}
+  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
+    width:clamp(20px,2.6vw,26px);height:clamp(20px,2.6vw,26px);font-size:clamp(20px,2.6vw,26px)}
+}
+/* Formulário do CTA final (reutiliza a classe .hero-form do antigo hero). */
+.hero-form{display:flex;gap:14px;background:var(--color-surface);padding:16px;border-radius:var(--radius-control);
+  box-shadow:var(--shadow);max-width:560px;margin-bottom:16px;flex-wrap:wrap}
+.hero-form input[type="email"]{width:100%;min-width:0;border:1px solid var(--color-border-control);border-radius:var(--radius-control);background:transparent;padding:var(--space-3) var(--space-4);font:inherit}
+
+/* ===== Prova rápida (P0.4 da auditoria) ===== */
+/* Quatro fatos verificáveis no próprio site, colados logo abaixo do hero onde a
+   objeção "é de verdade?" aparece. O registro PAT entra aqui porque é o dado que
+   o RH confere de fato — e o único que um concorrente não copia. Sem números de
+   escala sem fonte (AGENTS.md). */
+.proof{background:var(--color-background-alt);border-block:1px solid color-mix(in srgb,var(--neutral-black) 6%,transparent)}
+.proof-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px var(--space-6);
+  padding-block:34px;text-align:center}
+@media (max-width:900px){
+  .proof-row{grid-template-columns:repeat(2,1fr);gap:var(--space-6) var(--space-8)}
+}
+@media (max-width:520px){
+  .proof-row{grid-template-columns:1fr;gap:var(--space-6)}
+}
+.proof-item strong{display:block;font-family:var(--font-display);font-weight:700;
+  font-size:clamp(17px,2vw,26px);letter-spacing:-.01em;color:var(--ja-uva)}
+/* Rótulos: 15px (era 12.5-14.4px) — abaixo do limiar de leitura confortável.
+   O número continua sendo o protagonista; o rótulo ganha corpo e respiro. */
+.proof-item span{display:block;line-height:1.4;margin-top:2px;
+  font-size:clamp(.94rem,1.05vw,1rem);color:var(--color-text-muted)}
+
+/* ===== Sections ===== */
+.section{padding:var(--section-space) 0}
+.section-orange{background:linear-gradient(150deg,var(--ja-uva),var(--ja-uva-escuro));color:var(--neutral-white)}
+.section-orange .lead,.section-orange p{color:color-mix(in srgb,var(--neutral-white) 92%,transparent)}
+.section-cta{background:var(--ja-uva)}
+
+/* Ecossistema: introdução curta em coluna estreita + categorias em largura cheia.
+   Padding vertical próprio: a seção carrega uma mensagem curta (3 linhas) e o
+   respiro padrão de 90px em cima e embaixo a transformava num bloco vazio.
+   O fundo branco segue no #vantagens: o padding-bottom de 16px + os 90px da
+   seção seguinte mantêm o mesmo intervalo (~180px) das outras transições. */
+#ecossistema{padding-block:var(--section-space) var(--space-4)}
+#ecossistema .eyebrow{margin-bottom:10px}
+#ecossistema h2{margin-bottom:12px}
+#ecossistema .lead{margin:0 auto}
+
+/* ===== Categorias ===== */
+/* Cabeçalho (texto + CTA) à esquerda e foto do cartão à direita; abaixo, as
+   categorias agrupadas em 3 famílias. Tablet: foto ao lado do texto. */
+/* Proporção 55/45 (texto/imagem) e foto cortada em max-height eliminam o vazio
+   do topo; align-items:center centraliza o texto contra a imagem. */
+.categorias-layout{display:grid;grid-template-columns:1.2fr 1fr;
+  grid-template-areas:"copy stage" "index index";gap:36px 48px;margin:var(--space-10) 0 0;
+  align-items:center}
+.categorias-copy{grid-area:copy}
+.categorias-copy h3{text-wrap:balance;font-size:clamp(30px,3.4vw,44px)}
+.categorias-copy .lead{text-wrap:pretty;margin:0 0 18px}
+.categorias-index{grid-area:index}
+/* Foto integrada à seção: sem palco/padding/moldura colorida em volta — o cenário de
+   estúdio já está na própria imagem. Tratamento igual ao das outras fotos (.feature-art). */
+.categorias-stage{grid-area:stage;display:grid;place-items:center;overflow:hidden}
+.categorias-stage img{width:auto;max-width:100%;max-height:420px;height:auto;
+  border-radius:var(--radius-card);box-shadow:var(--shadow)}
+/* Vitrine em 3 famílias. O card carrega o resumo; a família diz por que ele
+   importa. Sem modal: o texto completo repetia o resumo em ~40 palavras
+   (crítica: "1 clique por card para devolver o que o card já dizia") e sem os
+   seis destaques iguais, que não distinguiam nada. */
+.cat-group+.cat-group{margin-top:var(--space-12)}
+.cat-group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;
+  margin-bottom:var(--space-4);padding-bottom:10px;
+  border-bottom:1px solid color-mix(in srgb,var(--shadow-ink) 10%,transparent)}
+.cat-group-title{margin:0;font-size:calc(var(--text-h3) * 1.35);
+  color:var(--ja-uva-escuro);text-wrap:balance}
+.cat-group-desc{flex:1 1 320px;margin:0;font-size:var(--text-small);
+  color:var(--color-text-muted);text-wrap:pretty}
+.cat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;gap:18px}
+/* Ponte com a foto do topo: borda discreta + hover suave (crítica 06). */
+.cat-card{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;
+  align-items:center;column-gap:var(--space-3);background:var(--card-bg);
+  border:1px solid color-mix(in srgb,var(--shadow-ink) 8%,transparent);border-top:4px solid transparent;
+  border-radius:var(--radius-card-sm);padding:var(--space-5);box-shadow:var(--shadow-sm);
+  transition:transform var(--t-base),box-shadow var(--t-base),border-color var(--t-base)}
+/* Hover só onde há ponteiro: no toque o :hover fica preso depois do tap e a
+   ficha sobe como se tivesse sido escolhida — e ela não é um controle. */
+@media (hover:hover){
+  .cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);
+    border-color:color-mix(in srgb,var(--ja-uva) 25%,transparent)}
+}
+/* Apenas o ícone FontAwesome, sem círculo de fundo (crítica 04). */
+.cat-card-ico-wrap{grid-row:1;grid-column:1;width:var(--space-12);height:var(--space-12);display:grid;place-items:center;flex-shrink:0}
+.cat-card-ico{font-size:1.75rem;width:1em;height:1em;color:var(--ja-uva-escuro)}
+.cat-card h5{grid-row:1;grid-column:2;font-size:var(--text-h3);line-height:1.25;margin:0}
+.cat-card p{grid-row:2;grid-column:1/-1;font-size:1rem;color:var(--color-text-muted);
+  align-self:start;line-height:1.62;margin-top:var(--space-3);margin-bottom:0}
+.cat-tag{display:inline-block;margin-left:6px;background:var(--ja-mostarda);color:var(--ja-uva-escuro);
+  border-radius:var(--radius-control);padding:3px 9px;font-size:.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;vertical-align:2px}
+/* Entrada escalonada dos cards. Estado base é visível: sem .visible (ou com
+   prefers-reduced-motion, que zera animações) a grade aparece normalmente. */
+.categorias-layout.visible .cat-card{animation:cat-row-in .5s ease backwards}
+.categorias-layout.visible .cat-card:nth-child(3n+2){animation-delay:.05s}
+.categorias-layout.visible .cat-card:nth-child(3n+3){animation-delay:.1s}
+@keyframes cat-row-in{from{opacity:0;transform:translateY(10px)}}
+
+/* ===== Features alternadas ===== */
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:44px 0}
+.feature-copy p{color:var(--color-text-muted);max-width:60ch}
+.feature-art{display:grid;place-items:center;min-height:300px;
+  background:linear-gradient(160deg,var(--color-surface),var(--color-background-alt));border-radius:var(--radius-card);box-shadow:var(--shadow)}
+/* Fotografia preservada na coluna esquerda; conteúdo em HTML na direita. */
+.feature-art--media{padding:0;overflow:hidden;min-height:0;background:var(--color-surface)}
+
+/* Aceitação: fotografia quadrada e texto com os estilos compartilhados. */
+.accept-img{width:100%;height:auto;display:block}
+.accept-title{color:var(--color-primary)}
+/* Bloco agrupado: separa as duas informações que se atropelavam no mesmo fluxo
+   de texto (crítica "separar melhor os blocos informativos"). O h3 fica com
+   o.reset de margem próprio (a regra .accept-copy h3 não se aplica aqui). */
+.accept-block{margin-top:var(--space-6);padding-top:var(--space-5);
+  border-top:1px solid var(--color-border)}
+.accept-block h3{margin:0 0 var(--space-2)}
+.accept-block p+p{margin-top:var(--space-3)}
+/* Correção p.10: "Visa" em letras garrafais (VISA) dentro do título de aceitação. */
+.visa-mark{font-size:1.5em;letter-spacing:.05em;font-weight:800;line-height:1}
+/* A margem do h3 passou a ser controlada pelo .accept-block (bloco agrupado). */
+.accept-title::after{content:"";display:block;width:var(--space-10);height:var(--space-2);margin-top:var(--space-4);background:var(--color-accent);border-radius:var(--radius-control)}
+.accept-methods{list-style:none;display:flex;gap:var(--space-6);width:min(100%,320px);padding:0;margin:var(--space-6) 0 0;text-align:center}
+.accept-methods li{flex:1;min-width:0;font-weight:700;font-size:1rem;line-height:1.5;color:var(--color-primary)}
+.accept-icon{display:block;padding:var(--space-2);margin-bottom:var(--space-2);border-radius:var(--card-radius);background:var(--color-background-alt)}
+.accept-icon svg{display:block;width:100%;height:70px}
+/* Foto real do app (941x1672, retrato): altura travada p/ não dominar a coluna —
+   mantém o pé do mock antigo (~210x397) e o palco .feature-art continua centralizando. */
+.app-shot{display:block;width:auto;max-width:100%;height:auto;max-height:400px;
+  border-radius:var(--radius-card);box-shadow:var(--shadow)}
+
+/* ===== Custo zero ===== */
+#custo-zero{position:relative;isolation:isolate;overflow:hidden;padding-block:var(--section-space)}
+#custo-zero>.container{position:relative;z-index:1}
+.zero-art{position:absolute;z-index:0;pointer-events:none;width:22%;height:auto}
+.zero-art--left{left:-4%;top:28%}
+.zero-art--right{right:0;bottom:var(--space-12)}
+.custo-zero-header{text-align:center;margin-bottom:var(--space-8)}
+.zero-heading{font-family:var(--font-display);font-size:var(--text-h2);margin:0 0 var(--space-4);color:var(--color-on-primary)}
+.zero-highlight{position:relative;color:var(--color-accent)}
+.zero-highlight::after,.custo-zero-form .form-title::after{content:"";position:absolute;top:0;width:var(--space-6);height:var(--space-6);margin-left:var(--space-2);background:var(--ja-verde);clip-path:polygon(0 48%,80% 0,90% 18%,10% 60%,100% 72%,98% 90%,12% 75%)}
+.zero-sub{font-size:var(--text-small);margin:0 0 var(--space-4)}
+.zero-chips{list-style:none;padding:0;margin:0 auto var(--space-4);display:flex;justify-content:center;max-width:calc(var(--max) * .8)}
+.zero-chips li{flex:1;min-height:var(--space-12);display:flex;align-items:center;justify-content:center;border-right:1px solid var(--color-on-dark-muted)}
+.zero-chips li:last-child{border-right:0}
+.chip{position:relative;display:flex;align-items:center;gap:var(--space-4);padding-inline:var(--space-4);font-size:var(--text-small);font-weight:700;line-height:1.3;text-align:left;color:var(--color-on-primary)}
+.chip::before{content:"";position:absolute;left:var(--space-4);width:var(--space-12);height:var(--space-12);border-radius:var(--radius-input);background:color-mix(in srgb,var(--color-on-primary) 12%,transparent)}
+.chip-ico{flex-shrink:0;font-size:var(--space-6);margin:var(--space-3);color:var(--color-accent)}
+.zero-shipping,.zero-note{margin:0 auto;font-size:var(--text-small);text-wrap:balance;line-height:1.4}
+.zero-shipping{margin-bottom:var(--space-2)}
+#custo-zero .zero-note{color:var(--color-on-dark-muted);font-size:var(--text-small)}
+.custo-zero-card{margin-inline:auto;max-width:calc(var(--max) * .8)}
+.custo-zero-form{--color-focus:var(--color-primary);background:var(--card-bg);color:var(--color-text);border-radius:var(--card-radius);padding:var(--space-12);box-shadow:var(--shadow)}
+.custo-zero-form .form-title{position:relative;width:fit-content;padding-right:var(--space-8);font-size:var(--text-h3);margin:0 0 var(--space-2);color:var(--color-primary)}
+.custo-zero-form .form-title::after{right:0;background:var(--color-accent)}
+.custo-zero-form .form-subtitle{font-size:var(--text-body);margin:0 0 var(--space-8);color:var(--color-text-muted)}
+/* O card branco mora dentro da seção uva: `.section-orange p` (0,1,1) pintava
+   todo parágrafo de branco 92% e sumia sobre a superfície branca. Estas regras
+   (0,2,0) devolvem a cor legível e dão ao aviso a hierarquia que faltava. */
+.custo-zero-form .form-reassurance{color:var(--color-text-muted);font-size:var(--text-small);
+  line-height:1.55;margin-top:var(--space-3);max-width:60ch}
+.beneficios-form{margin:0}
+.beneficios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-8);align-items:end}
+.beneficios-full{grid-column:1 / -1}
+.custo-zero-form .form-field{display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
+.custo-zero-form label{font:inherit;font-size:var(--text-small);font-weight:700;color:var(--color-text-muted)}
+.custo-zero-form .required{color:var(--color-primary)}
+.custo-zero-form input:not([type=hidden]):not([type=checkbox]),.custo-zero-form select{width:100%;min-width:0;min-height:var(--space-12);border:1px solid var(--color-text-muted);border-radius:var(--input-radius);background:var(--color-surface);color:var(--color-text);padding:var(--space-3) var(--space-4) var(--space-3) var(--space-12);font:inherit;font-size:var(--text-body)}
+.custo-zero-form input::placeholder{color:var(--input-placeholder);font-size:var(--text-small);font-weight:400;opacity:1}
+.custo-zero-form input:focus,.custo-zero-form select:focus{outline:2px solid var(--color-focus);outline-offset:1px}
+.custo-zero-form select{appearance:auto}
+.form-control{position:relative;display:flex;align-items:center}
+.form-control-icon{position:absolute;left:var(--space-4);width:var(--space-4);height:var(--space-4);color:var(--color-primary);opacity:.7;pointer-events:none}
+.custo-zero-form .form-whatsapp-note::before,.custo-zero-form .form-whatsapp-note::after{content:"";width:var(--space-8);height:1px;background:var(--color-border)}
+.custo-zero-form .form-consent{display:flex;align-items:flex-start;justify-content:center;gap:var(--space-2);font-weight:400}
+.custo-zero-form .form-consent input{flex-shrink:0;width:var(--space-4);height:var(--space-4);margin-top:2px;accent-color:var(--color-primary)}
+.custo-zero-form .form-consent a{color:var(--color-primary);text-decoration:underline}
+.custo-zero-form .form-consent a:hover{color:var(--color-primary-hover)}
+.custo-zero-form .btn-zero-submit{align-self:center;max-width:100%;min-height:var(--space-12);padding:var(--space-3) var(--space-8);font-size:var(--text-body)}
+.custo-zero-form .form-whatsapp-note{display:flex;align-items:center;justify-content:center;gap:var(--space-2);margin-top:var(--space-2);font-size:var(--text-small);color:var(--color-text-muted);text-align:center}
+.form-whatsapp-note a{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;min-width:var(--space-12);min-height:var(--space-12);color:var(--whatsapp)}
+.form-whatsapp-note svg{width:var(--space-6);height:var(--space-6)}
+/* Cores de retorno de envio ficam em um único bloco (ver "Retorno de envio"). */
+@media(max-width:900px){
+  .custo-zero-form{padding:var(--space-6) var(--space-8)}
+  .chip{padding-inline:var(--space-2);gap:var(--space-2)}
+  .chip::before{left:var(--space-2)}
+}
+@media(max-width:520px){
+  .zero-highlight::after{width:var(--space-4);height:var(--space-4)}
+  .zero-chips{flex-direction:column;align-items:center;gap:var(--space-4)}
+  .zero-chips li{border:0;width:100%;max-width:calc(var(--space-16) * 4);justify-content:flex-start}
+  .zero-art--left{top:50%}
+  .custo-zero-form{padding:var(--space-6) var(--space-5)}
+  .custo-zero-form .form-title br{display:none}
+  .beneficios-grid{grid-template-columns:minmax(0,1fr)}
+  .custo-zero-form .btn-zero-submit{width:100%;padding-inline:var(--space-4)}
+}
+
+/* ===== Ícones (Font Awesome Free 6.5.0 — ícones CC BY 4.0, código MIT) =====
+   Auto-hospedados como máscara SVG (public/icones/fa/) com o mesmo desenho da
+   fonte, substituindo o <link> do cdnjs: sem origem de terceiros, sem CSS
+   render-blocking e com carregamento assíncrono de imagem. O tint vem de
+   background-color:currentColor — igual ao glifo da fonte. Os nomes de arquivo
+   seguem o SVG oficial do FA6 (ex.: fa-theater-masks usa masks-theater.svg;
+   fa-birthday-cake usa cake-candles.svg — renomeados no FA6). Atribuição:
+   https://fontawesome.com/license/free */
+.fa-solid{display:inline-block;width:1em;height:1em;line-height:1;
+  vertical-align:-0.125em;background-color:currentColor;
+  -webkit-mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;
+  mask-repeat:no-repeat;mask-position:center;mask-size:contain}
+.fa-wifi{-webkit-mask-image:url("/icones/fa/wifi.svg");mask-image:url("/icones/fa/wifi.svg")}
+.fa-shield-halved{-webkit-mask-image:url("/icones/fa/shield-halved.svg");mask-image:url("/icones/fa/shield-halved.svg")}
+.fa-credit-card{-webkit-mask-image:url("/icones/fa/credit-card.svg");mask-image:url("/icones/fa/credit-card.svg")}
+.fa-utensils{-webkit-mask-image:url("/icones/fa/utensils.svg");mask-image:url("/icones/fa/utensils.svg")}
+.fa-heart-pulse{-webkit-mask-image:url("/icones/fa/heart-pulse.svg");mask-image:url("/icones/fa/heart-pulse.svg")}
+.fa-graduation-cap{-webkit-mask-image:url("/icones/fa/graduation-cap.svg");mask-image:url("/icones/fa/graduation-cap.svg")}
+.fa-cart-shopping{-webkit-mask-image:url("/icones/fa/cart-shopping.svg");mask-image:url("/icones/fa/cart-shopping.svg")}
+.fa-theater-masks{-webkit-mask-image:url("/icones/fa/masks-theater.svg");mask-image:url("/icones/fa/masks-theater.svg")}
+.fa-gas-pump{-webkit-mask-image:url("/icones/fa/gas-pump.svg");mask-image:url("/icones/fa/gas-pump.svg")}
+.fa-car{-webkit-mask-image:url("/icones/fa/car.svg");mask-image:url("/icones/fa/car.svg")}
+.fa-laptop{-webkit-mask-image:url("/icones/fa/laptop.svg");mask-image:url("/icones/fa/laptop.svg")}
+.fa-hospital{-webkit-mask-image:url("/icones/fa/hospital.svg");mask-image:url("/icones/fa/hospital.svg")}
+.fa-layer-group{-webkit-mask-image:url("/icones/fa/layer-group.svg");mask-image:url("/icones/fa/layer-group.svg")}
+.fa-trophy{-webkit-mask-image:url("/icones/fa/trophy.svg");mask-image:url("/icones/fa/trophy.svg")}
+.fa-hands-holding-circle{-webkit-mask-image:url("/icones/fa/hands-holding-circle.svg");mask-image:url("/icones/fa/hands-holding-circle.svg")}
+.fa-wallet{-webkit-mask-image:url("/icones/fa/wallet.svg");mask-image:url("/icones/fa/wallet.svg")}
+.fa-calendar-check{-webkit-mask-image:url("/icones/fa/calendar-check.svg");mask-image:url("/icones/fa/calendar-check.svg")}
+.fa-birthday-cake{-webkit-mask-image:url("/icones/fa/cake-candles.svg");mask-image:url("/icones/fa/cake-candles.svg")}
+.fa-snowflake{-webkit-mask-image:url("/icones/fa/snowflake.svg");mask-image:url("/icones/fa/snowflake.svg")}
+.fa-comment-dots{-webkit-mask-image:url("/icones/fa/comment-dots.svg");mask-image:url("/icones/fa/comment-dots.svg")}
+.fa-handshake{-webkit-mask-image:url("/icones/fa/handshake.svg");mask-image:url("/icones/fa/handshake.svg")}
+.fa-rocket{-webkit-mask-image:url("/icones/fa/rocket.svg");mask-image:url("/icones/fa/rocket.svg")}
+.fa-calendar-days{-webkit-mask-image:url("/icones/fa/calendar-days.svg");mask-image:url("/icones/fa/calendar-days.svg")}
+.fa-truck{-webkit-mask-image:url("/icones/fa/truck.svg");mask-image:url("/icones/fa/truck.svg")}
+
+/* ===== Suporte ===== */
+.support-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:var(--space-6);margin:var(--space-10) 0 34px}
+/* Hierarquia: foto (1774×887) e texto competiam — o texto era pequeno ao lado
+   da imagem. Menos respiro no card, título e parágrafo maiores que a foto. */
+.support-card{background:var(--card-bg);border-radius:var(--card-radius);padding:clamp(24px,2.6vw,36px);box-shadow:var(--shadow);border-top:5px solid var(--color-primary)}
+/* Ícone da marca (mesma linguagem dos ícones FontAwesome das outras seções). */
+.support-ico{font-size:1.75rem;color:var(--ja-uva-escuro);display:block;margin-bottom:14px}
+.support-img{width:100%;height:auto;margin-bottom:20px;border-radius:calc(var(--radius-card)/2)}
+.support-card h3{font-size:1.35rem;line-height:1.25;margin-top:0;margin-bottom:12px}
+.support-card p{color:var(--color-text-muted);margin-top:10px;font-size:1.05rem;line-height:1.65}
+.support-steps{margin-top:var(--space-6)}
+.support-steps>div{padding-block:var(--space-4);border-top:1px solid var(--color-border)}
+.support-steps>div:last-child{padding-bottom:0}
+.support-steps dt{font-weight:700;font-size:1rem;line-height:1.5;color:var(--color-text)}
+.support-steps dd{margin:var(--space-2) 0 0;font-size:1rem;line-height:1.6;color:var(--color-text-muted)}
+
+/* ===== CTA final ===== */
+/* Explicação, campo + ação e consentimento em linhas próprias. */
+.hero-form--center{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;
+  gap:var(--space-4) var(--space-2);margin:var(--space-8) auto 0;color:var(--color-text);
+  max-width:700px;padding:var(--space-6);border-radius:var(--radius-card);text-align:left;box-shadow:none}
+.form-email{min-width:0}
+.hero-form--center input[type="email"],.hero-form--center .btn{min-height:var(--space-12)}
+.hero-form--center .btn{padding-inline:var(--space-5);font-size:1rem}
+@media(max-width:520px){
+  .hero-form--center .btn{white-space:normal}
+}
+/* ===== Retorno de envio (card branco) =====
+   Uva #732E4A sobre branco = 9,47:1 (AAA) para sucesso e para o resumo de erro.
+   Falha usa faixa rosa-clara com texto Tinta: a cor de erro do DESIGN.md é para
+   fundo escuro e sumia (1,45:1) na superfície branca do formulário. */
+.custo-zero-form .form-ok,.custo-zero-form .form-err{font-weight:600;line-height:1.5;margin-top:18px;display:block}
+.custo-zero-form .form-ok{color:var(--color-primary)}
+.custo-zero-form .form-err{color:var(--color-text);border-radius:var(--radius-input);
+  padding:var(--space-3) var(--space-4);
+  background:color-mix(in srgb,var(--error-100) 55%,var(--color-surface))}
+.custo-zero-form .form-err a{color:var(--color-primary);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.custo-zero-form .form-err a:hover{color:var(--color-primary-hover)}
+/* O `display:block` acima vence o [hidden] do user agent: sem isto o "Enviado!"
+   aparecia junto com o resumo de erro depois de um envio anterior. */
+.custo-zero-form .form-ok[hidden],.custo-zero-form .form-err[hidden]{display:none}
+/* Foco programático no retorno de envio: o anel precisa ser visível. */
+.custo-zero-form .form-ok:focus-visible,.custo-zero-form .form-err:focus-visible{outline:2px solid var(--color-focus);outline-offset:3px}
+
+/* Erro por campo: mesma faixa clara do resumo, texto Tinta (AAA) e o campo
+   marcado por aria-invalid. Antes herdava branco 92% do `.section-orange p`. */
+.custo-zero-form .field-error{margin-top:var(--space-2);padding:6px var(--space-3);
+  border-radius:var(--radius-input);font-size:var(--text-small);font-weight:600;line-height:1.45;
+  color:var(--color-text);background:color-mix(in srgb,var(--error-100) 55%,var(--color-surface))}
+/* P0.2 removido (p.25 do briefing): microcopy "usamos seu e-mail..." descontinuada pelo cliente. */
+/* Honeypot anti-spam: fora do fluxo visual e do teclado (tabindex=-1 no HTML). */
+.honeypot{display:none}
+
+/* Validação inline (blur/submit) — erros por campo. A cor de erro do DESIGN.md
+   (#FFC9C9) é para fundo escuro: aqui o texto usa Tinta e a faixa rosa-clara
+   entra como superfície (ver "Retorno de envio"), mantendo AA sobre o card. */
+.field-error{
+  margin:6px 0 0;
+  font-size:var(--text-small);
+  color:var(--color-text);
+  font-weight:600;
+  line-height:1.4;
+}
+input[aria-invalid="true"], select[aria-invalid="true"]{
+  border-color:var(--ja-uva);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--ja-uva) 15%,transparent);
+}
+input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible{
+  outline-color:var(--ja-uva);
+}
+
+/* Label visível do campo de e-mail (WCAG 3.3.2 — rótulo visível, não só placeholder). */
+.hero-form label[for="ctaEmail"]{
+  display:block;font-weight:600;font-size:.95rem;color:var(--color-text);margin-bottom:6px;
+}
+
+/* Explicação antes dos controles, ocupando toda a largura do card. */
+.form-hint{grid-column:1 / -1;font-size:.875rem;color:var(--color-text-muted);margin:0;line-height:1.5}
+
+/* Checkbox de consentimento (LGPD): rótulo inline ao lado da caixa. */
+.form-consent{grid-column:1 / -1;display:flex;align-items:flex-start;gap:var(--space-2);font-size:.875rem;color:var(--color-text-muted);line-height:1.5;min-height:var(--space-6)}
+.form-consent input{margin-top:2px;flex:0 0 18px;width:18px;height:18px;accent-color:var(--ja-uva)}
+.form-consent-text{display:inline}
+.form-consent a{color:var(--color-primary);text-decoration:underline;text-decoration-color:var(--color-accent)}
+.form-consent a:hover{color:var(--color-primary-hover)}
+
+/* ===== Footer ===== */
+/* Footer sobre fundo uva (versão negativa p.2: JÁ mostarda + benefícios verde sobre uva).
+   Reorganizado conforme "Crítica da seção.pdf": 4 grupos equilibrados + faixa jurídica
+   inferior com dados cadastrais separados do conteúdo comercial. Sem cor nova — só uva. */
+.site-footer{background:var(--ja-uva-escuro);color:var(--color-on-dark-muted);padding:60px 0 0;font-size:1rem}
+.footer-grid{display:grid;grid-template-columns:34% repeat(3,1fr);gap:32px;padding-bottom:32px}
+.footer-brand .brand--footer{color:var(--color-background)}
+.footer-tagline{margin-top:14px;max-width:24ch;color:var(--color-on-dark-muted)}
+.footer-social{display:flex;gap:14px;margin-top:16px}
+.site-footer .footer-social a{display:inline-flex;align-items:center;justify-content:center;padding:0;
+  width:36px;height:36px;flex:0 0 auto;
+  border:1px solid color-mix(in srgb,var(--neutral-white) 22%,transparent);border-radius:50%;color:var(--color-on-dark-muted);
+  transition:color var(--t-base),border-color var(--t-base)}
+.site-footer .footer-social svg{display:block;width:17px;height:17px}
+.site-footer .footer-social a:hover{color:var(--color-background);border-color:color-mix(in srgb,var(--neutral-white) 50%,transparent)}
+.site-footer h3{color:var(--color-background);margin-bottom:12px;font-size:1rem;font-weight:700}
+.site-footer a{display:block;padding:5px 0;color:var(--color-on-dark-muted)}
+.site-footer a:hover{color:var(--color-background)}
+.footer-city{padding:5px 0;color:var(--color-on-dark-muted)}
+/* Faixa jurídica: razão social + endereço em 2 linhas compactas. */
+.footer-legal-strip{border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:22px;font-size:.9375rem;line-height:1.7}
+.footer-legal-strip p{color:var(--color-on-dark-muted)}
+.footer-legal-strip address{font-style:normal;color:var(--color-on-dark-muted)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);flex-wrap:wrap;
+  border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:18px;font-size:.9375rem}
+.footer-bottom span{color:var(--color-on-dark-muted)}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+/* position:relative + ::after dão ≥24px de área de toque (WCAG 2.5.8) mantendo o
+   padding:0 que alinha os links com o copyright na mesma faixa. */
+.footer-links a{display:inline;padding:0;position:relative}
+.footer-links a::after{content:"";position:absolute;inset:-6px}
+
+/* ===== Voltar ao início ===== */
+/* Some no topo e aparece após rolar (classe .is-visible aplicada em src/main.ts).
+   Empilhado acima do FAB de WhatsApp: 56px do FAB + 12px de respiro, partindo do
+   mesmo offset lateral/inferior. Uva da marca (9,47:1 sobre branco — medido). */
+.to-top{position:fixed;right:clamp(16px,3vw,28px);
+  bottom:calc(clamp(16px,3vw,28px) + 56px + 12px);
+  z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;   border:1px solid var(--color-border-control);border-radius:50%;
+  background:var(--color-surface);color:var(--ja-uva);box-shadow:var(--shadow);
+  cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s var(--t-base)}
+.to-top.is-visible{opacity:1;visibility:visible;transform:none;
+  transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s}
+.to-top:hover{color:var(--color-primary-hover);border-color:var(--color-border-control);
+  transform:translateY(-2px)}
+.to-top:active{transform:none}
+.to-top svg{width:22px;height:22px;display:block}
+/* Mesma regra do FAB: fora do caminho quando o painel de nav está aberto. */
+body:has(.main-nav.open) .to-top{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ===== CTA flutuante de WhatsApp ===== */
+/* Presente em todas as seções: fixo no canto inferior direito, acima de todo o conteúdo
+   (z-index 49 = mesmo patamar do painel de nav).
+   Cor: teal var(--whatsapp), uma das cores oficiais da marca WhatsApp — exceção consciente à
+   paleta JA por ser identidade de um canal de terceiro (mesmo critério dos ícones de
+   redes do footer). Verde #25D366 com glifo branco foi medido e reprovado: 1,98:1 de
+   contraste, abaixo do mínimo 3:1 da WCAG 1.4.11 p/ elementos gráficos. O teal entrega
+   4,14:1 com o mesmo glifo branco, sem abrir mão do reconhecimento do canal. */
+.whatsapp-fab{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);
+  z-index:var(--z-fab);display:grid;place-items:center;width:56px;height:56px;border-radius:50%;
+  background:var(--whatsapp);color:var(--neutral-white);box-shadow:var(--shadow-whatsapp);
+  transition:transform var(--t-base) ease,box-shadow var(--t-base) ease}
+.whatsapp-fab svg{width:30px;height:30px;display:block}
+.whatsapp-fab:hover{transform:translateY(-3px);box-shadow:var(--shadow-whatsapp-hover)}
+.whatsapp-fab:active{transform:none}
+/* Com o painel de nav aberto no mobile o FAB ficaria por cima do menu (mesmo z-index,
+   mas vem depois no DOM). Some com o painel e volta quando ele fecha. */
+body:has(.main-nav.open) .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
+
+/* P0.3: rodapé na viewport -> recolhe o "voltar ao topo". No mobile ele cobria
+   os links de Atendimento do footer. Classe alternada pelo IntersectionObserver
+   de src/main.ts; visibility remove do tab order. */
+body.footer-in-view .to-top{opacity:0;visibility:hidden;pointer-events:none}
+
+/* Crítica 23/10: o FAB do WhatsApp é canal de conversão de baixo compromisso —
+   recua exatamente quando um link do rodapé estaria sob ele (faixa inferior
+   direita do viewport; rootMargin do observer em src/main.ts). Assim o canal
+   fica à vista no momento da decisão e nenhum destino clicável é coberto. */
+body.footer-link-in-band .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
+
+/* O FAB cobria o select de colaboradores e o botão de envio no mobile: recua
+   enquanto o formulário está na vista — o próprio card oferece o canal. */
+body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ===== FAQ (itens dinâmicos de /faq.json) ===== */
+/* Duas colunas 35/65: introdução + ponto de conversão fixo à esquerda, perguntas à direita.
+   A coluna central estreita anterior deixava ~2/3 da largura vazia em telas grandes. */
+.faq-layout{display:grid;grid-template-columns:minmax(0,35fr) minmax(0,65fr);
+  gap:clamp(28px,4vw,64px);align-items:start}
+/* Aside acompanha o scroll até o fim da seção (sticky) — o CTA de ajuda fica sempre à vista. */
+.faq-aside{position:sticky;top:calc(90px + var(--space-6))}
+.faq-aside .lead{margin-bottom:var(--space-6)}
+/* Card de conversão: superfície uva (identidade da marca) com cápsula creme, como no protótipo. */
+.faq-help{--color-focus:var(--ja-mostarda);background:var(--ja-uva);color:var(--neutral-white);
+  border-radius:var(--radius-card);padding:clamp(20px,2.4vw,26px);box-shadow:var(--shadow)}
+.faq-help-ico{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
+  background:color-mix(in srgb,var(--neutral-white) 14%,transparent);margin-bottom:var(--space-4)}
+.faq-help-ico svg{width:24px;height:24px}
+.faq-help h3{color:var(--neutral-white);margin-bottom:6px}
+.faq-help p{color:var(--color-on-dark-muted);font-size:.95rem;line-height:1.5;margin-bottom:var(--space-4)}
+/* Nota de condições: redação cautelosa, sem afirmar termos contratuais. */
+.faq-note{color:var(--color-text-muted);font-size:.875rem;line-height:1.6;margin-top:var(--space-4)}
+.faq-list{display:grid;gap:12px}
+/* Subtítulo de tema: sem serifa, caps e uva — separa os 3 grupos sem virar um clique.
+   Usa a mesma escala do body (clamp 15-17px): como <h3> semântico, nunca menor que o texto corrido. */
+.faq-group-title{font-family:var(--font-body);font-weight:700;font-size:var(--text-body);
+  text-transform:uppercase;letter-spacing:.12em;color:var(--color-primary);
+  margin:var(--space-3) 0 2px}
+.faq-group-title:first-child{margin-top:0}
+/* Accordion: interface sem serifa (a slab fica para os títulos editoriais) e altura
+   mínima confortável para toque. Borda discreta no lugar da sombra intensa anterior. */
+.faq-item{background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-card);padding:14px clamp(16px,1.8vw,22px)}
+.faq-item summary{cursor:pointer;font-family:var(--font-body);font-weight:600;
+  font-size:clamp(16px,1.05vw,17px);color:var(--color-text);line-height:1.4;
+  min-height:64px;padding:16px 0;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;gap:var(--space-4)}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";font-size:1.25rem;font-weight:400;color:var(--color-primary);
+  line-height:1;transition:transform var(--t-base) ease;flex-shrink:0}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{color:var(--color-text-muted);font-size:clamp(15px,.98rem,16px);line-height:1.65;
+  margin:0 0 16px;text-wrap:pretty}
+.faq-item summary:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px;border-radius:4px}
+
+/* ===== Animações on-scroll ===== */
+/* [data-animate] só esconde o bloco quando o JS está ativo.
+   Usa curva e duração otimizadas para efeito de revelação natural e fluido. */
+.js [data-animate] {
+  opacity: 0;
+  transform: translateY(32px);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.js [data-animate].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variantes de direção/efeito de entrada */
+.js [data-animate="fade-in"] {
+  transform: none;
+}
+.js [data-animate="slide-up"] {
+  transform: translateY(36px);
+}
+.js [data-animate="slide-left"] {
+  transform: translateX(-36px);
+}
+.js [data-animate="slide-right"] {
+  transform: translateX(36px);
+}
+.js [data-animate="scale-up"] {
+  transform: scale(0.95) translateY(18px);
+}
+.js [data-animate="scale-up"].visible {
+  transform: scale(1) translateY(0);
+}
+
+/* ===== Cascata/Escalonamento de Entrada para Elementos Filhos ===== */
+
+/* Prova rápida: itens aparecem em sequência fluida */
+.js .proof-row[data-animate].visible .proof-item {
+  animation: proof-item-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.js .proof-row[data-animate].visible .proof-item:nth-child(1) { animation-delay: 0.05s; }
+.js .proof-row[data-animate].visible .proof-item:nth-child(2) { animation-delay: 0.15s; }
+.js .proof-row[data-animate].visible .proof-item:nth-child(3) { animation-delay: 0.25s; }
+.js .proof-row[data-animate].visible .proof-item:nth-child(4) { animation-delay: 0.35s; }
+
+@keyframes proof-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Suporte: cards de RH e Colaborador em onda com atraso */
+.js .support-card[data-animate] {
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow var(--t-base);
+}
+.js .support-card[data-animate]:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+/* Custo Zero Chips: entrada em sequência com leve zoom */
+.js .custo-zero-header[data-animate].visible .chip {
+  animation: chip-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.js .custo-zero-header[data-animate].visible .zero-chips li:nth-child(1) .chip { animation-delay: 0.1s; }
+.js .custo-zero-header[data-animate].visible .zero-chips li:nth-child(2) .chip { animation-delay: 0.2s; }
+.js .custo-zero-header[data-animate].visible .zero-chips li:nth-child(3) .chip { animation-delay: 0.3s; }
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* FAQ Accordion list: revelação em onda das dúvidas */
+.js .faq-list[data-animate].visible .faq-item {
+  animation: faq-item-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.js .faq-list[data-animate].visible .faq-item:nth-child(1) { animation-delay: 0.05s; }
+.js .faq-list[data-animate].visible .faq-item:nth-child(2) { animation-delay: 0.1s; }
+.js .faq-list[data-animate].visible .faq-item:nth-child(3) { animation-delay: 0.15s; }
+.js .faq-list[data-animate].visible .faq-item:nth-child(4) { animation-delay: 0.2s; }
+.js .faq-list[data-animate].visible .faq-item:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes faq-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Acessibilidade: Desativa animações caso o usuário prefira movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ===== Responsivo ===== */
+/* Menu mobile a partir de 1150px: abaixo disso a linha não cabe (medido: 1067px necessários
+   c/ fallback Verdana vs 1103px disponíveis em 1151px de viewport). */
+@media (max-width:1150px){
+  /* visibility (e não só transform) tira os links do tab order quando o painel está fechado. */
+  .main-nav{position:fixed;inset:76px 0 auto;background:var(--color-background);flex-direction:column;align-items:flex-start;
+    padding:22px 24px;gap:4px;box-shadow:var(--shadow);transform:translateY(-130%);visibility:hidden;
+    transition:transform var(--t-nav),visibility 0s var(--t-nav);z-index:var(--z-nav);font-size:1.05rem;
+    max-height:calc(100vh - 76px);overflow-y:auto}
+  .main-nav.open{transform:none;visibility:visible;transition:transform var(--t-nav),visibility 0s}
+  .main-nav>a{padding:7px 0} /* alvo de toque confortável no painel */
+  .nav-toggle{display:flex}
+  .header-actions{margin-left:auto}
+}
+@media (max-width:900px){
+  .feature,.support-grid{grid-template-columns:1fr}
+  /* Tablet (641–900px): a foto do cartão fica ao lado do texto. Em coluna única
+     ela virava 315px de imagem num palco de 757px — 440px de faixa vazia. */
+  .categorias-layout{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+    grid-template-areas:"copy stage" "index index";gap:var(--space-6)}
+  .categorias-stage img{max-height:340px}
+  /* FAQ: coluna única com a introdução acima das perguntas; sem sticky (o aside não
+     fica mais fixo no fluxo vertical do mobile). */
+  .faq-layout{grid-template-columns:1fr;gap:28px}
+  .faq-aside{position:static;top:auto}
+  .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .section{padding:64px 0}
+}
+@media (max-width:640px){
+  /* Celular: a foto volta para baixo do texto, em coluna única. */
+  .categorias-layout{grid-template-columns:1fr;grid-template-areas:"copy" "stage" "index"}
+  .categorias-stage img{max-height:420px}
+}
+@media (max-width:520px){
+  .hero-form--center{grid-template-columns:minmax(0,1fr);padding:var(--space-5)}
+  .footer-grid{grid-template-columns:1fr}
+  .hero-form .btn{width:100%}
+  .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:10px}
+  /* Celular: 16 cards em coluna única (com resumo) davam ~2.800px de leitura
+     quase idêntica. Em duas colunas fica só ícone + nome — a família e a sua
+     linha de argumento continuam dizendo o porquê; o resumo volta no tablet. */
+  .cat-card{grid-template-columns:1fr;grid-template-rows:auto auto;row-gap:6px;
+    padding:var(--space-4);justify-items:start}
+  .cat-card-ico-wrap{grid-row:1;grid-column:1;width:auto;height:auto}
+  .cat-card-ico{font-size:1.25rem}
+  .cat-card h5{grid-row:2;grid-column:1;font-size:var(--text-small)}
+  .cat-card p{display:none}
+  /* Header em 360px: gaps menores + logo menor + rótulo curto do CTA
+     (medido: com Verdana, logo 98 + CTA longo + toggle estouravam 328px úteis). */
+  .header-inner{gap:10px}
+  .brand-logo{width:66px}
+  .brand--header{padding:6px 8px}
+  .btn-label-full{display:none}
+  .btn-label-short{display:inline}
+}
+/* Hero ≤767px: a arte do desktop é um banner 16:9 — mostrá-lo inteiro
+   encolheria o casal para ~220px. A arte mobile (816×941, recorte emoldurado
+   no cartão e nos rostos) entra por <picture> e a caixa segue a proporção dela,
+   então o `cover` não corta nada em nenhuma largura. */
+@media (max-width:767px){
+  .hero-banner{aspect-ratio:816/941}
+  .hero-img{object-position:center}
+  .hero-overlay{padding:5% 6% 4%;
+    background:linear-gradient(105deg,
+      color-mix(in srgb,var(--ja-uva-escuro) 97%,transparent) 0%,
+      color-mix(in srgb,var(--ja-uva-escuro) 90%,transparent) 58%,
+      color-mix(in srgb,var(--ja-uva-escuro) 28%,transparent) 100%)}
+  .hero-copy{width:100%;margin-top:4%}
+  .hero-copy h1{font-size:clamp(24px,6.8vw,32px)}
+  /* Quebras do desktop (linhas da arte) não valem no mobile: wrap natural. */
+  .hero-copy h1 br{display:none}
+  .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}
+  .hero-cta{margin-top:4%;padding:calc(12px - .08em) 22px calc(12px + .08em);font-size:15px}
+  .hero-benefits{width:100%;padding-top:var(--space-6)}
+  .hero-benefits img,.hero-benefits i{width:24px;height:24px;font-size:24px}
+  /* No mobile a caixa é pequena (24px): os ícones de apoio encolhem e
+     encostam mais no cartão para não invadir os rótulos vizinhos. */
+  .hero-benefits .hero-ico{width:26px;height:26px;font-size:26px}
+  .hero-benefits .hero-ico .hero-ico__main{font-size:74%}
+  .hero-benefits .hero-ico .hero-ico__mini{font-size:38%}
+  .hero-benefits .hero-ico__mini--a{transform:translate(-40%,0)}
+  .hero-benefits .hero-ico__mini--b{transform:translate(40%,0)}
+  .hero-benefits .hero-ico__mini--c{transform:translate(-50%,0)}
+  .hero-benefits span{font-size:12px}
+}
+/* Telas muito estreitas (≤345px): a caixa proporcional não comporta a linha de
+   benefícios sem estourar, e estourar cortaria a própria linha (o hero tem
+   overflow:hidden). Essa faixa esconde a linha de apoio — o conteúdo
+   principal (logo, headline, CTA) permanece completo e a arte sem corte. */
+@media (max-width:345px){
+  .hero-benefits{display:none}
+}
+
+/* Moldura do app: era 420px com 28px de padding (74px de superfície branca
+   ao redor de um device de 280px). Reduz a moldura e amplia o aparelho — o
+   dispositivo continua sendo o destaque, sem a borda competindo com ele. */
+.feature-art--app{width:100%;max-width:min(380px,100%);justify-self:center;min-height:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow);padding:clamp(14px,2vw,20px);}
+.device{position:relative;width:min(280px,72vw);border-radius:var(--radius-device);padding:10px;background:var(--neutral-900);box-shadow:var(--shadow);}
+.device-screen{display:block;overflow:hidden;border-radius:var(--radius-device-screen);background:var(--color-surface);}
+.device-screen .app-shot{max-height:520px;border-radius:0;box-shadow:none;}
+.app-list{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;}
+.app-list li{font-weight:700;color:var(--color-text);}
+.app-cta{display:inline-flex;min-height:44px;align-items:center;margin-top:22px;}
+.section--white{background:var(--color-surface);}
+.support-card{background:var(--color-background);}
+
+/* CTA final: acesso ao formulário comercial único. */
+.section-cta .cta-final-description{color:var(--color-on-dark-muted);font-size:1rem;line-height:1.6;max-width:38rem;margin:0 auto var(--space-5)}
+.section-cta .cta-final-button{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:.6rem}
+#beneficiosForm{scroll-margin-top:90px}
+
+/* Revisão pré-publicação: desabilita visualmente o acesso ao portal ainda indisponível. */
+/* Item sem destino: a indisponibilidade é visível para todos, não só anunciada
+   ao leitor de tela. Tinta Suave a 100% (7,25:1); os 58% de opacidade anteriores
+   deixavam o texto em ~3,5:1. Não é controle, então não usa cursor de bloqueio. */
+.main-nav .nav-link-unavailable{white-space:nowrap;color:var(--color-text-muted);user-select:none}
+.main-nav .nav-soon{font-size:.72em;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-left:.4em}
+@media(max-width:1150px){.main-nav .nav-link-unavailable{padding:7px 0}}
+/* Texto acessível apenas a tecnologias assistivas. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== Local Search Bar (FlexSearch) ===== */
+.site-search-wrapper{position:relative;width:100%;max-width:640px;margin:0 auto}
+.site-search-input-wrap{position:relative;display:flex;align-items:center}
+.site-search-icon{position:absolute;left:16px;width:20px;height:20px;color:var(--color-text-muted);pointer-events:none}
+.site-search-input{width:100%;padding:14px 44px 14px 48px;font-size:.95rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:2px solid var(--color-border-control);border-radius:var(--radius-input);box-shadow:var(--shadow-sm);transition:var(--t-base)}
+.site-search-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
+.site-search-clear{position:absolute;right:14px;background:none;border:none;color:var(--color-text-muted);font-size:1.4rem;line-height:1;cursor:pointer;padding:4px 8px;border-radius:50%;transition:var(--t-fast)}
+.site-search-clear:hover{color:var(--color-text);background:var(--neutral-100)}
+
+.site-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:100;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card-sm);box-shadow:var(--shadow);max-height:420px;overflow-y:auto;padding:8px}
+.site-search-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.site-search-item-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.site-search-category{font-size:.78rem;color:var(--color-text-muted);font-weight:600}
+.site-search-btn{width:100%;text-align:left;background:none;border:none;padding:12px 14px;border-radius:var(--radius-input);cursor:pointer;transition:var(--t-fast);font-family:inherit}
+.site-search-btn:hover,.site-search-btn:focus-visible{background:var(--color-background);outline:none}
+.site-search-item-title{display:block;font-size:1rem;color:var(--color-primary);margin-bottom:4px;font-family:var(--font-display)}
+.site-search-item-desc{font-size:.88rem;color:var(--color-text-muted);margin:0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.search-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.search-badge--beneficio{background:var(--uva-100);color:var(--ja-uva-escuro)}
+.search-badge--taxa{background:var(--ja-mostarda);color:var(--ja-uva-escuro)}
+.search-badge--faq{background:var(--color-border);color:var(--color-text)}
+
+.site-search-empty{padding:24px;text-align:center;color:var(--color-text-muted)}
+.site-search-empty p{margin-bottom:6px;font-size:1rem}
+.site-search-empty small{font-size:.82rem}
+
+.header-search-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;color:var(--color-primary);background:var(--color-background);border:1px solid var(--color-border-control);transition:var(--t-fast);cursor:pointer}
+.header-search-btn:hover{background:var(--neutral-100);color:var(--ja-uva-escuro)}
+.header-search-btn svg{width:18px;height:18px}
+

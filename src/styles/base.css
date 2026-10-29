@@ -1,0 +1,97 @@
+/* ===== JA Benefícios — design tokens em conformidade com MANUAL JA BENEFICIOS AT1.pdf (p.3-4) =====
+   Cores oficiais (RGB do manual → HEX):
+   --ja-mostarda:#FFC72C (R255 G199 B44 — Pantone 123 C)
+   --ja-uva:#732E4A (R115 G46 B74 — Pantone 7642 C)
+   --ja-verde:#40C1AC (R64 G193 B172 — Pantone 7465 C)
+   --ja-cinza:#97999B (R151 G153 B155 — Cool Gray 7 C, texto corrido)
+   Tipografia: Arvo (substituta livre da Nexa Slab nos títulos, Apache-2.0, self-host em public/fonts/;
+   ver docs/brand-conformidade.md) / Trebuchet MS (secundária autorizada para HTML, p.4).
+   Extensões digitais: uva-escuro #5A2339 para estados; fundo neutro #F8F7F3
+   como "fundo neutro" da versão positiva (p.2). Ver docs/brand-conformidade.md. */
+@font-face{font-family:"Arvo";font-style:normal;font-weight:400;font-display:swap;
+  src:url("/fonts/arvo-regular.woff2") format("woff2")}
+@font-face{font-family:"Arvo";font-style:normal;font-weight:700;font-display:swap;
+  src:url("/fonts/arvo-bold.woff2") format("woff2")}
+:root{
+  /* Primitivos: marca (manual p.3) e extensões digitais, separadas. */
+  --ja-mostarda:#FFC72C; --ja-uva:#732E4A; --ja-uva-escuro:#5A2339; --ja-verde:#40C1AC;
+  --ja-cinza:#97999B;
+  --neutral-white:#fff; --neutral-black:#000; --neutral-50:#F8F7F3; --neutral-100:#F3EFE7;
+  --neutral-200:#e5e0d6; --neutral-700:#5c564e; --neutral-900:#333333;
+  --uva-100:#E9D9E0; --error-100:#FFC9C9;
+  --shadow-ink:#3C280A; /* tinta das sombras quentes existentes rgba(60,40,10,…) */
+  --shadow-panel-ink:#24121C; /* tinta da sombra do painel do assistente (neutra, sem viés quente) */
+  --whatsapp:#128C7E; --whatsapp-ink:#07463E; /* exceção consciente: cores oficiais do WhatsApp */
+  /* Espaçamento (base 4/8; valores medidos já usados na interface). */
+  --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
+  --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px;
+  /* Raios: base 24 (cards) + outliers nomeados até a unificação da Fase 2. */
+  --radius-card:24px; --radius-card-sm:18px; --radius-card-md:20px; --radius-panel:22px;
+  --radius-control:40px; --radius-input:12px; --radius-device:36px; --radius-device-screen:28px;
+  /* Motion: mesmas durações medidas dos valores crus anteriores. */
+  --t-fast:.2s; --t-base:.25s; --t-mid:.3s; --t-nav:.35s; --t-slow:.45s; --t-enter:.7s;
+  /* Elevação: sombras medidas, alpha via color-mix (sem rgba crus). */
+  --shadow-sm:0 8px 24px color-mix(in srgb,var(--shadow-ink) 5%,transparent);
+  --shadow:0 20px 60px color-mix(in srgb,var(--shadow-ink) 8%,transparent);
+  --shadow-hover:0 14px 34px color-mix(in srgb,var(--shadow-ink) 10%,transparent);
+  --shadow-whatsapp:0 10px 24px color-mix(in srgb,var(--whatsapp-ink) 30%,transparent);
+  --shadow-whatsapp-hover:0 14px 30px color-mix(in srgb,var(--whatsapp-ink) 38%,transparent);
+  /* z-index (valores medidos: 49 painel/FABs, 50 header sticky). */
+  --z-fab:49; --z-nav:49; --z-header:50;
+  /* Tipografia: escala global com os clamps medidos (hero usa cqw próprio — exceção). */
+  --text-body:clamp(15px,.95rem + .2vw,17px);
+  --text-h1:clamp(2.2rem,5vw,3.6rem); --text-h2:clamp(1.7rem,3.6vw,2.5rem);
+  --text-h3:1.2rem; --text-lead:1.1rem;
+  --text-small:.875rem; /* Rótulos e notas: tamanho já usado nos hints de formulário. */
+  /* Semânticos: função na interface. Cinza oficial não é texto pequeno sobre claro. */
+  --color-surface:var(--neutral-white); --color-background:var(--neutral-50);
+  --color-background-alt:var(--neutral-100); --color-text:var(--neutral-900);
+  --color-text-muted:var(--neutral-700); --color-border:var(--neutral-200);
+  /* Fronteira de componente (input/botão) — WCAG 1.4.11 exige ≥3:1 contra o fundo.
+     Separa conteúdo continua em --color-border (divisor decorativo, sem exigência). */
+  --color-border-control:#8b857b;
+  --color-primary:var(--ja-uva); --color-primary-hover:var(--ja-uva-escuro);
+  --color-on-primary:var(--neutral-white); --color-on-dark-muted:var(--uva-100);
+  --color-accent:var(--ja-mostarda); --color-on-accent:var(--ja-uva-escuro);
+  --color-error-on-dark:var(--error-100); --color-focus:var(--ja-uva);
+  /* Componentes: preservam as medidas existentes. */
+  --button-bg:var(--color-primary); --button-fg:var(--color-on-primary);
+  --button-hover-bg:var(--color-primary-hover);
+  --card-bg:var(--color-surface); --card-radius:var(--radius-card);
+  --input-radius:var(--radius-input); --footer-bg:var(--ja-uva-escuro);
+  --input-placeholder:color-mix(in srgb,var(--color-text-muted) 85%,var(--color-surface));
+  --section-space:clamp(56px,9vw,90px);
+  --font-body:'Trebuchet MS','Nexa Slab',Verdana,sans-serif; --font-display:'Arvo','Trebuchet MS',Verdana,sans-serif;
+  --max:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:var(--font-body);background:var(--color-background);color:var(--color-text);line-height:1.6;font-size:var(--text-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+/* Foco visível em todo elemento interativo (WCAG 2.4.7). Antes o input do hero usava
+   `outline:none` e nada devolvia o indicador de foco. */
+:focus-visible{outline:2px solid var(--color-focus);outline-offset:3px}
+.hero,.section-orange,.section-cta,.site-footer{--color-focus:var(--ja-mostarda)}
+.hero-form{--color-focus:var(--ja-uva)}
+/* Skip link (WCAG 2.4.1): fora da tela até o teclado focá-lo. Alvo do pulo não é
+   interativo, então o <main> não ganha outline em volta de toda a seção. */
+.skip-link{position:absolute;top:8px;left:8px;z-index:calc(var(--z-header) + 10);
+  padding:10px 16px;background:var(--color-primary);color:var(--color-on-primary);
+  font-weight:700;border-radius:var(--radius-input);transform:translateY(-200%);
+  transition:transform var(--t-fast)}
+.skip-link:focus-visible{transform:translateY(0)}
+main:focus{outline:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 clamp(16px,4vw,24px)}
+.narrow{max-width:760px}
+.center{text-align:center}
+h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:700;line-height:1.15;letter-spacing:-.02em}
+h1{font-size:var(--text-h1)}
+h2{font-size:var(--text-h2);margin-bottom:16px}
+h3{font-size:var(--text-h3)}
+u{text-decoration-color:var(--color-accent);text-decoration-thickness:.35em;text-underline-offset:-.15em}
+.eyebrow{color:var(--color-primary);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;margin-bottom:14px}
+.lead{text-align:inherit;color:var(--color-text-muted);font-size:var(--text-lead);margin:0 auto 26px}
+.hl{color:var(--color-primary)}
+.light{color:var(--color-background)}
+

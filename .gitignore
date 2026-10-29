@@ -1,0 +1,35 @@
+node_modules
+dist
+deploy.zip
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+_quarantine/
+
+# Artefatos de auditoria local e logs
+.gstack/
+.playwright-mcp/
+dev-server.log
+# Estado local do Wrangler e segredos de desenvolvimento
+chat-worker/.wrangler/
+.dev.vars
+
+# Lockfile: o gerenciador oficial é npm (package-lock.json)
+bun.lock
+bun.lockb
+.bun/
+
+# Preferências locais de ferramentas (não compartilhadas entre clones)
+.claude/settings.local.json
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+.freebuff/
+
+# Sistema, build e editores
+Thumbs.db
+*.log
+*.tsbuildinfo
+.vite/
+coverage/

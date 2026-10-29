@@ -1,0 +1,2 @@
+# Copie para .dev.vars (fora do Git) para testar o fallback com modelo em `npx wrangler dev`.
+GEMINI_API_KEY=COLOQUE_SUA_CHAVE_AQUI
