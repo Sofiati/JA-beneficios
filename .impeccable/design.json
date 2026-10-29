@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T13:40:00Z",
+  "title": "Design System: JA Benefícios",
+  "extensions": {
+    "colorMeta": {
+      "uva-profunda": {
+        "role": "primary",
+        "displayName": "Uva Profunda",
+        "canonical": "oklch(42% 0.13 355)",
+        "tonalRamp": [
+          "oklch(15% 0.06 355)",
+          "oklch(25% 0.09 355)",
+          "oklch(34% 0.11 355)",
+          "oklch(42% 0.13 355)",
+          "oklch(51% 0.13 355)",
+          "oklch(66% 0.11 355)",
+          "oklch(82% 0.07 355)",
+          "oklch(94% 0.03 355)"
+        ]
+      },
+      "uva-escuro": {
+        "role": "primary",
+        "displayName": "Uva Escuro",
+        "canonical": "oklch(34% 0.11 355)",
+        "tonalRamp": [
+          "oklch(15% 0.05 355)",
+          "oklch(24% 0.08 355)",
+          "oklch(34% 0.11 355)",
+          "oklch(42% 0.11 355)",
+          "oklch(50% 0.11 355)",
+          "oklch(64% 0.09 355)",
+          "oklch(80% 0.06 355)",
+          "oklch(93% 0.03 355)"
+        ]
+      },
+      "uva-claro": {
+        "role": "neutral",
+        "displayName": "Uva Claro",
+        "canonical": "oklch(89% 0.04 5)",
+        "tonalRamp": [
+          "oklch(20% 0.04 355)",
+          "oklch(35% 0.06 355)",
+          "oklch(50% 0.07 10)",
+          "oklch(65% 0.06 15)",
+          "oklch(77% 0.05 8)",
+          "oklch(85% 0.04 5)",
+          "oklch(92% 0.02 5)",
+          "oklch(97% 0.01 5)"
+        ]
+      },
+      "mostarda-solar": {
+        "role": "accent",
+        "displayName": "Mostarda Solar",
+        "canonical": "oklch(84% 0.15 85)",
+        "tonalRamp": [
+          "oklch(20% 0.05 85)",
+          "oklch(35% 0.09 85)",
+          "oklch(50% 0.12 85)",
+          "oklch(65% 0.14 85)",
+          "oklch(76% 0.15 85)",
+          "oklch(84% 0.15 85)",
+          "oklch(91% 0.10 85)",
+          "oklch(97% 0.04 85)"
+        ]
+      },
+      "verde-agua": {
+        "role": "accent",
+        "displayName": "Verde-Água",
+        "canonical": "oklch(72% 0.12 175)",
+        "tonalRamp": [
+          "oklch(18% 0.05 175)",
+          "oklch(32% 0.08 175)",
+          "oklch(46% 0.10 175)",
+          "oklch(60% 0.11 175)",
+          "oklch(72% 0.12 175)",
+          "oklch(81% 0.10 175)",
+          "oklch(90% 0.06 175)",
+          "oklch(96% 0.02 175)"
+        ]
+      },
+      "fundo-neutro": {
+        "role": "neutral",
+        "displayName": "Fundo Neutro",
+        "canonical": "oklch(97% 0.005 90)",
+        "tonalRamp": [
+          "oklch(15% 0.005 90)",
+          "oklch(30% 0.005 90)",
+          "oklch(45% 0.005 90)",
+          "oklch(60% 0.005 90)",
+          "oklch(75% 0.005 90)",
+          "oklch(86% 0.005 90)",
+          "oklch(93% 0.005 90)",
+          "oklch(98% 0.005 90)"
+        ]
+      },
+      "superficie-branca": {
+        "role": "neutral",
+        "displayName": "Superfície Branca",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(30% 0 0)",
+          "oklch(45% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(75% 0 0)",
+          "oklch(86% 0 0)",
+          "oklch(94% 0 0)",
+          "oklch(100% 0 0)"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "oklch(35% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(22% 0 0)",
+          "oklch(29% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(45% 0 0)",
+          "oklch(62% 0 0)",
+          "oklch(80% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "tinta-suave": {
+        "role": "neutral",
+        "displayName": "Tinta Suave",
+        "canonical": "oklch(59% 0.01 85)",
+        "tonalRamp": [
+          "oklch(18% 0.01 85)",
+          "oklch(30% 0.01 85)",
+          "oklch(42% 0.01 85)",
+          "oklch(52% 0.01 85)",
+          "oklch(59% 0.01 85)",
+          "oklch(72% 0.01 85)",
+          "oklch(86% 0.01 85)",
+          "oklch(96% 0.005 85)"
+        ]
+      },
+      "borda-suave": {
+        "role": "neutral",
+        "displayName": "Borda Suave",
+        "canonical": "oklch(90% 0.01 85)",
+        "tonalRamp": [
+          "oklch(20% 0.01 85)",
+          "oklch(35% 0.01 85)",
+          "oklch(50% 0.01 85)",
+          "oklch(65% 0.01 85)",
+          "oklch(78% 0.01 85)",
+          "oklch(86% 0.01 85)",
+          "oklch(90% 0.01 85)",
+          "oklch(97% 0.005 85)"
+        ]
+      },
+      "whatsapp-teal": {
+        "role": "accent",
+        "displayName": "Teal WhatsApp",
+        "canonical": "oklch(58% 0.10 190)",
+        "tonalRamp": [
+          "oklch(18% 0.04 190)",
+          "oklch(32% 0.07 190)",
+          "oklch(45% 0.09 190)",
+          "oklch(52% 0.10 190)",
+          "oklch(58% 0.10 190)",
+          "oklch(70% 0.09 190)",
+          "oklch(84% 0.06 190)",
+          "oklch(95% 0.02 190)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display (Arvo)",
+        "purpose": "H1 da página. Exceção documentada: o H1 do hero mede em cqw da arte 16:9."
+      },
+      "headline": {
+        "displayName": "Headline (Arvo)",
+        "purpose": "H2 de seção."
+      },
+      "title": {
+        "displayName": "Title (Arvo)",
+        "purpose": "H3 de card e subseção."
+      },
+      "body": {
+        "displayName": "Body (Trebuchet MS)",
+        "purpose": "Leitura corrida e lead; alternativa autorizada pelo manual para HTML."
+      },
+      "label": {
+        "displayName": "Label (Trebuchet MS)",
+        "purpose": "Eyebrows em maiúsculas com tracking .12em acima dos H2."
+      }
+    },
+    "shadows": [
+      { "name": "shadow-sm", "value": "0 8px 24px rgba(60, 40, 10, 0.05)", "purpose": "Repouso de cards e superfícies leves." },
+      { "name": "shadow", "value": "0 20px 60px rgba(60, 40, 10, 0.08)", "purpose": "Diálogo de categorias sobre o backdrop." },
+      { "name": "shadow-hover", "value": "0 14px 34px rgba(60, 40, 10, 0.10)", "purpose": "Interação — hover de cards com lift de -3px." },
+      { "name": "shadow-whatsapp", "value": "0 10px 24px rgba(7, 70, 62, 0.30)", "purpose": "FAB do canal WhatsApp em repouso." },
+      { "name": "shadow-whatsapp-hover", "value": "0 14px 30px rgba(7, 70, 62, 0.38)", "purpose": "FAB do canal WhatsApp no hover." }
+    ],
+    "motion": [
+      { "name": "t-fast", "value": "0.2s", "purpose": "Micro-transições (skip-link, underline)." },
+      { "name": "t-base", "value": "0.25s", "purpose": "Padrão de hover/focus e fade do diálogo." },
+      { "name": "t-mid", "value": "0.3s", "purpose": "Transições de média distância." },
+      { "name": "t-nav", "value": "0.35s", "purpose": "Painel de navegação móvel." },
+      { "name": "t-slow", "value": "0.45s", "purpose": "Entradas mais longas." },
+      { "name": "t-enter", "value": "0.7s", "purpose": "Entrada de seção via IntersectionObserver." }
+    ],
+    "breakpoints": [
+      { "name": "menu", "value": "1150px" },
+      { "name": "logos-hero", "value": "1100px" },
+      { "name": "grades", "value": "900px" },
+      { "name": "hero-mobile", "value": "767px" },
+      { "name": "header-form", "value": "520px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação primária em cápsula uva; sobe 2px no hover e escurece.",
+      "html": "<button class=\"ds-btn-primary\">Quero JÁ!</button>",
+      "css": ".ds-btn-primary{display:inline-block;border:2px solid var(--ja-uva,#732E4A);border-radius:40px;padding:14px 30px;background:var(--ja-uva,#732E4A);color:#fff;font:600 .95rem/1.4 'Trebuchet MS',Verdana,sans-serif;cursor:pointer;transition:all .25s ease}.ds-btn-primary:hover{background:var(--ja-uva-escuro,#5A2339);border-color:var(--ja-uva-escuro,#5A2339);transform:translateY(-2px)}.ds-btn-primary:focus-visible{outline:2px solid var(--ja-uva,#732E4A);outline-offset:3px}.ds-btn-primary:active{transform:none}"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "CTA de destaque mostarda com texto uva-escuro; sempre pareado com a cor certa de foco em seções escuras.",
+      "html": "<button class=\"ds-btn-accent\">Quero JÁ! &rarr;</button>",
+      "css": ".ds-btn-accent{display:inline-block;border:2px solid var(--mostarda,#FFC72C);border-radius:40px;padding:14px 30px;background:var(--mostarda,#FFC72C);color:var(--uva-escuro,#5A2339);font:600 .95rem/1.4 'Trebuchet MS',Verdana,sans-serif;cursor:pointer;transition:all .25s ease}.ds-btn-accent:hover{transform:translateY(-2px);filter:brightness(1.08)}.ds-btn-accent:focus-visible{outline:2px solid var(--mostarda,#FFC72C);outline-offset:3px}.ds-btn-accent:active{transform:none;filter:none}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ação secundária transparente; o hover inverte para fundo uva com texto branco.",
+      "html": "<button class=\"ds-btn-outline\">Saiba mais</button>",
+      "css": ".ds-btn-outline{display:inline-block;border:2px solid var(--ja-uva,#732E4A);border-radius:40px;padding:14px 30px;background:transparent;color:var(--ja-uva,#732E4A);font:600 .95rem/1.4 'Trebuchet MS',Verdana,sans-serif;cursor:pointer;transition:all .25s ease}.ds-btn-outline:hover{background:var(--ja-uva,#732E4A);color:#fff;transform:translateY(-2px)}.ds-btn-outline:focus-visible{outline:2px solid var(--ja-uva,#732E4A);outline-offset:3px}"
+    },
+    {
+      "name": "Category Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Card de modalidade: filete superior transparente revela acento uva no hover; eleva 3px.",
+      "html": "<article class=\"ds-card-cat\"><h3>Benefícios flexíveis</h3><p>Resumo curto da modalidade.</p></article>",
+      "css": ".ds-card-cat{background:#fff;color:var(--tinta,#333);border:1px solid rgba(60,40,10,.08);border-top:4px solid transparent;border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(60,40,10,.05);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.ds-card-cat h3{font:700 1.2rem/1.15 Arvo,'Trebuchet MS',Verdana,sans-serif;letter-spacing:-.02em;margin-bottom:8px}.ds-card-cat p{font:400 clamp(15px,.95rem + .2vw,17px)/1.6 'Trebuchet MS',Verdana,sans-serif;color:var(--tinta-suave,#5C564E)}.ds-card-cat:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(60,40,10,.10);border-top-color:rgba(115,46,74,.25)}"
+    },
+    {
+      "name": "Email Capture Pill",
+      "kind": "input",
+      "refersTo": "input-email",
+      "description": "Pílula de captura do hero: input sem borda dentro da cápsula branca com CTA primário embutido.",
+      "html": "<form class=\"ds-form-email\"><input type=\"email\" placeholder=\"Seu e-mail corporativo\" aria-label=\"E-mail corporativo\"><button class=\"ds-btn-primary\">Quero JÁ!</button></form>",
+      "css": ".ds-form-email{display:flex;gap:14px;background:#fff;padding:16px;border-radius:40px;box-shadow:0 20px 60px rgba(60,40,10,.08)}.ds-form-email input{flex:1;min-width:min(200px,100%);border:0;background:transparent;padding:14px 20px;font:400 clamp(15px,.95rem + .2vw,17px)/1.6 'Trebuchet MS',Verdana,sans-serif;color:var(--tinta,#333)}.ds-form-email input:focus-visible{outline:2px solid var(--ja-uva,#732E4A);outline-offset:0;border-radius:12px}.ds-form-email .ds-btn-primary{white-space:nowrap}"
+    },
+    {
+      "name": "Modal Dialog",
+      "kind": "custom",
+      "refersTo": "dialog",
+      "description": "Diálogo nativo com fade de abertura/fechamento em CSS puro (@starting-style + allow-discrete).",
+      "html": "<dialog class=\"ds-dialog\"><h3>Categoria</h3><p>Texto completo da modalidade.</p><button class=\"ds-btn-primary\">Fechar</button></dialog>",
+      "css": ".ds-dialog{border:0;border-radius:24px;padding:32px;max-width:min(520px,92vw);width:100%;margin:auto;background:#fff;color:var(--tinta,#333);box-shadow:0 20px 60px rgba(60,40,10,.08);opacity:1;transition:opacity .25s ease,display .25s allow-discrete,overlay .25s allow-discrete}.ds-dialog:not([open]){opacity:0}@starting-style{.ds-dialog[open]{opacity:0}}.ds-dialog::backdrop{background:rgba(43,25,32,.45);opacity:1;transition:opacity .25s ease,display .25s allow-discrete,overlay .25s allow-discrete}.ds-dialog:not([open])::backdrop{opacity:0}@starting-style{.ds-dialog[open]::backdrop{opacity:0}}.ds-dialog h3{font:700 1.2rem/1.15 Arvo,'Trebuchet MS',Verdana,sans-serif;margin-bottom:12px}"
+    },
+    {
+      "name": "WhatsApp FAB",
+      "kind": "custom",
+      "refersTo": "fab-whatsapp",
+      "description": "Exceção consciente: teal oficial do WhatsApp (4,14:1 com glifo branco); verde #25D366 reprovado a 1,98:1.",
+      "html": "<a class=\"ds-fab-whatsapp\" href=\"#\" aria-label=\"Falar no WhatsApp\"><svg viewBox=\"0 0 24 24\" width=\"30\" height=\"30\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2z\"/></svg></a>",
+      "css": ".ds-fab-whatsapp{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:49;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--whatsapp,#128C7E);color:#fff;box-shadow:0 10px 24px rgba(7,70,62,.30);transition:transform .25s ease,box-shadow .25s ease}.ds-fab-whatsapp:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(7,70,62,.38)}.ds-fab-whatsapp:focus-visible{outline:2px solid var(--mostarda,#FFC72C);outline-offset:3px}.ds-fab-whatsapp:active{transform:none}"
+    },
+    {
+      "name": "Sticky Header",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Header branco fixo de 76px com logo oficial, links e CTA compacto; vira painel abaixo de 1150px.",
+      "html": "<header class=\"ds-nav-header\"><span class=\"ds-nav-logo\">JA BENEFÍCIOS</span><nav><a href=\"#categorias\">Categorias</a><a href=\"#cta-final\" class=\"ds-btn-primary ds-btn-sm\">Quero JÁ!</a></nav></header>",
+      "css": ".ds-nav-header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;height:76px;padding:0 clamp(16px,4vw,24px);background:#fff;box-shadow:0 8px 24px rgba(60,40,10,.05)}.ds-nav-logo{font:700 1.1rem/1 Arvo,'Trebuchet MS',Verdana,sans-serif;color:var(--ja-uva,#732E4A);letter-spacing:-.02em}.ds-nav-header nav{display:flex;align-items:center;gap:20px}.ds-nav-header a{font:400 clamp(15px,.95rem + .2vw,17px)/1.6 'Trebuchet MS',Verdana,sans-serif;color:var(--tinta,#333)}.ds-nav-header a:hover{color:var(--ja-uva,#732E4A)}.ds-nav-header a:focus-visible{outline:2px solid var(--ja-uva,#732E4A);outline-offset:3px}.ds-btn-sm{padding:9px 20px;font-size:.92rem;white-space:nowrap}"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Convite Acolhedor",
+    "overview": "Esta é uma landing de persuasão: o visitante decide e age, e o design é o produto julgado. Cada seção é um convite — a oferta precisa ser inteligível e desejável em uma leitura, a ação primária (\"Quero JÁ!\") precisa estar sempre visível, e o leitor precisa encontrar ordem de leitura clara. A estrutura é a de uma marca corporativa de RH: sóbria, confiável, sem cerimônia. O calor vem da cor (uva Pantone 7642 C) e de uma voz de copy direta e próxima, não de enfeite.\n\nO sistema obedece ao manual de marca JA (seis páginas, lido diretamente). As quatro cores oficiais são primitivos intocáveis; estados, fundos, raios e espaçamentos são extensões digitais documentadas, não invenções. A tipografia display é Arvo, substituta livre e self-hosted da Nexa Slab licenciada; o corpo é Trebuchet MS, alternativa autorizada pelo manual.\n\nO que este sistema rejeita explicitamente: o visual da marca anterior (laranja #FE6600 e amarelo #F4AD00 não existem mais), claims com números sem fonte comprovada, o cinza oficial como texto corrido sobre claro, dependências de UI novas (é HTML/CSS/TS puro), e qualquer mudança estética sem pedido explícito.",
+    "keyCharacteristics": [
+      "Paleta Pantone do manual aplicada por tokens semânticos em :root",
+      "Slab serif (Arvo) nos títulos, humanista (Trebuchet MS) no corpo",
+      "Ações em cápsula tátil (raio 40px) que sobem no hover; superfícies de canto generoso",
+      "Movimento discreto e tokenizado (--t-*), sempre com prefers-reduced-motion",
+      "Mobile-first, validado em 900px e 520px",
+      "Acessibilidade construída: :focus-visible universal, contraste WCAG auditado"
+    ],
+    "rules": [
+      { "name": "A Regra da Uva", "body": "Uva é a única cor de ação primária da interface. Laranja e amarelo da marca anterior estão proibidos em qualquer arquivo novo. Se a página parece da marca anterior, a uva sumiu — corrija a uva, não acrescente cor.", "section": "colors" },
+      { "name": "A Regra do Cinza", "body": "O cinza oficial nunca é texto corrido sobre fundo claro (2,86:1). Corpo usa Tinta; secundário usa Tinta Suave. Cinza é detalhe gráfico.", "section": "colors" },
+      { "name": "A Regra da Exceção WhatsApp", "body": "Teal e verde WhatsApp existem somente no FAB do canal. Nunca migre essas cores para outro componente \"porque combinam\".", "section": "colors" },
+      { "name": "A Regra da Slab", "body": "Títulos são sempre Arvo. A Nexa Slab do manual não é distribuída aqui por licença; Verdana/sans-serif são fallback técnico, nunca fidelidade. Não reconstruir o wordmark em CSS.", "section": "typography" },
+      { "name": "A Regra do Toque", "body": "Sombra nunca é decoração permanente: muda apenas como resposta a estado. Se um elemento ganhou sombra nova sem motivo de estado, ela não pertence ao sistema.", "section": "elevation" },
+      { "name": "A Regra da Cápsula", "body": "Ação é cápsula (40px); superfície é retângulo generoso (18–24px). Inputs herdam a cápsula quando vivem dentro do pílula de formulário.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do usar sempre var(--token) — nenhuma cor, espaçamento ou duração nova em literal; npm run audit:cores valida isso dentro de npm run check.",
+      "Do adicionar qualquer cor nova como token com passo por audit:cores (paleta, contraste WCAG, tokens órfãos) antes de commitar.",
+      "Do manter :focus-visible universal uva (mostarda em fundo escuro, uva no formulário) — é WCAG 2.4.7 e já é o comportamento do sistema.",
+      "Do respeitar prefers-reduced-motion — a regra global zera animações; toda animação nova depende dela.",
+      "Do validar mobile-first nos breakpoints 900px e 520px antes de considerar qualquer mudança pronta.",
+      "Do guardar evidências de QA/crítica em docs/design-references/ em kebab-case, sem timestamp.",
+      "Do preservar os SVGs oficiais de public/logo-ja-*.svg como estão — vetor extraído do manual, proporção e cores intocáveis."
+    ],
+    "donts": [
+      "Don't escrever hexadecimais literais em index.html, src/styles/base.css, src/style.css, src/components/*.tsx ou src/mail.ts — a auditoria reprova.",
+      "Don't reintroduzir laranja #FE6600 ou amarelo #F4AD00 da marca anterior, nem os aliases antigos (--orange, --brown, --cream, --bg, --ink, --pill) removidos em 14/10/2026.",
+      "Don't usar o cinza oficial #97999B como texto corrido sobre claro.",
+      "Don't reconstruir o wordmark em CSS nem recolorir os SVGs do manual.",
+      "Don't animar propriedades de layout (height, top, margin) — apenas transform e opacity compõem na GPU.",
+      "Don't publicar claims com números sem fonte comprovada nas seções vizinhas.",
+      "Don't introduzir frameworks ou dependências de UI (React, Tailwind, GSAP): o projeto é Vite + TypeScript estrito + HTML/CSS puro."
+    ]
+  }
+}
