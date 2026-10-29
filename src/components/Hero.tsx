@@ -4,11 +4,14 @@ export const Hero: React.FC = () => {
   return (
     <section className="hero">
       <div className="hero-banner" data-animate>
-        <picture>
-          <source media="(max-width:767px)" srcSet="/hero01-mobile.webp" width="816" height="941" />
+        <picture className="hero-picture">
+          <source media="(max-width:767px)" type="image/webp" srcSet="/hero01-mobile.webp" />
+          <source media="(max-width:767px)" type="image/png" srcSet="/hero01-mobile.png" />
+          <source type="image/webp" srcSet="/hero01.webp" />
+          <source type="image/png" srcSet="/hero01.png" />
           <img 
             className="hero-img" 
-            src="/hero01.webp" 
+            src="/hero01.png" 
             width="1672" 
             height="941" 
             fetchPriority="high" 
@@ -19,34 +22,33 @@ export const Hero: React.FC = () => {
         <div className="hero-overlay">
           <div className="hero-copy">
             <h1>
-              <span className="hl">Todos os<br /> benefícios</span><br /> do seu time em<br /> um só cartão.
+              <span className="hero-line1">Todos os benefícios do seu time</span>
+              <br />
+              <span className="hero-line2">em um só cartão</span>
             </h1>
             <p>
-              Mais autonomia para os colaboradores usarem seus benefícios. Mais praticidade no dia a dia do RH. Menos taxas para as empresas.
+              Mais liberdade para seus colaboradores, mais praticidade para o RH e condições comerciais que facilitam a gestão.
             </p>
-            <a className="btn btn-yellow hero-cta" href="#beneficiosForm">
-              Quero JÁ! <span aria-hidden="true">→</span>
-            </a>
+            <div className="hero-cta-wrap">
+              <a className="btn btn-yellow hero-cta" href="#beneficiosForm">
+                Solicitar proposta <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <ul className="hero-benefits" aria-label="Diferenciais do cartão JÁ">
+              <li>
+                <i className="fa-solid fa-contactless" aria-hidden="true"></i>
+                <span>Pagamento por aproximação</span>
+              </li>
+              <li>
+                <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                <span>Mais segurança</span>
+              </li>
+              <li>
+                <i className="fa-solid fa-cards-stack" aria-hidden="true"></i>
+                <span>Vários benefícios em um só cartão</span>
+              </li>
+            </ul>
           </div>
-          <ul className="hero-benefits">
-            <li>
-              <i className="fa-solid fa-wifi" aria-hidden="true"></i>
-              <span>Pagamento por aproximação</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
-              <span>Mais segurança</span>
-            </li>
-            <li>
-              <span className="hero-ico" aria-hidden="true">
-                <i className="fa-solid fa-credit-card hero-ico__main"></i>
-                <i className="fa-solid fa-utensils hero-ico__mini hero-ico__mini--a"></i>
-                <i className="fa-solid fa-heart-pulse hero-ico__mini hero-ico__mini--b"></i>
-                <i className="fa-solid fa-graduation-cap hero-ico__mini hero-ico__mini--c"></i>
-              </span>
-              <span>Vários benefícios em um só cartão</span>
-            </li>
-          </ul>
         </div>
       </div>
     </section>

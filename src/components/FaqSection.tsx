@@ -114,6 +114,41 @@ export const FaqSection: React.FC = () => {
       });
   }, []);
 
+  // Inject or update Schema.org FAQPage JSON-LD in document head for search engine rich snippets
+  useEffect(() => {
+    if (!items || items.length === 0) return;
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: items.map((item) => ({
+        "@type": "Question",
+        name: item.pergunta,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.resposta,
+        },
+      })),
+    };
+
+    const scriptId = "faq-schema-jsonld";
+    let scriptElement = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!scriptElement) {
+      scriptElement = document.createElement("script");
+      scriptElement.id = scriptId;
+      scriptElement.type = "application/ld+json";
+      document.head.appendChild(scriptElement);
+    }
+    scriptElement.textContent = JSON.stringify(schemaData);
+
+    return () => {
+      const el = document.getElementById(scriptId);
+      if (el) {
+        el.remove();
+      }
+    };
+  }, [items]);
+
   const grouped: { [key: string]: FaqItem[] } = {};
   items.forEach((item) => {
     const g = item.grupo?.trim() || "Perguntas";

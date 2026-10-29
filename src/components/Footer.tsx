@@ -17,6 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
               alt="JÁ Benefícios" 
               width="132" 
               height="59" 
+              loading="lazy"
               decoding="async" 
             />
           </a>

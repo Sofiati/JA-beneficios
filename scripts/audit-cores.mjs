@@ -379,6 +379,10 @@ function auditOrphanAssets() {
     if (corpus.includes(rel) || corpus.includes(nome)) {
       continue;
     }
+    // Anexos temporários de chat enviados pelo usuário na plataforma AI Studio
+    if (rel.startsWith("public/assets/aistudio/")) {
+      continue;
+    }
     // Ícones em `public/icones/` aguardam aprovação de design: são pendentes,
     // não órfãos — ficam em uma lista à parte.
     if (rel.startsWith(PENDING_ICON_DIR)) {
