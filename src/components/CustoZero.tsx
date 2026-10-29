@@ -30,42 +30,74 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "demo">("idle");
   const [errors, setErrors] = useState<FormErrors>({});
   const [errorMessage, setErrorMessage] = useState("");
+  const validateField = (name: string, value: any): string | undefined => {
+    if (name === "nome") {
+      const trimmed = typeof value === "string" ? value.trim() : "";
+      if (!trimmed) return "Este campo é obrigatório";
+      const parts = trimmed.split(/\s+/).filter(Boolean);
+      if (parts.length < 2 || !/^[A-Za-zÀ-ÖØ-öø-ÿ']{2,}(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ']{2,})+$/.test(trimmed)) {
+        return "Informe seu nome e sobrenome (ex.: Maria Silva)";
+      }
+    }
+    if (name === "whatsapp") {
+      const trimmed = typeof value === "string" ? value.trim() : "";
+      if (!trimmed) return "Este campo é obrigatório";
+      const digitsOnly = trimmed.replace(/\D/g, "");
+      if (digitsOnly.length < 10 || digitsOnly.length > 13) {
+        return "WhatsApp inválido. Use (DD) 9 0000-0000";
+      }
+    }
+    if (name === "email") {
+      const trimmed = typeof value === "string" ? value.trim() : "";
+      if (!trimmed) return "Este campo é obrigatório";
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(trimmed)) {
+        return "E-mail inválido. Ex.: nome@empresa.com.br";
+      }
+    }
+    if (name === "empresa") {
+      const trimmed = typeof value === "string" ? value.trim() : "";
+      if (!trimmed) return "Este campo é obrigatório";
+      if (trimmed.length < 2) return "Nome da empresa deve ter pelo menos 2 caracteres";
+    }
+    if (name === "colaboradores" && !value) return "Este campo é obrigatório";
+    if (name === "area" && !value) return "Este campo é obrigatório";
+    if (name === "procurado" && !value) return "Este campo é obrigatório";
+    if (name === "consent" && !value) return "É preciso aceitar a Política de Privacidade para enviar";
+    return undefined;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
+    const val = type === "checkbox" ? checked : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: val,
     }));
 
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
+    // Validate immediately on change/keystroke
+    const err = validateField(name, val);
+    setErrors((prev) => ({ ...prev, [name]: err }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    const val = type === "checkbox" ? checked : value;
+
+    const err = validateField(name, val);
+    setErrors((prev) => ({ ...prev, [name]: err }));
   };
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
+    const fieldsToValidate = ["nome", "whatsapp", "email", "empresa", "colaboradores", "area", "procurado", "consent"];
 
-    if (!formData.nome.trim()) newErrors.nome = "Este campo é obrigatório";
-    if (!formData.whatsapp.trim()) {
-      newErrors.whatsapp = "Este campo é obrigatório";
-    } else if (!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(formData.whatsapp.replace(/\s/g, ""))) {
-      newErrors.whatsapp = "WhatsApp inválido. Use (DD) 9 0000-0000";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Este campo é obrigatório";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      newErrors.email = "E-mail inválido. Ex.: nome@empresa.com.br";
-    }
-
-    if (!formData.empresa.trim()) newErrors.empresa = "Este campo é obrigatório";
-    if (!formData.colaboradores) newErrors.colaboradores = "Este campo é obrigatório";
-    if (!formData.area) newErrors.area = "Este campo é obrigatório";
-    if (!formData.procurado) newErrors.procurado = "Este campo é obrigatório";
-    if (!formData.consent) newErrors.consent = "É preciso aceitar a Política de Privacidade para enviar";
+    fieldsToValidate.forEach((field) => {
+      const err = validateField(field, formData[field as keyof typeof formData]);
+      if (err) newErrors[field as keyof FormErrors] = err;
+    });
 
     setErrors(newErrors);
     const errorCount = Object.keys(newErrors).length;
@@ -206,7 +238,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfNome">Nome completo <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3Z"/></svg>
-                    <input type="text" id="bfNome" name="nome" value={formData.nome} onChange={handleChange} placeholder="Digite seu nome completo" required autoComplete="name" aria-invalid={!!errors.nome} />
+                    <input type="text" id="bfNome" name="nome" value={formData.nome} onChange={handleChange} onBlur={handleBlur} placeholder="Digite seu nome completo" required autoComplete="name" aria-invalid={!!errors.nome} />
                   </div>
                   {errors.nome && <p className="field-error">{errors.nome}</p>}
                 </div>
@@ -215,7 +247,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfWhatsApp">WhatsApp <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-12 7L3 20l1.5-5A8 8 0 1 1 20 11.5Z"/><path d="M9 7c-2 3 2 7 5 7l1-2-3-1-1 1-2-3 1-1Z"/></svg>
-                    <input type="tel" id="bfWhatsApp" name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="(DD) 9 0000-0000" required autoComplete="tel" inputMode="tel" maxLength={18} aria-invalid={!!errors.whatsapp} />
+                    <input type="tel" id="bfWhatsApp" name="whatsapp" value={formData.whatsapp} onChange={handleChange} onBlur={handleBlur} placeholder="(DD) 9 0000-0000" required autoComplete="tel" inputMode="tel" maxLength={18} aria-invalid={!!errors.whatsapp} />
                   </div>
                   {errors.whatsapp && <p className="field-error">{errors.whatsapp}</p>}
                 </div>
@@ -224,7 +256,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfEmail">E-mail corporativo <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/></svg>
-                    <input type="email" id="bfEmail" name="email" value={formData.email} onChange={handleChange} placeholder="seu@empresa.com.br" required autoComplete="email" aria-invalid={!!errors.email} />
+                    <input type="email" id="bfEmail" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} placeholder="seu@empresa.com.br" required autoComplete="email" aria-invalid={!!errors.email} />
                   </div>
                   {errors.email && <p className="field-error">{errors.email}</p>}
                 </div>
@@ -233,7 +265,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfEmpresa">Nome da empresa <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 21V3h9v18M15 9h4v12M3 21h18M9 6h3M9 10h3M9 14h3M10 21v-3"/></svg>
-                    <input type="text" id="bfEmpresa" name="empresa" value={formData.empresa} onChange={handleChange} placeholder="Digite o nome da empresa" required autoComplete="organization" aria-invalid={!!errors.empresa} />
+                    <input type="text" id="bfEmpresa" name="empresa" value={formData.empresa} onChange={handleChange} onBlur={handleBlur} placeholder="Digite o nome da empresa" required autoComplete="organization" aria-invalid={!!errors.empresa} />
                   </div>
                   {errors.empresa && <p className="field-error">{errors.empresa}</p>}
                 </div>
@@ -242,7 +274,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfColaboradores">Número de colaboradores <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M2 21v-3a7 7 0 0 1 14 0v3M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 4 5"/></svg>
-                    <select id="bfColaboradores" name="colaboradores" value={formData.colaboradores} onChange={handleChange} required aria-invalid={!!errors.colaboradores}>
+                    <select id="bfColaboradores" name="colaboradores" value={formData.colaboradores} onChange={handleChange} onBlur={handleBlur} required aria-invalid={!!errors.colaboradores}>
                       <option value="">Selecione</option>
                       <option value="1-10">1 a 10</option>
                       <option value="11-50">11 a 50</option>
@@ -259,7 +291,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfArea">Sua área <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v9h9A9 9 0 1 1 12 3Z"/><path d="M16 3v5h5a8 8 0 0 0-5-5Z"/></svg>
-                    <select id="bfArea" name="area" value={formData.area} onChange={handleChange} required aria-invalid={!!errors.area}>
+                    <select id="bfArea" name="area" value={formData.area} onChange={handleChange} onBlur={handleBlur} required aria-invalid={!!errors.area}>
                       <option value="">Selecione</option>
                       <option value="rh">Recursos Humanos (RH)</option>
                       <option value="financeiro">Financeiro</option>
@@ -275,7 +307,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfCargo">Cargo atual</label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4"/></svg>
-                    <input type="text" id="bfCargo" name="cargo" value={formData.cargo} onChange={handleChange} placeholder="Seu cargo" />
+                    <input type="text" id="bfCargo" name="cargo" value={formData.cargo} onChange={handleChange} onBlur={handleBlur} placeholder="Seu cargo" />
                   </div>
                 </div>
 
@@ -283,7 +315,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   <label htmlFor="bfProcurado">O que você procura? <span className="required" aria-hidden="true">*</span></label>
                   <div className="form-control">
                     <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></svg>
-                    <select id="bfProcurado" name="procurado" value={formData.procurado} onChange={handleChange} required aria-invalid={!!errors.procurado}>
+                    <select id="bfProcurado" name="procurado" value={formData.procurado} onChange={handleChange} onBlur={handleBlur} required aria-invalid={!!errors.procurado}>
                       <option value="">Selecione</option>
                       <option value="conhecer">Conhecer o JÁ Benefícios</option>
                       <option value="contratar">Contratar benefícios para minha empresa</option>
@@ -297,7 +329,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
 
                 <div className="form-field beneficios-full">
                   <label className="form-consent" htmlFor="bfConsent">
-                    <input type="checkbox" id="bfConsent" name="consent" checked={formData.consent} onChange={handleChange} required aria-invalid={!!errors.consent} />
+                    <input type="checkbox" id="bfConsent" name="consent" checked={formData.consent} onChange={handleChange} onBlur={handleBlur} required aria-invalid={!!errors.consent} />
                     <span className="form-consent-text">
                       Concordo em ser contatado pela equipe comercial e aceito a{" "}
                       <a href="#privacidade" onClick={(e) => { e.preventDefault(); if (onOpenPrivacy) onOpenPrivacy(); }}>

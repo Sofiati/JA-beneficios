@@ -16,15 +16,20 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
       { id: "topo", selector: "#topo" },
       { id: "ecossistema", selector: "#ecossistema" },
       { id: "faq", selector: "#faq" },
+      { id: "beneficiosForm", selector: "#beneficiosForm" },
     ];
 
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 100;
+      const scrollPos = window.scrollY + 120;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i].id);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i].selector);
-          break;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const elementTop = rect.top + window.scrollY;
+          if (elementTop <= scrollPos) {
+            setActiveSection(sections[i].selector);
+            break;
+          }
         }
       }
     };
@@ -48,14 +53,41 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
     document.body.style.overflow = "";
   };
 
-  const handleLinkClick = (href: string) => {
+  const handleSectionNavigate = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     closeMenu();
+
     if (isPrivacyPage && onNavigateHome) {
+      e.preventDefault();
       onNavigateHome();
       setTimeout(() => {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 50);
+        if (href === "#topo") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          const el = document.querySelector(href);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }, 100);
+      return;
+    }
+
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      if (href === "#topo") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.hash) {
+          window.history.pushState(null, "", window.location.pathname);
+        }
+      } else {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: "smooth" });
+          if (window.location.hash !== href) {
+            window.history.pushState(null, "", href);
+          }
+        }
+      }
     }
   };
 
@@ -66,12 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
           className="brand brand--header" 
           href="#topo" 
           aria-label="JÁ Benefícios"
-          onClick={(e) => {
-            if (isPrivacyPage && onNavigateHome) {
-              e.preventDefault();
-              onNavigateHome();
-            }
-          }}
+          onClick={(e) => handleSectionNavigate(e, "#topo")}
         >
           <img 
             className="brand-logo" 
@@ -92,21 +119,21 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
             <a 
               href="#topo" 
               className={activeSection === "#topo" ? "active" : ""}
-              onClick={() => handleLinkClick("#topo")}
+              onClick={(e) => handleSectionNavigate(e, "#topo")}
             >
               Início
             </a>
             <a 
               href="#ecossistema" 
               className={activeSection === "#ecossistema" ? "active" : ""}
-              onClick={() => handleLinkClick("#ecossistema")}
+              onClick={(e) => handleSectionNavigate(e, "#ecossistema")}
             >
               Benefícios
             </a>
             <a 
               href="#faq" 
               className={activeSection === "#faq" ? "active" : ""}
-              onClick={() => handleLinkClick("#faq")}
+              onClick={(e) => handleSectionNavigate(e, "#faq")}
             >
               Central de ajuda
             </a>
@@ -123,10 +150,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
               className="header-search-btn"
               aria-label="Buscar no site"
               title="Buscar benefícios, taxas e dúvidas"
-              onClick={() => {
-                closeMenu();
-                if (isPrivacyPage && onNavigateHome) onNavigateHome();
-              }}
+              onClick={(e) => handleSectionNavigate(e, "#faq")}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
@@ -134,7 +158,11 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
               </svg>
             </a>
           )}
-          <a href="#beneficiosForm" className="btn btn-solid btn-sm" onClick={closeMenu}>
+          <a
+            href="#beneficiosForm"
+            className="btn btn-solid btn-sm"
+            onClick={(e) => handleSectionNavigate(e, "#beneficiosForm")}
+          >
             <span className="btn-label-full">Quero JÁ!</span>
             <span className="btn-label-short">Quero JÁ!</span>
             <span aria-hidden="true">→</span>
@@ -157,3 +185,4 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
     </header>
   );
 };
+

@@ -52,94 +52,68 @@
 .nav-toggle.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
 
 /* ===== Hero ===== */
-.hero{overflow:hidden;background:var(--color-background)}
+.hero{overflow:hidden;background:var(--ja-uva)}
 /* A caixa adota a proporção real da arte (1672×941 no desktop, 816×941 no
-   mobile). É isso que garante a exibição EM ALTURA TOTAL: com `cover` e a
-   mesma proporção da imagem, nada é cortado. O `min-height` antigo deixava a
-   caixa mais baixa que a arte e o `cover` cortava a base da foto. */
-.hero-banner{position:relative;aspect-ratio:1672/941;min-height:0;container-type:inline-size}
+   mobile). Em viewports largos, fullscreen ou ultrawide (>16:9), `object-fit:contain`
+   alinhado à direita mantém 100% da altura da arte visível (rostos no topo
+   e cartão na base íntegros, sem corte), enquanto o fundo uva oficial e o
+   overlay em degradê estendem a lateral esquerda para acomodar os textos. */
+.hero-banner{position:relative;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva)}
 /* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
    direta do banner (posicionamento absoluto e contexto de container intactos). */
-.hero-banner picture{display:contents}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-banner picture{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:right center;display:block}
 /* Textos reais sobre hero01.png — caixas em % e fontes em vw espelham a arte
    (1672×941); o banner ocupa 100% da largura, então vw ≈ cqi. O overlay é
    absoluto para não esticar a caixa: se esticasse, a arte voltaria a ser
    cortada. */
-.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;
-  padding:var(--space-8) 0 var(--space-12) 6%;color:var(--color-on-primary)}
+.hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(32px,5vh,64px) 0 clamp(32px,5vh,64px) 6%;color:var(--color-on-primary);
+  background:linear-gradient(90deg,
+    var(--ja-uva) 0%,
+    color-mix(in srgb,var(--ja-uva) 94%,transparent) 32%,
+    color-mix(in srgb,var(--ja-uva) 40%,transparent) 52%,
+    transparent 68%)}
 /* Sem logo no hero: o header sticky já carrega a marca a 77px de distância
    (crítica: "a marca ocupa o espaço mais caro da página antes de dizer o valor").
    O espaço livre fica com a headline. */
-.hero-copy{width:35%;margin-top:0;flex:1;display:flex;flex-direction:column;justify-content:center}
-.hero-copy h1{font-family:var(--font-display);font-weight:700;font-size:4.05vw;
-  line-height:1.04;letter-spacing:-.02em}
-/* Destaque do h1 no hero escuro: mostarda (uva não teria contraste aqui). */
-.hero-copy .hl{color:var(--ja-mostarda)}
-/* Pisos de legibilidade com max(): vw puro deixava parágrafo/rótulos pequenos
-   entre ~700-1100px; acima do piso o comportamento vw continua igual. */
-.hero-copy p{margin-top:1.5%;font-size:max(1.58vw,14px);line-height:1.5;width:100%}
-/* CTA do hero: align-self:flex-start evita que o <a> estique para a largura
-   inteira da coluna flex (487px medidos para um rótulo de 9 caracteres) —
-   a cápsula passa a acompanhar o texto. */
-.hero-cta{display:inline-block;align-self:flex-start;margin-top:var(--space-8);white-space:nowrap;padding:calc(12px - .08em) 24px calc(12px + .08em)}
-.hero-benefits{list-style:none;display:flex;width:31%;margin-top:auto;padding-top:var(--space-10)}
-.hero-benefits li{flex:1;display:flex;flex-direction:column;align-items:center;
-  gap:var(--space-4);padding:var(--space-3) clamp(var(--space-2),1.05vw,var(--space-5)) 0;text-align:center}
-.hero-benefits li+li{border-left:2px solid var(--ja-verde)}
-.hero-benefits img,.hero-benefits i{width:3vw;height:3vw;font-size:3vw}
-/* Composição "vários benefícios em um só cartão": um cartão central com
-   ícones de categoria de benefício encostando nos cantos (alimentação, saúde,
-   educação). Os ícones FA são máscaras 1em×1em dimensionadas por font-size
-   (ver .fa-solid), então o container fixa o tamanho e os filhos escalam por
-   % dele. Os <i> precisam de caixa própria — sem isso herdariam width/height
-   de 3vw da regra genérica acima e os offsets ficariam desalinhados. */
-.hero-benefits .hero-ico{position:relative;display:inline-block;width:3vw;height:3vw;
-  font-size:3vw;line-height:1}
-.hero-benefits .hero-ico i{width:1em;height:1em;display:inline-block;line-height:1}
-.hero-benefits .hero-ico .hero-ico__main{position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);font-size:78%;color:inherit}
-.hero-benefits .hero-ico .hero-ico__mini{position:absolute;font-size:44%;
-  color:var(--ja-mostarda)}
-.hero-benefits .hero-ico__mini--a{top:0;left:0;transform:translate(-48%,0)}
-.hero-benefits .hero-ico__mini--b{top:0;right:0;transform:translate(48%,0)}
-.hero-benefits .hero-ico__mini--c{bottom:0;left:50%;transform:translate(-50%,0)}
-.hero-benefits span{font-size:max(1.1vw,12px);line-height:1.4}
+.hero-copy{width:48%;max-width:700px;margin-top:0;margin-bottom:0;flex:0 1 auto;display:flex;flex-direction:column;justify-content:center}
+.hero-copy h1{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,2.7vw,42px);
+  line-height:1.15;letter-spacing:-.015em}
+/* Headline do hero: Linha 1 em Branco (#FFFFFF) e Linha 2 em Mostarda (#FFC72C Pantone 123 C) */
+.hero-copy .hero-line1,.hero-copy .hero-subhl{color:var(--color-on-primary);white-space:nowrap}
+.hero-copy .hero-line2,.hero-copy .hl,.hero-copy .hero-hl{color:var(--ja-mostarda);white-space:nowrap}
+/* Texto secundário: 18px no desktop com line-height 1.55 e escala fluida */
+.hero-copy p{margin-top:clamp(16px,2vh,22px);font-size:clamp(15px,1.3vw,18px);line-height:1.55;max-width:590px;color:color-mix(in srgb,var(--neutral-white) 93%,transparent)}
+/* CTA do hero: objetivo, explícito e corporativo com alinhamento óptico da seta */
+.hero-cta-wrap{margin-top:clamp(20px,2.5vh,28px)}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:calc(13px - .08em) 28px calc(13px + .08em);font-size:clamp(15px,1.1vw,17.5px);font-weight:600}
+/* Faixa de diferenciais: ícones de 21px, textos de 13.5-14.5px, espaçamento de 20-24px */
+.hero-benefits{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:clamp(16px,2vw,24px);margin-top:clamp(24px,3vh,36px);padding:0;width:100%}
+.hero-benefits li{display:inline-flex;flex-direction:row;align-items:center;gap:10px;text-align:left;padding:0}
+.hero-benefits li+li{border-left:1px solid color-mix(in srgb,var(--ja-verde) 50%,transparent);padding-left:clamp(16px,2vw,24px)}
+.hero-benefits img,.hero-benefits i{width:21px;height:21px;font-size:20px;color:var(--ja-verde);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-benefits span{font-size:clamp(13px,0.95vw,14.5px);line-height:1.4;color:color-mix(in srgb,var(--neutral-white) 92%,transparent);white-space:nowrap}
 @supports (font-size:1cqi){
-  .hero-cta{padding:calc(clamp(10px,1.4cqi,24px) - .08em) clamp(16px,3cqi,34px)
-    calc(clamp(10px,1.4cqi,24px) + .08em) clamp(16px,3cqi,34px);font-size:clamp(15px,1.72cqi,28px)}
+  .hero-cta{padding:calc(clamp(11px,1.1cqi,16px) - .08em) clamp(22px,2.2cqi,34px)
+    calc(clamp(11px,1.1cqi,16px) + .08em) clamp(22px,2.2cqi,34px);font-size:clamp(15px,1.15cqi,18px)}
 }
-/* Desktop largo (≥1024px): a caixa tem a proporção da arte, então o texto
-   também é proporcional a ela — é o que mantém a composição alinhada com a
-   arte original (a esquerda plum da foto é o vazio reservado ao texto).
-   Em 1024px a caixa 16:9 ainda é baixa para a escala desktop; por isso os
-   respiros do topo/CTA e a margem da cópia encolhem com a largura e a linha
-   de benefícios ganha 37% (o suficiente para o 3º rótulo em 2 linhas). Os
-   clamps chegam ao valor original a partir de ~1366px. */
+/* Desktop largo (≥1024px) */
 @media (min-width:1024px){
-  .hero-overlay{padding-top:clamp(16px,2vw,32px);padding-bottom:clamp(24px,2.6vw,40px)}
-  .hero-copy{width:36%;margin-top:clamp(16px,2.6vw,40px)}
-  .hero-copy h1{font-size:clamp(28px,3.9vw,58px)}
-  .hero-copy p{width:100%;margin-top:var(--space-4);font-size:max(1.5vw,14px)}
-  .hero-cta{margin-top:clamp(16px,2vw,32px)}
-  .hero-benefits{width:37%;padding-top:var(--space-8)}
-  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
-    width:clamp(26px,3vw,46px);height:clamp(26px,3vw,46px);font-size:clamp(26px,3vw,46px)}
-  .hero-benefits span{font-size:max(1.02vw,12px)}
+  .hero-overlay{padding-top:clamp(32px,5vh,64px);padding-bottom:clamp(32px,5vh,64px)}
+  .hero-copy{width:48%;max-width:700px}
+  .hero-copy h1{font-size:clamp(26px,2.8vw,42px)}
+  .hero-copy p{width:100%;max-width:590px;margin-top:clamp(16px,2vh,22px);font-size:18px;line-height:1.55}
 }
-/* Notebook 1366×768 (o tamanho mais comum): a caixa 16:9 dá 760px e, com o
-   header, passa da dobra — a linha de benefícios era cortada. Em viewport baixo
-   o banner passa a ocupar a altura útil e o texto desce um passo; a foto perde
-   um pouco das laterais (a arte tem margem morta ali). */
+/* Notebook 1366×768 */
 @media (min-width:1024px) and (max-height:820px){
   .hero-banner{aspect-ratio:auto;height:calc(100svh - 77px);min-height:540px}
-  .hero-overlay{padding-block:clamp(16px,2.2vh,26px)}
-  .hero-copy h1{font-size:clamp(28px,3.5vw,52px)}
-  .hero-copy p{font-size:max(1.35vw,14px);margin-top:var(--space-3)}
-  .hero-cta{margin-top:var(--space-4)}
-  .hero-benefits{padding-top:var(--space-5)}
-  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
-    width:clamp(24px,2.6vw,40px);height:clamp(24px,2.6vw,40px);font-size:clamp(24px,2.6vw,40px)}
+  .hero-overlay{padding-block:clamp(12px,1.8vh,22px)}
+  .hero-copy h1{font-size:clamp(22px,2.3vw,34px)}
+  .hero-copy p{font-size:clamp(13px,0.95vw,15px);margin-top:var(--space-2)}
+  .hero-cta-wrap{margin-top:var(--space-3)}
+  .hero-benefits{margin-top:clamp(14px,1.8vh,20px);gap:14px}
+  .hero-benefits li+li{padding-left:14px}
 }
 /* Tablet deitado (768–1023px): a caixa 16:9 é baixa (424px em 768 de largura) e
    a coluna de texto não cabe nela com a escala da arte. A composição compacta
@@ -148,15 +122,15 @@
    corte: a caixa continua com a proporção da arte. */
 @media (min-width:768px) and (max-width:1023px){
   .hero-overlay{padding-top:var(--space-3);padding-bottom:var(--space-8)}
-  .hero-copy{width:38%;margin-top:var(--space-8)}
-  .hero-copy h1{font-size:clamp(24px,3.3vw,34px)}
+  .hero-copy{width:46%;margin-top:var(--space-8)}
+  .hero-copy h1{font-size:clamp(18px,2.3vw,24px)}
   .hero-copy p{width:100%;margin-top:var(--space-3);font-size:clamp(13px,1.5vw,15px)}
   .hero-cta{margin-top:var(--space-3);padding:var(--space-2) var(--space-6);font-size:15px}
   /* A linha de benefícios pode ser mais larga que a coluna de texto: ela fica
      abaixo do cartão, sobre o fundo plum da arte. */
   .hero-benefits{width:42%;padding-top:var(--space-3)}
   .hero-benefits li{gap:var(--space-2)}
-  .hero-benefits img,.hero-benefits i,.hero-benefits .hero-ico{
+  .hero-benefits img,.hero-benefits i{
     width:clamp(20px,2.6vw,26px);height:clamp(20px,2.6vw,26px);font-size:clamp(20px,2.6vw,26px)}
 }
 /* Formulário do CTA final (reutiliza a classe .hero-form do antigo hero). */
@@ -371,8 +345,10 @@
   -webkit-mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;
   mask-repeat:no-repeat;mask-position:center;mask-size:contain}
 .fa-wifi{-webkit-mask-image:url("/icones/fa/wifi.svg");mask-image:url("/icones/fa/wifi.svg")}
+.fa-contactless{-webkit-mask-image:url("/icones/fa/contactless.svg");mask-image:url("/icones/fa/contactless.svg")}
 .fa-shield-halved{-webkit-mask-image:url("/icones/fa/shield-halved.svg");mask-image:url("/icones/fa/shield-halved.svg")}
 .fa-credit-card{-webkit-mask-image:url("/icones/fa/credit-card.svg");mask-image:url("/icones/fa/credit-card.svg")}
+.fa-cards-stack{-webkit-mask-image:url("/icones/fa/cards-stack.svg");mask-image:url("/icones/fa/cards-stack.svg")}
 .fa-utensils{-webkit-mask-image:url("/icones/fa/utensils.svg");mask-image:url("/icones/fa/utensils.svg")}
 .fa-heart-pulse{-webkit-mask-image:url("/icones/fa/heart-pulse.svg");mask-image:url("/icones/fa/heart-pulse.svg")}
 .fa-graduation-cap{-webkit-mask-image:url("/icones/fa/graduation-cap.svg");mask-image:url("/icones/fa/graduation-cap.svg")}
@@ -517,9 +493,9 @@ input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visi
 /* Some no topo e aparece após rolar (classe .is-visible aplicada em src/main.ts).
    Empilhado acima do FAB de WhatsApp: 56px do FAB + 12px de respiro, partindo do
    mesmo offset lateral/inferior. Uva da marca (9,47:1 sobre branco — medido). */
-.to-top{position:fixed;right:clamp(16px,3vw,28px);
-  bottom:calc(clamp(16px,3vw,28px) + 56px + 12px);
-  z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;   border:1px solid var(--color-border-control);border-radius:50%;
+.to-top{position:fixed;right:calc(clamp(16px,2.5vw,24px) + 4px);
+  bottom:calc(clamp(16px,2.5vw,24px) + 56px + 12px + 56px + 12px);
+  z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid var(--color-border-control);border-radius:50%;
   background:var(--color-surface);color:var(--ja-uva);box-shadow:var(--shadow);
   cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);
   transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s var(--t-base)}
@@ -534,18 +510,13 @@ body:has(.main-nav.open) .to-top{opacity:0;visibility:hidden;pointer-events:none
 
 /* ===== CTA flutuante de WhatsApp ===== */
 /* Presente em todas as seções: fixo no canto inferior direito, acima de todo o conteúdo
-   (z-index 49 = mesmo patamar do painel de nav).
-   Cor: teal var(--whatsapp), uma das cores oficiais da marca WhatsApp — exceção consciente à
-   paleta JA por ser identidade de um canal de terceiro (mesmo critério dos ícones de
-   redes do footer). Verde #25D366 com glifo branco foi medido e reprovado: 1,98:1 de
-   contraste, abaixo do mínimo 3:1 da WCAG 1.4.11 p/ elementos gráficos. O teal entrega
-   4,14:1 com o mesmo glifo branco, sem abrir mão do reconhecimento do canal. */
-.whatsapp-fab{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);
-  z-index:var(--z-fab);display:grid;place-items:center;width:56px;height:56px;border-radius:50%;
-  background:var(--whatsapp);color:var(--neutral-white);box-shadow:var(--shadow-whatsapp);
+   (z-index 49 = mesmo patamar do painel de nav). */
+.whatsapp-fab{position:fixed;right:clamp(16px,2.5vw,24px);bottom:clamp(16px,2.5vw,24px);
+  z-index:var(--z-fab);display:grid;place-items:center;width:50px;height:50px;border-radius:50%;
+  background:var(--whatsapp);color:var(--neutral-white);box-shadow:0 6px 18px color-mix(in srgb,var(--whatsapp-ink) 22%,transparent);
   transition:transform var(--t-base) ease,box-shadow var(--t-base) ease}
-.whatsapp-fab svg{width:30px;height:30px;display:block}
-.whatsapp-fab:hover{transform:translateY(-3px);box-shadow:var(--shadow-whatsapp-hover)}
+.whatsapp-fab svg{width:24px;height:24px;display:block}
+.whatsapp-fab:hover{transform:translateY(-3px);box-shadow:0 10px 24px color-mix(in srgb,var(--whatsapp-ink) 30%,transparent)}
 .whatsapp-fab:active{transform:none}
 /* Com o painel de nav aberto no mobile o FAB ficaria por cima do menu (mesmo z-index,
    mas vem depois no DOM). Some com o painel e volta quando ele fecha. */
@@ -791,30 +762,25 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
    no cartão e nos rostos) entra por <picture> e a caixa segue a proporção dela,
    então o `cover` não corta nada em nenhuma largura. */
 @media (max-width:767px){
-  .hero-banner{aspect-ratio:816/941}
-  .hero-img{object-position:center}
+  .hero-banner{aspect-ratio:816/941;max-height:none}
+  .hero-img{object-fit:cover;object-position:center top}
   .hero-overlay{padding:5% 6% 4%;
     background:linear-gradient(105deg,
       color-mix(in srgb,var(--ja-uva-escuro) 97%,transparent) 0%,
       color-mix(in srgb,var(--ja-uva-escuro) 90%,transparent) 58%,
       color-mix(in srgb,var(--ja-uva-escuro) 28%,transparent) 100%)}
   .hero-copy{width:100%;margin-top:4%}
-  .hero-copy h1{font-size:clamp(24px,6.8vw,32px)}
-  /* Quebras do desktop (linhas da arte) não valem no mobile: wrap natural. */
-  .hero-copy h1 br{display:none}
+  .hero-copy h1{font-size:clamp(14px,4.3vw,22px);line-height:1.2}
+  /* Quebra obrigatória após "TIME": preserva o resultado em exatamente 2 linhas */
+  .hero-copy h1 br{display:inline}
   .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}
-  .hero-cta{margin-top:4%;padding:calc(12px - .08em) 22px calc(12px + .08em);font-size:15px}
-  .hero-benefits{width:100%;padding-top:var(--space-6)}
-  .hero-benefits img,.hero-benefits i{width:24px;height:24px;font-size:24px}
-  /* No mobile a caixa é pequena (24px): os ícones de apoio encolhem e
-     encostam mais no cartão para não invadir os rótulos vizinhos. */
-  .hero-benefits .hero-ico{width:26px;height:26px;font-size:26px}
-  .hero-benefits .hero-ico .hero-ico__main{font-size:74%}
-  .hero-benefits .hero-ico .hero-ico__mini{font-size:38%}
-  .hero-benefits .hero-ico__mini--a{transform:translate(-40%,0)}
-  .hero-benefits .hero-ico__mini--b{transform:translate(40%,0)}
-  .hero-benefits .hero-ico__mini--c{transform:translate(-50%,0)}
-  .hero-benefits span{font-size:12px}
+  .hero-cta-wrap{margin-top:4%}
+  .hero-cta{margin-top:0;padding:calc(12px - .08em) 22px calc(12px + .08em);font-size:15px}
+  .hero-benefits{width:100%;padding-top:0;margin-top:5%;gap:8px 14px}
+  .hero-benefits li{padding:0}
+  .hero-benefits li+li{border-left:none;padding-left:0}
+  .hero-benefits img,.hero-benefits i{width:16px;height:16px;font-size:15px}
+  .hero-benefits span{font-size:12px;white-space:normal}
 }
 /* Telas muito estreitas (≤345px): a caixa proporcional não comporta a linha de
    benefícios sem estourar, e estourar cortaria a própria linha (o hero tem
@@ -841,6 +807,28 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .section-cta .cta-final-description{color:var(--color-on-dark-muted);font-size:1rem;line-height:1.6;max-width:38rem;margin:0 auto var(--space-5)}
 .section-cta .cta-final-button{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:.6rem}
 #beneficiosForm{scroll-margin-top:90px}
+
+/* CTA final contact form styling */
+.cta-form-wrapper{max-width:680px;margin:var(--space-6) auto 0;background:var(--color-surface);padding:clamp(20px,3vw,32px);border-radius:var(--radius-card);box-shadow:var(--shadow);text-align:left;color:var(--color-text)}
+.cta-form{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
+@media(max-width:600px){.cta-form{grid-template-columns:1fr}}
+.cta-field--full{grid-column:1/-1}
+.cta-field label{display:block;font-weight:600;font-size:var(--text-small);color:var(--color-text);margin-bottom:6px}
+.cta-input-control{position:relative;display:flex;align-items:center}
+.cta-input{width:100%;padding:12px 14px;font-size:.95rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border-control);border-radius:var(--radius-input);transition:var(--t-fast)}
+.cta-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
+.cta-input[aria-invalid="true"]{border-color:var(--ja-uva);box-shadow:0 0 0 2px color-mix(in srgb,var(--ja-uva) 20%,transparent)}
+.cta-field-error{margin-top:6px;font-size:var(--text-small);font-weight:600;color:var(--ja-uva-escuro);background:color-mix(in srgb,var(--error-100) 60%,var(--color-surface));padding:6px 10px;border-radius:var(--radius-input);line-height:1.35}
+.cta-submit-btn{width:100%;min-height:48px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem}
+.cta-status-ok,.cta-status-err{grid-column:1/-1;padding:var(--space-3) var(--space-4);border-radius:var(--radius-input);font-weight:600;font-size:.95rem;line-height:1.5}
+.cta-status-ok{background:var(--uva-100);color:var(--ja-uva-escuro)}
+.cta-status-err{background:color-mix(in srgb,var(--error-100) 65%,var(--color-surface));color:var(--neutral-900)}
+
+/* Loading spinner animation */
+.btn-loading-wrap{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-spinner{width:18px;height:18px;flex:none;animation:btn-spin 0.8s linear infinite}
+@keyframes btn-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.btn-spinner{animation:none!important}}
 
 /* Revisão pré-publicação: desabilita visualmente o acesso ao portal ainda indisponível. */
 /* Item sem destino: a indisponibilidade é visível para todos, não só anunciada

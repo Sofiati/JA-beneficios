@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Index } from "flexsearch";
 import "../chat.css";
 
 interface ChatMessage {
@@ -13,6 +14,15 @@ interface FaqItem {
   pergunta: string;
   resposta: string;
 }
+
+const STORAGE_KEY = "ja_chat_messages_v2";
+
+const STARTER_QUESTIONS = [
+  { icon: "💳", question: "Quais cartões a JÁ oferece?" },
+  { icon: "💲", question: "Quais são as taxas e custos para a empresa?" },
+  { icon: "📱", question: "Como funciona o app do colaborador?" },
+  { icon: "📋", question: "Como contratar para minha empresa?" },
+];
 
 const STOP_WORDS = new Set([
   "a", "o", "os", "as", "um", "uma", "de", "da", "do", "das", "dos", "no", "na",
@@ -35,16 +45,28 @@ function getTokens(str: string): string[] {
   );
 }
 
+const INITIAL_MESSAGE: ChatMessage = {
+  id: "init",
+  role: "bot",
+  text: "Olá! 👋 Sou o Assistente JÁ. Posso esclarecer dúvidas sobre benefícios corporativos, taxas, implantação e aplicativo. Como posso ajudar?",
+};
+
 export const FloatingActions: React.FC = () => {
   const [showToTop, setShowToTop] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "init",
-      role: "bot",
-      text: "Olá! Posso esclarecer dúvidas sobre benefícios, implantação, cartão e atendimento JÁ. Como posso ajudar?",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // Fallback on storage error
+    }
+    return [INITIAL_MESSAGE];
+  });
+
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isBusy, setIsBusy] = useState(false);
@@ -52,8 +74,21 @@ export const FloatingActions: React.FC = () => {
   const [handoffText, setHandoffText] = useState("Olá! Gostaria de falar com a equipe JÁ Benefícios.");
   const [endpoint, setEndpoint] = useState("");
   const [faqData, setFaqData] = useState<FaqItem[]>([]);
+  const [feedbackMap, setFeedbackMap] = useState<Record<string, "up" | "down">>({});
 
   const feedRef = useRef<HTMLDivElement>(null);
+  const toggleBtnRef = useRef<HTMLButtonElement>(null);
+  const flexIndexRef = useRef<Index | null>(null);
+
+  // Save messages to sessionStorage
+  useEffect(() => {
+    try {
+      const nonPending = messages.filter((m) => !m.isPending);
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nonPending));
+    } catch {
+      // Ignore storage errors
+    }
+  }, [messages]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,6 +98,19 @@ export const FloatingActions: React.FC = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Keyboard accessibility: Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isChatOpen) {
+        setIsChatOpen(false);
+        toggleBtnRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isChatOpen]);
 
   useEffect(() => {
     // Fetch endpoint config
@@ -75,11 +123,21 @@ export const FloatingActions: React.FC = () => {
       })
       .catch(() => {});
 
-    // Fetch local FAQ data for client-side fallback
+    // Fetch local FAQ data & initialize FlexSearch
     fetch("/faq.json")
       .then((res) => (res.ok ? res.json() : null))
       .then((data: FaqItem[] | null) => {
-        if (Array.isArray(data)) setFaqData(data);
+        if (Array.isArray(data)) {
+          setFaqData(data);
+          const index = new Index({
+            tokenize: "forward",
+            resolution: 9,
+          });
+          data.forEach((item, id) => {
+            index.add(id, `${item.pergunta} ${item.resposta}`);
+          });
+          flexIndexRef.current = index;
+        }
       })
       .catch(() => {});
   }, []);
@@ -88,21 +146,37 @@ export const FloatingActions: React.FC = () => {
     if (feedRef.current) {
       feedRef.current.scrollTop = feedRef.current.scrollHeight;
     }
-  }, [messages, suggestions, showHandoff]);
+  }, [messages, suggestions, showHandoff, isBusy]);
 
   const scrollToTop = () => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
   };
 
-  // Client-side local search fallback engine
+  const handleResetChat = () => {
+    setMessages([INITIAL_MESSAGE]);
+    setSuggestions([]);
+    setShowHandoff(false);
+    setFeedbackMap({});
+    try {
+      sessionStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore storage error
+    }
+  };
+
+  const handleFeedback = (msgId: string, rating: "up" | "down") => {
+    setFeedbackMap((prev) => ({ ...prev, [msgId]: rating }));
+  };
+
+  // Client-side local search engine (FlexSearch + lexical score fallback)
   const searchLocalFaq = (query: string): { answer: string; suggestions?: string[]; handoff?: boolean } => {
     const norm = normalizeText(query).replace(/[^a-z0-9\s]/g, " ").trim();
 
     // Conversational greetings
     if (/^(oi|ola|opa|e ai|bom dia|boa tarde|boa noite)( (tudo bem|tudo bom|pessoal|equipe|assistente))?$/.test(norm)) {
       return {
-        answer: "Olá! 👋 Sou o Assistente JÁ. Posso ajudar com dúvidas sobre benefícios, cartões, taxas e contratação. O que você gostaria de saber?",
+        answer: "Olá! 👋 Sou o Assistente JÁ. Posso ajudar com dúvidas sobre benefícios corporativos, cartões, taxas e contratação. O que você gostaria de saber?",
       };
     }
     if (/^(obrigado|obrigada|muito obrigado|muito obrigada|valeu|agradeco)$/.test(norm)) {
@@ -123,7 +197,7 @@ export const FloatingActions: React.FC = () => {
       };
     }
 
-    // Direct exact or substring match in FAQ questions
+    // Direct exact question match
     const exactQuestionMatch = faqData.find(
       (item) => normalizeText(item.pergunta) === norm
     );
@@ -131,7 +205,39 @@ export const FloatingActions: React.FC = () => {
       return { answer: exactQuestionMatch.resposta };
     }
 
-    // Score FAQ items based on token matches in question (weight 3) and answer (weight 1)
+    // Build corpus of known tokens in the FAQ
+    const corpusTokens = new Set<string>();
+    faqData.forEach((item) => {
+      getTokens(item.pergunta).forEach((t) => corpusTokens.add(t));
+      getTokens(item.resposta).forEach((t) => corpusTokens.add(t));
+    });
+
+    // Identify informative tokens in the query that do not exist in the FAQ corpus
+    const unknownTokens = queryTokens.filter(
+      (token) =>
+        !corpusTokens.has(token) &&
+        !Array.from(corpusTokens).some(
+          (ct) => ct.startsWith(token.slice(0, 4)) || token.startsWith(ct.slice(0, 4))
+        )
+    );
+
+    // If query contains unknown topics or key terms not covered in the FAQ (e.g. "marmita", "domicilio")
+    if (unknownTokens.length >= 2 || (unknownTokens.length >= 1 && queryTokens.length >= 2)) {
+      return {
+        answer:
+          "Não encontrei uma informação oficial suficiente para responder com segurança. Você pode falar com nossa equipe pelo WhatsApp ou solicitar contato comercial pelo formulário.",
+        handoff: true,
+      };
+    }
+
+    // FlexSearch query if available
+    let flexHits: FaqItem[] = [];
+    if (flexIndexRef.current) {
+      const results = flexIndexRef.current.search(query, 5);
+      flexHits = results.map((idx: string | number) => faqData[Number(idx)]).filter(Boolean);
+    }
+
+    // Token score calculation
     const scored = faqData.map((item) => {
       const qTokens = new Set(getTokens(item.pergunta));
       const aTokens = new Set(getTokens(item.resposta));
@@ -146,7 +252,6 @@ export const FloatingActions: React.FC = () => {
         } else if (aTokens.has(token)) {
           score += 1;
         } else {
-          // Check substring matching for Portuguese variations
           for (const qt of qTokens) {
             if (qt.startsWith(token.slice(0, 4)) || token.startsWith(qt.slice(0, 4))) {
               score += 2;
@@ -161,27 +266,28 @@ export const FloatingActions: React.FC = () => {
     });
 
     scored.sort((a, b) => b.score - a.score);
-
     const topMatches = scored.filter((s) => s.score > 0);
 
-    if (!topMatches.length || topMatches[0].score < 1) {
+    if (!topMatches.length && !flexHits.length) {
       return {
         answer: "Não encontrei uma informação oficial suficiente para responder com segurança. Você pode falar com nossa equipe pelo WhatsApp ou solicitar contato comercial pelo formulário.",
         handoff: true,
       };
     }
 
-    // If query is a single generic word (like "cartao", "beneficios", "taxas", "app") or multiple close options exist
+    // Generic query or multiple close options
     if (queryTokens.length === 1 || (topMatches.length > 1 && topMatches[0].score - topMatches[1].score < 3)) {
-      const closeMatches = topMatches.slice(0, 5).map((m) => m.item.pergunta);
+      const candidates = topMatches.length > 0 ? topMatches.map((m) => m.item) : flexHits;
+      const closeMatches = candidates.slice(0, 5).map((item) => item.pergunta);
       return {
         answer: `Encontrei os seguintes assuntos sobre "${query}" na central de dúvidas:`,
         suggestions: closeMatches,
       };
     }
 
-    // Single clear top match
-    return { answer: topMatches[0].item.resposta };
+    // Clear top match
+    const winner = topMatches.length > 0 ? topMatches[0].item : flexHits[0];
+    return { answer: winner.resposta };
   };
 
   const handleSendMessage = async (textToSend: string) => {
@@ -201,7 +307,7 @@ export const FloatingActions: React.FC = () => {
     const pendingId = "pending-" + Date.now();
     setMessages((prev) => [
       ...prev,
-      { id: pendingId, role: "bot", text: "Consultando informações…", isPending: true },
+      { id: pendingId, role: "bot", text: "", isPending: true },
     ]);
 
     const formattedHandoff = `Olá! Preciso de ajuda sobre JÁ Benefícios: ${msg.slice(0, 130)}`;
@@ -211,7 +317,7 @@ export const FloatingActions: React.FC = () => {
     let botSuggestions: string[] | undefined;
     let botHandoff = false;
 
-    // First try remote worker endpoint
+    // Try remote worker endpoint
     if (endpoint) {
       try {
         const controller = new AbortController();
@@ -235,11 +341,11 @@ export const FloatingActions: React.FC = () => {
           }
         }
       } catch (err) {
-        console.warn("[Assistente JÁ] Worker call failed or CORS origin blocked, using local FAQ search:", err);
+        console.warn("[Assistente JÁ] Remote call failed, using local search:", err);
       }
     }
 
-    // If remote endpoint failed or returned empty answer, use local search fallback
+    // Fallback to local search
     if (!botAnswer) {
       const localResult = searchLocalFaq(msg);
       botAnswer = localResult.answer;
@@ -272,6 +378,60 @@ export const FloatingActions: React.FC = () => {
     handleSendMessage(inputValue);
   };
 
+  const handleScrollToForm = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsChatOpen(false);
+    const target = document.getElementById("beneficiosForm");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+      const firstInput = target.querySelector<HTMLInputElement>("input, select, textarea");
+      firstInput?.focus();
+    }
+  };
+
+  // Render markdown bold and links safely
+  const renderFormattedText = (text: string) => {
+    const lines = text.split("\n");
+    return lines.map((line, idx) => {
+      // Replace URLs or hashes with links
+      const parts = line.split(/(\bhttps?:\/\/[^\s]+|#beneficiosForm)/g);
+      const formattedLine = parts.map((part, pIdx) => {
+        if (/^https?:\/\//.test(part)) {
+          return (
+            <a key={pIdx} href={part} target="_blank" rel="noopener noreferrer">
+              {part}
+            </a>
+          );
+        }
+        if (part === "#beneficiosForm") {
+          return (
+            <a key={pIdx} href="#beneficiosForm" onClick={handleScrollToForm}>
+              ir para formulário comercial
+            </a>
+          );
+        }
+
+        // Bold formatting **text**
+        const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+        return boldParts.map((bPart, bIdx) => {
+          if (bPart.startsWith("**") && bPart.endsWith("**")) {
+            return <strong key={bIdx}>{bPart.slice(2, -2)}</strong>;
+          }
+          return bPart;
+        });
+      });
+
+      return (
+        <React.Fragment key={idx}>
+          {formattedLine}
+          {idx < lines.length - 1 && <br />}
+        </React.Fragment>
+      );
+    });
+  };
+
+  const isOnlyInitialMessage = messages.length === 1 && messages[0].id === "init";
+
   return (
     <>
       <button
@@ -300,6 +460,7 @@ export const FloatingActions: React.FC = () => {
       </a>
 
       <button
+        ref={toggleBtnRef}
         type="button"
         id="jaChatToggle"
         className="ja-chat-launch"
@@ -309,7 +470,18 @@ export const FloatingActions: React.FC = () => {
         title="Assistente JÁ"
         onClick={() => setIsChatOpen((prev) => !prev)}
       >
-        ✦
+        {isChatOpen ? (
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true">
+            <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5c-1.3 0-2.52-.33-3.6-.92L4 19l1.1-4.47A7.47 7.47 0 0 1 4.5 11.5 7.5 7.5 0 1 1 20 11.5Z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" fill="color-mix(in srgb, currentColor 10%, transparent)" />
+            <path d="M12 7l.6 1.7 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.7Z" fill="var(--ja-mostarda)" />
+            <path d="M15.5 12.5l.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4.4-1Z" fill="var(--ja-mostarda)" />
+          </svg>
+        )}
       </button>
 
       <section
@@ -325,15 +497,26 @@ export const FloatingActions: React.FC = () => {
             <strong>Assistente JÁ</strong>
             <small>Respostas da central de dúvidas</small>
           </div>
-          <button
-            id="jaChatClose"
-            className="ja-chat-close"
-            type="button"
-            aria-label="Fechar assistente"
-            onClick={() => setIsChatOpen(false)}
-          >
-            ×
-          </button>
+          <div className="ja-chat-header-actions">
+            <button
+              type="button"
+              className="ja-chat-action-btn"
+              title="Reiniciar conversa"
+              aria-label="Reiniciar conversa"
+              onClick={handleResetChat}
+            >
+              ↺
+            </button>
+            <button
+              id="jaChatClose"
+              className="ja-chat-close"
+              type="button"
+              aria-label="Fechar assistente"
+              onClick={() => setIsChatOpen(false)}
+            >
+              ×
+            </button>
+          </div>
         </div>
 
         <div
@@ -345,13 +528,71 @@ export const FloatingActions: React.FC = () => {
           ref={feedRef}
         >
           {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`ja-chat-bubble ja-chat-${m.role} ${m.isPending ? "ja-chat-pending" : ""}`}
-            >
-              {m.text}
-            </div>
+            <React.Fragment key={m.id}>
+              <div
+                className={`ja-chat-bubble ja-chat-${m.role} ${m.isPending ? "ja-chat-pending" : ""}`}
+              >
+                {m.isPending ? (
+                  <div className="ja-chat-typing-dots" aria-label="Processando resposta">
+                    <span className="ja-chat-dot"></span>
+                    <span className="ja-chat-dot"></span>
+                    <span className="ja-chat-dot"></span>
+                  </div>
+                ) : (
+                  renderFormattedText(m.text)
+                )}
+              </div>
+
+              {/* Feedback controls for non-initial bot messages */}
+              {m.role === "bot" && !m.isPending && m.id !== "init" && (
+                <div className="ja-chat-feedback">
+                  {feedbackMap[m.id] ? (
+                    <span className="ja-chat-feedback-thanks">Obrigado pelo feedback!</span>
+                  ) : (
+                    <>
+                      <span>Esta resposta foi útil?</span>
+                      <button
+                        type="button"
+                        className="ja-chat-feedback-btn"
+                        title="Sim, foi útil"
+                        aria-label="Marcar resposta como útil"
+                        onClick={() => handleFeedback(m.id, "up")}
+                      >
+                        👍
+                      </button>
+                      <button
+                        type="button"
+                        className="ja-chat-feedback-btn"
+                        title="Não foi útil"
+                        aria-label="Marcar resposta como não útil"
+                        onClick={() => handleFeedback(m.id, "down")}
+                      >
+                        👎
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </React.Fragment>
           ))}
+
+          {/* Quick starter question pills */}
+          {isOnlyInitialMessage && (
+            <div className="ja-chat-starters">
+              <span className="ja-chat-starters-title">Dúvidas frequentes:</span>
+              {STARTER_QUESTIONS.map((sq) => (
+                <button
+                  key={sq.question}
+                  type="button"
+                  className="ja-chat-starter-btn"
+                  onClick={() => handleSendMessage(sq.question)}
+                >
+                  <span>{sq.icon}</span>
+                  <span>{sq.question}</span>
+                </button>
+              ))}
+            </div>
+          )}
 
           {suggestions.length > 0 && (
             <div className="ja-chat-suggestions">
@@ -379,13 +620,13 @@ export const FloatingActions: React.FC = () => {
             >
               Falar pelo WhatsApp
             </a>
-            <a
+            <button
               id="jaChatSales"
-              href="#beneficiosForm"
-              onClick={() => setIsChatOpen(false)}
+              type="button"
+              onClick={handleScrollToForm}
             >
               Solicitar contato comercial
-            </a>
+            </button>
           </div>
         )}
 
@@ -416,7 +657,7 @@ export const FloatingActions: React.FC = () => {
         </form>
 
         <p className="ja-chat-note">
-          Respostas automáticas da central de dúvidas podem não cobrir todos os casos. Não envie CPF, senhas ou dados de cartão.
+          Respostas automáticas da central de dúvidas. Não envie CPF, senhas ou dados de cartão.
         </p>
       </section>
     </>

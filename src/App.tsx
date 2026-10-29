@@ -11,6 +11,7 @@ import { CtaFinal } from "./components/CtaFinal";
 import { Footer } from "./components/Footer";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import { FloatingActions } from "./components/FloatingActions";
+import { useSEO } from "./hooks/useSEO";
 
 export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<"home" | "privacy">(() => {
@@ -19,6 +20,21 @@ export const App: React.FC = () => {
     }
     return "home";
   });
+
+  // Dynamic SEO metadata based on current active view
+  useSEO(
+    currentPage === "privacy"
+      ? {
+          title: "Política de Privacidade – JÁ Benefícios",
+          description:
+            "Saiba como a JÁ Benefícios coleta, utiliza, armazena e protege seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD).",
+        }
+      : {
+          title: "JÁ Benefícios – Todos os benefícios do seu time em um só cartão",
+          description:
+            "Mais autonomia para colaboradores e praticidade para o RH. Centralize refeição, alimentação, mobilidade e saúde no cartão JÁ Benefícios.",
+        }
+  );
 
   useEffect(() => {
     const handleHashChange = () => {
