@@ -3,12 +3,12 @@ import { test } from "node:test";
 import { readFileSync } from "node:fs";
 // Executa o Worker sem dependências externas: substitui o import JSON no teste.
 const source = readFileSync(new URL("./index.js", import.meta.url), "utf8");
-const faqSource = readFileSync(new URL("../public/faq.json", import.meta.url), "utf8");
-const code = source.replace('import faq from "../public/faq.json";', `const faq = ${faqSource};`)
+const faqSource = readFileSync(new URL("../src/faq.json", import.meta.url), "utf8");
+const code = source.replace('import faq from "../src/faq.json";', `const faq = ${faqSource};`)
   .replace('"../src/faq-search.mjs"', JSON.stringify(new URL("../src/faq-search.mjs", import.meta.url).href));
 if (code === source) throw new Error("Import da FAQ não localizado no Worker");
 const { default: worker } = await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`);
-const faq = JSON.parse(readFileSync(new URL("../public/faq.json", import.meta.url), "utf8"));
+const faq = JSON.parse(readFileSync(new URL("../src/faq.json", import.meta.url), "utf8"));
 const origin = "https://jadigital.com.br";
 const env = { ALLOWED_ORIGINS: origin };
 const withKey = { ...env, GEMINI_API_KEY: "test-key" };

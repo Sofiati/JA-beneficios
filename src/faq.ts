@@ -1,4 +1,4 @@
-import source from "../public/faq.json";
+import source from "./faq.json";
 import type { FaqItem } from "./faq-search.mjs";
 
 export type { FaqItem } from "./faq-search.mjs";

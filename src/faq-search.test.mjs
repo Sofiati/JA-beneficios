@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { createFaqSearch } from "./faq-search.mjs";
 
-const faq = JSON.parse(readFileSync(new URL("../public/faq.json", import.meta.url), "utf8"));
+const faq = JSON.parse(readFileSync(new URL("./faq.json", import.meta.url), "utf8"));
 const search = createFaqSearch(faq);
 const item = (id) => {
   const entry = faq.find((entry) => entry.id === id);
