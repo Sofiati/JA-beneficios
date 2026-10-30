@@ -9,9 +9,9 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 3000",
+    "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "preview": "vite preview --host 0.0.0.0 --port 5173",
     "lint": "tsc --noEmit",
     "deploy:zip": "node scripts/deploy-zip.mjs",
     "typecheck": "tsc --noEmit",
