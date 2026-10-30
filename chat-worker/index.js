@@ -1,10 +1,10 @@
 // Assistente JÁ — híbrido:
-// 1) pergunta parecida com a FAQ de public/faq.json -> resposta LITERAL do JSON, sem modelo;
+// 1) pergunta parecida com a FAQ de src/faq.json -> resposta LITERAL do JSON, sem modelo;
 // 2) sem correspondência confiável -> o modelo responde usando SOMENTE os itens do JSON
 //    como contexto (ele não tem outra fonte e devolve SEM_RESPOSTA quando não há base);
 // 3) sem chave, erro ou SEM_RESPOSTA -> FALLBACK + encaminhamento humano.
 // O JSON é importado no build (fonte única): editar a FAQ e rodar `wrangler deploy` atualiza.
-import faq from "../public/faq.json";
+import faq from "../src/faq.json";
 
 import { createFaqSearch, FAQ_FALLBACK } from "../src/faq-search.mjs";
 
