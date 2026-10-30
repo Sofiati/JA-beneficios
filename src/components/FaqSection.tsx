@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SearchBar } from "./SearchBar";
 
 interface FaqItem {
@@ -117,6 +117,8 @@ const STATIC_FAQ: FaqItem[] = [
 
 export const FaqSection: React.FC = () => {
   const [items, setItems] = useState<FaqItem[]>(STATIC_FAQ);
+  // Filtro por tema (chips): null mostra todos os grupos, igual à FAQ de hoje.
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/faq.json")
@@ -169,20 +171,52 @@ export const FaqSection: React.FC = () => {
     };
   }, [items]);
 
-  const grouped: { [key: string]: FaqItem[] } = {};
-  items.forEach((item) => {
-    const g = item.grupo?.trim() || "Perguntas";
-    if (!grouped[g]) grouped[g] = [];
-    grouped[g].push(item);
-  });
+  const grouped: { [key: string]: FaqItem[] } = useMemo(() => {
+    const acc: { [key: string]: FaqItem[] } = {};
+    items.forEach((item) => {
+      const g = item.grupo?.trim() || "Perguntas";
+      if (!acc[g]) acc[g] = [];
+      acc[g].push(item);
+    });
+    return acc;
+  }, [items]);
+
+  const groupEntries = Object.entries(grouped);
+  const visibleGroups = activeGroup
+    ? groupEntries.filter(([g]) => g === activeGroup)
+    : groupEntries;
 
   let globalIndex = 0;
 
   return (
     <section className="section section--white" id="faq">
       <div className="container">
-        <div className="faq-search-box" style={{ marginBottom: "36px" }}>
+        <div className="faq-search-box" style={{ marginBottom: "24px" }}>
           <SearchBar placeholder="O que você procura? Digite uma dúvida, benefício ou taxa (ex: PAT, frete, 1ª via, app)…" />
+        </div>
+
+        {/* Chips de filtro por tema: mesmas famílias dos grupos do faq.json. */}
+        <div className="faq-chips" role="group" aria-label="Filtrar dúvidas por tema">
+          <button
+            type="button"
+            className={`faq-chip${activeGroup === null ? " faq-chip--active" : ""}`}
+            aria-pressed={activeGroup === null}
+            onClick={() => setActiveGroup(null)}
+          >
+            Todos
+          </button>
+          {groupEntries.map(([groupTitle, groupItems]) => (
+            <button
+              key={groupTitle}
+              type="button"
+              className={`faq-chip${activeGroup === groupTitle ? " faq-chip--active" : ""}`}
+              aria-pressed={activeGroup === groupTitle}
+              onClick={() => setActiveGroup(groupTitle)}
+            >
+              {groupTitle}
+              <span className="faq-chip-count">{groupItems.length}</span>
+            </button>
+          ))}
         </div>
 
         <div className="faq-layout">
@@ -207,9 +241,14 @@ export const FaqSection: React.FC = () => {
           </div>
 
           <div className="faq-list" id="faqList" data-animate>
-            {Object.entries(grouped).map(([groupTitle, groupItems]) => (
+            {visibleGroups.map(([groupTitle, groupItems]) => (
               <React.Fragment key={groupTitle}>
-                <h3 className="faq-group-title">{groupTitle}</h3>
+                <div className="faq-group-head">
+                  <h3 className="faq-group-title">{groupTitle}</h3>
+                  <span className="faq-group-count" aria-hidden="true">
+                    {groupItems.length === 1 ? "1 pergunta" : `${groupItems.length} perguntas`}
+                  </span>
+                </div>
                 {groupItems.map((item) => {
                   const isFirst = globalIndex === 0;
                   globalIndex++;
@@ -222,6 +261,14 @@ export const FaqSection: React.FC = () => {
                 })}
               </React.Fragment>
             ))}
+
+            <div className="faq-cta">
+              <div>
+                <h3 className="faq-cta-title">Não encontrou a resposta que procurava?</h3>
+                <p>Cada operação tem suas particularidades. Conte como é a sua e a gente mostra o que se encaixa.</p>
+              </div>
+              <a href="#beneficiosForm" className="btn btn-solid btn-sm">Enviar dúvida <span aria-hidden="true">→</span></a>
+            </div>
           </div>
         </div>
       </div>
