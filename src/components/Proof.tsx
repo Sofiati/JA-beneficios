@@ -13,10 +13,6 @@ export const Proof: React.FC = () => {
           <span>em tarifas de gestão</span>
         </div>
         <div className="proof-item">
-          <strong>PAT FA000031</strong>
-          <span>conformidade com a Lei 14.442/2022</span>
-        </div>
-        <div className="proof-item">
           <strong>Portal + app</strong>
           <span>RH no portal, saldo no celular</span>
         </div>

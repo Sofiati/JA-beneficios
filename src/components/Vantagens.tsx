@@ -18,7 +18,7 @@ export const Vantagens: React.FC = () => {
           </div>
           <div className="feature-copy accept-copy" data-animate>
             <h2 className="accept-title">
-              Onde aceita <span className="visa-mark">VISA</span>, aceita JÁ Benefícios
+              Onde aceita <span className="visa-marca">VISA</span>, aceita JÁ Benefícios
             </h2>
             <p>
               Uso imediato liberado no momento do recebimento do cartão — do almoço ao mercado, sem burocracia para começar. Compras com o cartão físico, gestão de saldo pelo app.

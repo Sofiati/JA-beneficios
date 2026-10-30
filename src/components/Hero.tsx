@@ -44,8 +44,8 @@ export const Hero: React.FC = () => {
                 <span>Mais segurança</span>
               </li>
               <li>
-                <i className="fa-solid fa-cards-stack" aria-hidden="true"></i>
-                <span>Vários benefícios em um só cartão</span>
+                <i className="fa-solid fa-credit-card" aria-hidden="true"></i>
+                <span>Uso imediato ao receber o cartão</span>
               </li>
             </ul>
           </div>

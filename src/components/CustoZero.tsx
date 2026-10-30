@@ -210,7 +210,6 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
             </li>
           </ul>
 
-          <p className="zero-shipping">Frete dos cartões físicos cobrado à parte, com valor variável conforme a região.</p>
           <p className="zero-note">Condições comerciais sujeitas à confirmação na proposta.</p>
         </header>
 
@@ -226,11 +225,10 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
               <input type="checkbox" name="botcheck" id="botcheckBeneficios" className="honeypot" tabIndex={-1} aria-hidden="true" autoComplete="off" checked={formData.botcheck} onChange={(e) => setFormData(p => ({ ...p, botcheck: e.target.checked }))} />
 
               <h3 className="form-title">
-                Receba a proposta para sua empresa<br />
-                em até 1 dia útil
+                Vamos encontrar a solução ideal para sua empresa?
               </h3>
               <p className="form-subtitle">
-                Preencha os campos abaixo. Um consultor nomeado entra em contato pelo WhatsApp ou e-mail para entender seu time e enviar a proposta — sem compromisso.
+                Conte um pouco sobre sua empresa. Nossa equipe entrará em contato por WhatsApp ou e-mail para apresentar uma proposta personalizada que simplifique a gestão dos benefícios e amplie as opções do seu time — sem compromisso.
               </p>
 
               <div className="beneficios-grid">
@@ -338,9 +336,6 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                     </span>
                   </label>
                   {errors.consent && <p className="field-error">{errors.consent}</p>}
-                  <p className="form-reassurance">
-                    Após o envio, <strong>um consultor nomeado</strong> entra em contato em até <strong>1 dia útil</strong> pelo WhatsApp ou e-mail. Sem spam, sem compromisso.
-                  </p>
                 </div>
 
                 <div className="form-field beneficios-full">
@@ -359,7 +354,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
 
             {status === "success" && (
               <p id="beneficiosFormOk" className="form-ok" role="status" tabIndex={-1}>
-                Enviado! <strong>Um consultor nomeado</strong> vai te chamar no WhatsApp ou e-mail em até <strong>1 dia útil</strong> com a proposta para sua empresa.
+                Enviado! <strong>Um consultor nomeado</strong> vai te chamar no WhatsApp ou e-mail com a proposta para sua empresa.
               </p>
             )}
 

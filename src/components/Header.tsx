@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
           >
             <span className="btn-label-full">Quero JÁ!</span>
             <span className="btn-label-short">Quero JÁ!</span>
-            <span aria-hidden="true">→</span>
+            <span aria-hidden="true" className="btn-arrow">→</span>
           </a>
         </div>
 

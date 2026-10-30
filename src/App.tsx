@@ -115,7 +115,7 @@ export const App: React.FC = () => {
         onNavigateHome={navigateHome} 
       />
 
-      <FloatingActions />
+      <FloatingActions page={currentPage} />
     </>
   );
 };

@@ -44,8 +44,14 @@
    vem do justify-content:space-between; no mobile o nav sai do fluxo e o margin-left:auto
    empurra CTA + hambúrguer para a direita. */
 .header-actions{display:flex;align-items:center;gap:14px}
+/* Área de toque do atalho de busca: 38px visual + 3px invisíveis ao redor
+   (mesma técnica dos links do rodapé) para atingir os 44px (WCAG 2.5.5). */
+.header-search-btn{position:relative}
+.header-search-btn::after{content:"";position:absolute;inset:-3px}
 /* font:inherit evita o default do UA (Arial 13px) — os glifos seguem a fonte do body. */
-.nav-toggle{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;flex-direction:column;justify-content:center;gap:6px;align-items:center;font:inherit}
+/* flex-shrink:0 — em 320px a linha do header estourava 17px e o flex reduzia o
+   botão a 24px, cortando o hambúrguer na borda direita da viewport. */
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;flex-direction:column;justify-content:center;gap:6px;align-items:center;font:inherit;flex-shrink:0}
 .nav-toggle span{width:24px;height:3px;background:var(--color-text);border-radius:2px;transition:var(--t-mid)}
 .nav-toggle.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}
 .nav-toggle.open span:nth-child(2){opacity:0}
@@ -53,12 +59,9 @@
 
 /* ===== Hero ===== */
 .hero{overflow:hidden;background:var(--ja-uva)}
-/* A caixa adota a proporção real da arte (1672×941 no desktop, 816×941 no
-   mobile). Em viewports largos, fullscreen ou ultrawide (>16:9), `object-fit:contain`
-   alinhado à direita mantém 100% da altura da arte visível (rostos no topo
-   e cartão na base íntegros, sem corte), enquanto o fundo uva oficial e o
-   overlay em degradê estendem a lateral esquerda para acomodar os textos. */
-.hero-banner{position:relative;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva)}
+/* A largura explícita impede que o limite de altura encolha o banner.
+   Em telas largas, apenas o conteúdo é limitado; a arte alcança a borda direita. */
+.hero-banner{position:relative;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva)}
 /* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
    direta do banner (posicionamento absoluto e contexto de container intactos). */
 .hero-banner picture{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
@@ -88,32 +91,40 @@
 /* CTA do hero: objetivo, explícito e corporativo com alinhamento óptico da seta */
 .hero-cta-wrap{margin-top:clamp(20px,2.5vh,28px)}
 .hero-cta{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:calc(13px - .08em) 28px calc(13px + .08em);font-size:clamp(15px,1.1vw,17.5px);font-weight:600}
-/* Faixa de diferenciais: ícones de 21px, textos de 13.5-14.5px, espaçamento de 20-24px */
-.hero-benefits{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:clamp(16px,2vw,24px);margin-top:clamp(24px,3vh,36px);padding:0;width:100%}
-.hero-benefits li{display:inline-flex;flex-direction:row;align-items:center;gap:10px;text-align:left;padding:0}
-.hero-benefits li+li{border-left:1px solid color-mix(in srgb,var(--ja-verde) 50%,transparent);padding-left:clamp(16px,2vw,24px)}
-.hero-benefits img,.hero-benefits i{width:21px;height:21px;font-size:20px;color:var(--ja-verde);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.hero-benefits span{font-size:clamp(13px,0.95vw,14.5px);line-height:1.4;color:color-mix(in srgb,var(--neutral-white) 92%,transparent);white-space:nowrap}
+/* Diferenciais em uma coluna, com ícones e textos alinhados em todas as linhas. */
+.hero-benefits{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-3);margin-top:var(--space-8);padding:0;width:100%}
+.hero-benefits li{display:flex;align-items:center;gap:var(--space-3);text-align:left;padding:0}
+.hero-benefits img,.hero-benefits i{width:23px;height:23px;font-size:22px;color:var(--ja-verde);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-benefits span{font-size:clamp(.875rem,.8rem + .2vw,.9375rem);line-height:1.4;color:color-mix(in srgb,var(--neutral-white) 92%,transparent);white-space:nowrap}
 @supports (font-size:1cqi){
   .hero-cta{padding:calc(clamp(11px,1.1cqi,16px) - .08em) clamp(22px,2.2cqi,34px)
     calc(clamp(11px,1.1cqi,16px) + .08em) clamp(22px,2.2cqi,34px);font-size:clamp(15px,1.15cqi,18px)}
 }
-/* Desktop largo (≥1024px) */
+/* A escala usa a coluna de texto como contêiner, inclusive no ultrawide.
+   A primeira frase pode quebrar para o título crescer sem invadir a arte. */
 @media (min-width:1024px){
   .hero-overlay{padding-top:clamp(32px,5vh,64px);padding-bottom:clamp(32px,5vh,64px)}
-  .hero-copy{width:48%;max-width:700px}
-  .hero-copy h1{font-size:clamp(26px,2.8vw,42px)}
-  .hero-copy p{width:100%;max-width:590px;margin-top:clamp(16px,2vh,22px);font-size:18px;line-height:1.55}
+  .hero-copy{width:48%;max-width:700px;container-type:inline-size}
+  .hero-copy h1{font-size:clamp(2rem,8cqi,3.25rem);text-wrap:balance}
+  .hero-copy .hero-line1{white-space:normal}
+  .hero-copy p{width:100%;max-width:590px;margin-top:clamp(16px,2vh,22px);font-size:clamp(1rem,3.25cqi,1.3125rem);line-height:1.55}
+  .hero-cta{font-size:clamp(1rem,2.8cqi,1.125rem);
+    padding:calc(var(--space-4) - .08em) var(--space-8) calc(var(--space-4) + .08em)}
+  .hero-benefits span{font-size:clamp(.875rem,2.5cqi,.9375rem)}
+}
+@media (min-width:1440px){
+  .hero-banner{max-width:none;aspect-ratio:auto;height:calc(1440px * 941 / 1672)}
+  .hero-img{left:auto;width:auto;max-width:none;
+    mask-image:linear-gradient(90deg,transparent,var(--neutral-black) 40%)}
+  .hero-overlay{max-width:1440px;margin-inline:auto;padding-left:calc(1440px * .06)}
 }
 /* Notebook 1366×768 */
 @media (min-width:1024px) and (max-height:820px){
   .hero-banner{aspect-ratio:auto;height:calc(100svh - 77px);min-height:540px}
   .hero-overlay{padding-block:clamp(12px,1.8vh,22px)}
-  .hero-copy h1{font-size:clamp(22px,2.3vw,34px)}
-  .hero-copy p{font-size:clamp(13px,0.95vw,15px);margin-top:var(--space-2)}
+  .hero-copy h1{font-size:clamp(1.75rem,7cqi,3rem)}
+  .hero-copy p{font-size:clamp(1rem,3cqi,1.25rem);margin-top:var(--space-2)}
   .hero-cta-wrap{margin-top:var(--space-3)}
-  .hero-benefits{margin-top:clamp(14px,1.8vh,20px);gap:14px}
-  .hero-benefits li+li{padding-left:14px}
 }
 /* Tablet deitado (768–1023px): a caixa 16:9 é baixa (424px em 768 de largura) e
    a coluna de texto não cabe nela com a escala da arte. A composição compacta
@@ -126,17 +137,15 @@
   .hero-copy h1{font-size:clamp(18px,2.3vw,24px)}
   .hero-copy p{width:100%;margin-top:var(--space-3);font-size:clamp(13px,1.5vw,15px)}
   .hero-cta{margin-top:var(--space-3);padding:var(--space-2) var(--space-6);font-size:15px}
-  /* A linha de benefícios pode ser mais larga que a coluna de texto: ela fica
-     abaixo do cartão, sobre o fundo plum da arte. */
-  .hero-benefits{width:42%;padding-top:var(--space-3)}
+  .hero-benefits{padding-top:var(--space-3)}
   .hero-benefits li{gap:var(--space-2)}
   .hero-benefits img,.hero-benefits i{
-    width:clamp(20px,2.6vw,26px);height:clamp(20px,2.6vw,26px);font-size:clamp(20px,2.6vw,26px)}
+    width:clamp(22px,2.6vw + 2px,28px);height:clamp(22px,2.6vw + 2px,28px);font-size:clamp(22px,2.6vw + 2px,28px)}
 }
 /* Formulário do CTA final (reutiliza a classe .hero-form do antigo hero). */
 .hero-form{display:flex;gap:14px;background:var(--color-surface);padding:16px;border-radius:var(--radius-control);
   box-shadow:var(--shadow);max-width:560px;margin-bottom:16px;flex-wrap:wrap}
-.hero-form input[type="email"]{width:100%;min-width:0;border:1px solid var(--color-border-control);border-radius:var(--radius-control);background:transparent;padding:var(--space-3) var(--space-4);font:inherit}
+.hero-form input[type="email"]{width:100%;min-width:0;border:1px solid var(--color-border-control);border-radius:var(--radius-control);background:transparent;padding:var(--space-3) var(--space-4);font:inherit;font-size:1rem}
 
 /* ===== Prova rápida (P0.4 da auditoria) ===== */
 /* Quatro fatos verificáveis no próprio site, colados logo abaixo do hero onde a
@@ -185,7 +194,8 @@
   align-items:center}
 .categorias-copy{grid-area:copy}
 .categorias-copy h3{text-wrap:balance;font-size:clamp(30px,3.4vw,44px)}
-.categorias-copy .lead{text-wrap:pretty;margin:0 0 18px}
+.categorias-copy .lead{text-wrap:pretty;margin:0 0 24px}
+.categorias-copy .btn{margin-top:8px}
 .categorias-index{grid-area:index}
 /* Foto integrada à seção: sem palco/padding/moldura colorida em volta — o cenário de
    estúdio já está na própria imagem. Tratamento igual ao das outras fotos (.feature-art). */
@@ -300,7 +310,7 @@
 .custo-zero-form .form-field{display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
 .custo-zero-form label{font:inherit;font-size:var(--text-small);font-weight:700;color:var(--color-text-muted)}
 .custo-zero-form .required{color:var(--color-primary)}
-.custo-zero-form input:not([type=hidden]):not([type=checkbox]),.custo-zero-form select{width:100%;min-width:0;min-height:var(--space-12);border:1px solid var(--color-text-muted);border-radius:var(--input-radius);background:var(--color-surface);color:var(--color-text);padding:var(--space-3) var(--space-4) var(--space-3) var(--space-12);font:inherit;font-size:var(--text-body)}
+.custo-zero-form input:not([type=hidden]):not([type=checkbox]),.custo-zero-form select{width:100%;min-width:0;min-height:var(--space-12);border:1px solid var(--color-text-muted);border-radius:var(--input-radius);background:var(--color-surface);color:var(--color-text);padding:var(--space-3) var(--space-4) var(--space-3) var(--space-12);font:inherit;font-size:1rem}
 .custo-zero-form input::placeholder{color:var(--input-placeholder);font-size:var(--text-small);font-weight:400;opacity:1}
 .custo-zero-form input:focus,.custo-zero-form select:focus{outline:2px solid var(--color-focus);outline-offset:1px}
 .custo-zero-form select{appearance:auto}
@@ -454,47 +464,63 @@ input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visi
 .form-consent{grid-column:1 / -1;display:flex;align-items:flex-start;gap:var(--space-2);font-size:.875rem;color:var(--color-text-muted);line-height:1.5;min-height:var(--space-6)}
 .form-consent input{margin-top:2px;flex:0 0 18px;width:18px;height:18px;accent-color:var(--ja-uva)}
 .form-consent-text{display:inline}
-.form-consent a{color:var(--color-primary);text-decoration:underline;text-decoration-color:var(--color-accent)}
+.form-consent a{color:var(--color-primary);text-decoration:underline;text-decoration-color:var(--color-accent);position:relative}
+/* Link inline de ~16px de altura: os 6px invisíveis ao redor levam o alvo a ≥24px
+   (WCAG 2.5.8) sem alterar o fluxo do texto. Vale para os dois formulários. */
+.form-consent a::after,.custo-zero-form .form-consent a::after{content:"";position:absolute;inset:-6px}
 .form-consent a:hover{color:var(--color-primary-hover)}
 
 /* ===== Footer ===== */
 /* Footer sobre fundo uva (versão negativa p.2: JÁ mostarda + benefícios verde sobre uva).
    Reorganizado conforme "Crítica da seção.pdf": 4 grupos equilibrados + faixa jurídica
    inferior com dados cadastrais separados do conteúdo comercial. Sem cor nova — só uva. */
-.site-footer{background:var(--ja-uva-escuro);color:var(--color-on-dark-muted);padding:60px 0 0;font-size:1rem}
-.footer-grid{display:grid;grid-template-columns:34% repeat(3,1fr);gap:32px;padding-bottom:32px}
-.footer-brand .brand--footer{color:var(--color-background)}
-.footer-tagline{margin-top:14px;max-width:24ch;color:var(--color-on-dark-muted)}
-.footer-social{display:flex;gap:14px;margin-top:16px}
-.site-footer .footer-social a{display:inline-flex;align-items:center;justify-content:center;padding:0;
-  width:36px;height:36px;flex:0 0 auto;
-  border:1px solid color-mix(in srgb,var(--neutral-white) 22%,transparent);border-radius:50%;color:var(--color-on-dark-muted);
-  transition:color var(--t-base),border-color var(--t-base)}
-.site-footer .footer-social svg{display:block;width:17px;height:17px}
-.site-footer .footer-social a:hover{color:var(--color-background);border-color:color-mix(in srgb,var(--neutral-white) 50%,transparent)}
-.site-footer h3{color:var(--color-background);margin-bottom:12px;font-size:1rem;font-weight:700}
-.site-footer a{display:block;padding:5px 0;color:var(--color-on-dark-muted)}
-.site-footer a:hover{color:var(--color-background)}
-.footer-city{padding:5px 0;color:var(--color-on-dark-muted)}
-/* Faixa jurídica: razão social + endereço em 2 linhas compactas. */
-.footer-legal-strip{border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:22px;font-size:.9375rem;line-height:1.7}
+.site-footer{background:var(--footer-bg);color:var(--color-on-dark-muted);padding:clamp(var(--space-16),5vw,5rem) 0 0;font-size:.9375rem}
+.footer-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:var(--space-8);padding-bottom:var(--space-10)}
+.site-footer .brand--footer{display:inline-flex;padding:0}
+.footer-brand .brand-logo--footer{width:156px}
+.footer-tagline{margin-top:var(--space-5);max-width:36ch;color:var(--color-on-primary);font-weight:700;font-size:1rem;line-height:1.5}
+.footer-description{margin-top:var(--space-3);max-width:40ch;line-height:1.6}
+.footer-social{display:flex}
+.site-footer .footer-social a{display:inline-flex;align-items:center;gap:var(--space-2);min-height:44px}
+.site-footer .footer-social svg{display:block;width:20px;height:20px;flex-shrink:0;color:var(--ja-verde)}
+.footer-downloads{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-6);padding-block:var(--space-6);border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent)}
+.footer-downloads-copy{flex:1 1 240px}
+.footer-store-links{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6);max-width:100%}
+.site-footer .footer-store-links a{display:inline-flex;padding:0;min-height:var(--space-12);max-width:100%}
+.footer-store-links img{width:168px;height:auto}
+.site-footer h3{font-family:var(--font-body);color:var(--color-on-primary);margin-bottom:var(--space-3);font-size:1rem;font-weight:600}
+.site-footer a{display:block;padding:var(--space-2) 0;color:var(--color-on-dark-muted)}
+.site-footer a:hover{color:var(--color-on-primary);text-decoration:underline;text-underline-offset:4px}
+.site-footer .brand--footer:hover{text-decoration:none}
+/* Dados cadastrais agrupados, com quebra natural nas telas menores. */
+.footer-legal-strip{border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:var(--space-6);font-size:var(--text-small);line-height:1.7;display:grid;gap:var(--space-2)}
+.footer-legal-strip h3{margin-bottom:0}
+.footer-legal-details{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5)}
 .footer-legal-strip p{color:var(--color-on-dark-muted)}
+.footer-legal-strip .footer-legal-name{color:var(--color-on-primary);font-weight:700}
 .footer-legal-strip address{font-style:normal;color:var(--color-on-dark-muted)}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);flex-wrap:wrap;
-  border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:18px;font-size:.9375rem}
+  border-top:1px solid color-mix(in srgb,var(--neutral-white) 14%,transparent);padding-block:var(--space-6) var(--space-8);font-size:.8125rem}
 .footer-bottom span{color:var(--color-on-dark-muted)}
-.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.footer-links{display:flex;gap:var(--space-4);flex-wrap:wrap}
 /* position:relative + ::after dão ≥24px de área de toque (WCAG 2.5.8) mantendo o
    padding:0 que alinha os links com o copyright na mesma faixa. */
 .footer-links a{display:inline;padding:0;position:relative}
-.footer-links a::after{content:"";position:absolute;inset:-6px}
+.footer-links a::after{content:"";position:absolute;inset:-4px}
 
 /* ===== Voltar ao início ===== */
+.to-top,.whatsapp-fab,.ja-chat-launch,.ja-chat-panel{
+  --floating-inset:clamp(var(--space-5),2.5vw,var(--space-8));
+  --floating-chat-size:56px;
+}
+@media(max-width:480px){
+  .to-top,.whatsapp-fab,.ja-chat-launch,.ja-chat-panel{--floating-chat-size:var(--space-12)}
+}
 /* Some no topo e aparece após rolar (classe .is-visible aplicada em src/main.ts).
    Empilhado acima do FAB de WhatsApp: 56px do FAB + 12px de respiro, partindo do
    mesmo offset lateral/inferior. Uva da marca (9,47:1 sobre branco — medido). */
-.to-top{position:fixed;right:calc(clamp(16px,2.5vw,24px) + 4px);
-  bottom:calc(clamp(16px,2.5vw,24px) + 56px + 12px + 56px + 12px);
+.to-top{position:fixed;right:var(--floating-inset);
+  bottom:calc(var(--floating-inset) + 50px + var(--space-3) + var(--floating-chat-size) + var(--space-3) + env(safe-area-inset-bottom, 0px));
   z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid var(--color-border-control);border-radius:50%;
   background:var(--color-surface);color:var(--ja-uva);box-shadow:var(--shadow);
   cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);
@@ -511,9 +537,9 @@ body:has(.main-nav.open) .to-top{opacity:0;visibility:hidden;pointer-events:none
 /* ===== CTA flutuante de WhatsApp ===== */
 /* Presente em todas as seções: fixo no canto inferior direito, acima de todo o conteúdo
    (z-index 49 = mesmo patamar do painel de nav). */
-.whatsapp-fab{position:fixed;right:clamp(16px,2.5vw,24px);bottom:clamp(16px,2.5vw,24px);
+.whatsapp-fab{position:fixed;right:var(--floating-inset);bottom:calc(var(--floating-inset) + env(safe-area-inset-bottom, 0px));
   z-index:var(--z-fab);display:grid;place-items:center;width:50px;height:50px;border-radius:50%;
-  background:var(--whatsapp);color:var(--neutral-white);box-shadow:0 6px 18px color-mix(in srgb,var(--whatsapp-ink) 22%,transparent);
+  background:var(--color-surface);color:var(--whatsapp);border:1px solid var(--whatsapp);box-shadow:var(--shadow-sm);
   transition:transform var(--t-base) ease,box-shadow var(--t-base) ease}
 .whatsapp-fab svg{width:24px;height:24px;display:block}
 .whatsapp-fab:hover{transform:translateY(-3px);box-shadow:0 10px 24px color-mix(in srgb,var(--whatsapp-ink) 30%,transparent)}
@@ -544,17 +570,18 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   gap:clamp(28px,4vw,64px);align-items:start}
 /* Aside acompanha o scroll até o fim da seção (sticky) — o CTA de ajuda fica sempre à vista. */
 .faq-aside{position:sticky;top:calc(90px + var(--space-6))}
-.faq-aside .lead{margin-bottom:var(--space-6)}
+.faq-aside .eyebrow{font-size:.75rem;letter-spacing:.04em;margin-bottom:var(--space-2)}
+.faq-aside h2{font-family:var(--font-body);font-size:clamp(1.5rem,2vw,1.75rem);line-height:1.2;margin-bottom:var(--space-2)}
+.faq-aside .lead{font-size:1rem;line-height:1.5;margin-bottom:var(--space-4)}
 /* Card de conversão: superfície uva (identidade da marca) com cápsula creme, como no protótipo. */
 .faq-help{--color-focus:var(--ja-mostarda);background:var(--ja-uva);color:var(--neutral-white);
-  border-radius:var(--radius-card);padding:clamp(20px,2.4vw,26px);box-shadow:var(--shadow)}
+  border-radius:var(--radius-card-md);padding:var(--space-5)}
 .faq-help-ico{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
   background:color-mix(in srgb,var(--neutral-white) 14%,transparent);margin-bottom:var(--space-4)}
 .faq-help-ico svg{width:24px;height:24px}
-.faq-help h3{color:var(--neutral-white);margin-bottom:6px}
+.faq-help h3{font-family:var(--font-body);font-size:1.125rem;color:var(--neutral-white);margin-bottom:var(--space-4)}
 .faq-help p{color:var(--color-on-dark-muted);font-size:.95rem;line-height:1.5;margin-bottom:var(--space-4)}
-/* Nota de condições: redação cautelosa, sem afirmar termos contratuais. */
-.faq-note{color:var(--color-text-muted);font-size:.875rem;line-height:1.6;margin-top:var(--space-4)}
+.faq-help .btn{display:flex;align-items:center;justify-content:center;gap:var(--space-2);width:100%;min-height:var(--space-12);padding-inline:var(--space-4);background:var(--color-surface);border-color:var(--color-surface)}
 .faq-list{display:grid;gap:12px}
 /* Subtítulo de tema: sem serifa, caps e uva — separa os 3 grupos sem virar um clique.
    Usa a mesma escala do body (clamp 15-17px): como <h3> semântico, nunca menor que o texto corrido. */
@@ -711,7 +738,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
     transition:transform var(--t-nav),visibility 0s var(--t-nav);z-index:var(--z-nav);font-size:1.05rem;
     max-height:calc(100vh - 76px);overflow-y:auto}
   .main-nav.open{transform:none;visibility:visible;transition:transform var(--t-nav),visibility 0s}
-  .main-nav>a{padding:7px 0} /* alvo de toque confortável no painel */
+  .main-nav>a{padding:11px 0} /* alvo de toque ≥44px no painel (39px com 7px) */
   .nav-toggle{display:flex}
   .header-actions{margin-left:auto}
 }
@@ -728,6 +755,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   .faq-aside{position:static;top:auto}
   .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1/-1}
   .section{padding:64px 0}
 }
 @media (max-width:640px){
@@ -737,7 +765,8 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 }
 @media (max-width:520px){
   .hero-form--center{grid-template-columns:minmax(0,1fr);padding:var(--space-5)}
-  .footer-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-grid>nav:last-child{grid-column:1/-1}
   .hero-form .btn{width:100%}
   .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:10px}
   /* Celular: 16 cards em coluna única (com resumo) davam ~2.800px de leitura
@@ -756,6 +785,18 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   .brand--header{padding:6px 8px}
   .btn-label-full{display:none}
   .btn-label-short{display:inline}
+}
+/* Telas muito estreitas (≤360px): o header já compactado em 520 ainda
+   estourava a viewport em 320px (a linha exigia ~306px contra 273px úteis).
+   Logo e rótulo encolhem mais, gaps caem para 8px e a seta decorativa
+   do CTA sai e o conteúdo principal cabe sem corte. */
+@media (max-width:360px){
+  .header-inner{gap:8px}
+  .brand-logo{width:56px}
+  .brand--header{padding:6px 6px}
+  .header-actions{gap:10px}
+  .header-actions .btn-sm{padding:calc(9px - .08em) 14px calc(9px + .08em);font-size:.85rem}
+  .header-actions .btn-arrow{display:none}
 }
 /* Hero ≤767px: a arte do desktop é um banner 16:9 — mostrá-lo inteiro
    encolheria o casal para ~220px. A arte mobile (816×941, recorte emoldurado
@@ -776,11 +817,9 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}
   .hero-cta-wrap{margin-top:4%}
   .hero-cta{margin-top:0;padding:calc(12px - .08em) 22px calc(12px + .08em);font-size:15px}
-  .hero-benefits{width:100%;padding-top:0;margin-top:5%;gap:8px 14px}
-  .hero-benefits li{padding:0}
-  .hero-benefits li+li{border-left:none;padding-left:0}
-  .hero-benefits img,.hero-benefits i{width:16px;height:16px;font-size:15px}
-  .hero-benefits span{font-size:12px;white-space:normal}
+  .hero-benefits{width:100%;padding-top:0;gap:var(--space-2)}
+  .hero-benefits img,.hero-benefits i{width:18px;height:18px;font-size:17px}
+  .hero-benefits span{font-size:clamp(.875rem,3.7vw,.9375rem);white-space:normal}
 }
 /* Telas muito estreitas (≤345px): a caixa proporcional não comporta a linha de
    benefícios sem estourar, e estourar cortaria a própria linha (o hero tem
@@ -804,8 +843,16 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .support-card{background:var(--color-background);}
 
 /* CTA final: acesso ao formulário comercial único. */
-.section-cta .cta-final-description{color:var(--color-on-dark-muted);font-size:1rem;line-height:1.6;max-width:38rem;margin:0 auto var(--space-5)}
-.section-cta .cta-final-button{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:.6rem}
+.section-cta{padding-block:clamp(5rem,6vw,6rem)}
+.section-cta h2{max-width:54rem;margin:0 auto var(--space-6);font-size:clamp(1.5rem,2.4vw,2.25rem);line-height:1.25;text-wrap:balance}
+.section-cta .cta-final-description{color:var(--color-on-dark-muted);font-size:clamp(1rem,1.2vw,1.125rem);line-height:1.6;max-width:40.625rem;margin:0 auto clamp(1.75rem,2.2vw,var(--space-8))}
+.section-cta .cta-final-button{min-height:var(--space-12);display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding-inline:var(--space-8);font-size:1rem}
+.section-cta .cta-final-note{margin-top:var(--space-3);font-size:var(--text-small);color:var(--color-on-dark-muted)}
+@media(max-width:520px){
+  .section-cta{padding-block:var(--space-16)}
+  .section-cta h2{font-size:clamp(1.125rem,4.8vw,1.5rem)}
+  .section-cta .cta-final-button{width:100%;padding-inline:var(--space-4)}
+}
 #beneficiosForm{scroll-margin-top:90px}
 
 /* CTA final contact form styling */
@@ -815,7 +862,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .cta-field--full{grid-column:1/-1}
 .cta-field label{display:block;font-weight:600;font-size:var(--text-small);color:var(--color-text);margin-bottom:6px}
 .cta-input-control{position:relative;display:flex;align-items:center}
-.cta-input{width:100%;padding:12px 14px;font-size:.95rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border-control);border-radius:var(--radius-input);transition:var(--t-fast)}
+.cta-input{width:100%;min-height:var(--space-12);padding:12px 14px;font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border-control);border-radius:var(--radius-input);transition:var(--t-fast)}
 .cta-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
 .cta-input[aria-invalid="true"]{border-color:var(--ja-uva);box-shadow:0 0 0 2px color-mix(in srgb,var(--ja-uva) 20%,transparent)}
 .cta-field-error{margin-top:6px;font-size:var(--text-small);font-weight:600;color:var(--ja-uva-escuro);background:color-mix(in srgb,var(--error-100) 60%,var(--color-surface));padding:6px 10px;border-radius:var(--radius-input);line-height:1.35}
@@ -836,7 +883,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
    deixavam o texto em ~3,5:1. Não é controle, então não usa cursor de bloqueio. */
 .main-nav .nav-link-unavailable{white-space:nowrap;color:var(--color-text-muted);user-select:none}
 .main-nav .nav-soon{font-size:.72em;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-left:.4em}
-@media(max-width:1150px){.main-nav .nav-link-unavailable{padding:7px 0}}
+@media(max-width:1150px){.main-nav .nav-link-unavailable{padding:11px 0}}
 /* Texto acessível apenas a tecnologias assistivas. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
@@ -844,7 +891,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .site-search-wrapper{position:relative;width:100%;max-width:640px;margin:0 auto}
 .site-search-input-wrap{position:relative;display:flex;align-items:center}
 .site-search-icon{position:absolute;left:16px;width:20px;height:20px;color:var(--color-text-muted);pointer-events:none}
-.site-search-input{width:100%;padding:14px 44px 14px 48px;font-size:.95rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:2px solid var(--color-border-control);border-radius:var(--radius-input);box-shadow:var(--shadow-sm);transition:var(--t-base)}
+.site-search-input{width:100%;padding:14px 44px 14px 48px;font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:2px solid var(--color-border-control);border-radius:var(--radius-input);box-shadow:var(--shadow-sm);transition:var(--t-base)}
 .site-search-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
 .site-search-clear{position:absolute;right:14px;background:none;border:none;color:var(--color-text-muted);font-size:1.4rem;line-height:1;cursor:pointer;padding:4px 8px;border-radius:50%;transition:var(--t-fast)}
 .site-search-clear:hover{color:var(--color-text);background:var(--neutral-100)}
@@ -870,4 +917,43 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .header-search-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;color:var(--color-primary);background:var(--color-background);border:1px solid var(--color-border-control);transition:var(--t-fast);cursor:pointer}
 .header-search-btn:hover{background:var(--neutral-100);color:var(--ja-uva-escuro)}
 .header-search-btn svg{width:18px;height:18px}
+
+/* Marca Visa — caixa alta, fonte padrão do design system. */
+.visa-marca{font-family:var(--font-display);font-weight:700;text-transform:uppercase}
+
+/* ===== Política de Privacidade (PrivacyPolicy.tsx) ===== */
+/* A página de privacidade herda o mesmo shell do site (header + footer). Aqui
+   estilizamos apenas o conteúdo interno, com tokens do design system. */
+.privacy-page .container.narrow{max-width:760px;margin:var(--section-space) auto;padding:0 clamp(16px,4vw,24px)}
+.privacy-page .iub_content{display:flex;flex-direction:column;gap:var(--space-6)}
+.privacy-page .iub_header{margin-bottom:var(--space-4)}
+.privacy-page .iub_header h1{font-size:clamp(1.75rem,3.5vw,2.4rem);margin-bottom:var(--space-3);line-height:1.15}
+.privacy-page .iub_header p{color:var(--color-text-muted);font-size:var(--text-body);line-height:1.6}
+.privacy-page .iub_header .link-arrow{display:inline-flex;align-items:center;gap:6px;margin-bottom:var(--space-4);font-size:.95rem}
+.privacy-page .iub_header .link-arrow:hover{text-decoration:underline}
+/* Seções expansíveis (details/summary) — mesmos tokens dos cards. */
+.privacy-page .pp-sec{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card-sm);margin-bottom:var(--space-3);overflow:hidden;box-shadow:var(--shadow-sm)}
+.privacy-page .pp-sec[open]{box-shadow:var(--shadow)}
+.privacy-page .pp-sec summary{cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--color-text);padding:var(--space-4) var(--space-5);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);transition:background var(--t-fast)}
+.privacy-page .pp-sec summary::-webkit-details-marker{display:none}
+.privacy-page .pp-sec summary::after{content:"+";font-family:var(--font-body);font-weight:700;color:var(--color-primary);font-size:1.25rem;transition:transform var(--t-base)}
+.privacy-page .pp-sec[open] summary::after{content:"−"}
+.privacy-page .pp-sec summary:hover{background:var(--color-background-alt)}
+.privacy-page .pp-body{padding:0 var(--space-5) var(--space-5)}
+.privacy-page .pp-body p{margin-bottom:var(--space-3);line-height:1.65;color:var(--color-text)}
+.privacy-page .pp-body p:last-child{margin-bottom:0}
+.privacy-page .pp-body h3{font-size:1.05rem;margin:var(--space-4) 0 var(--space-2);color:var(--color-text)}
+.privacy-page .pp-body h3:first-child{margin-top:0}
+.privacy-page .pp-body h4{font-size:1rem;margin:var(--space-3) 0 var(--space-2);color:var(--color-text)}
+.privacy-page .pp-body ul{margin:0 0 var(--space-3) var(--space-5);line-height:1.65}
+.privacy-page .pp-body ul:last-child{margin-bottom:0}
+.privacy-page .pp-body li{margin-bottom:var(--space-2)}
+.privacy-page .pp-body a{color:var(--color-primary);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.privacy-page .pp-body a:hover{text-decoration-thickness:2px}
+.privacy-page .iub_footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--color-border);text-align:center;color:var(--color-text-muted);font-size:var(--text-small)}
+/* Reduz a largura do details em telas pequenas para evitar padding excessivo. */
+@media(max-width:600px){
+  .privacy-page .pp-sec summary{padding:var(--space-3) var(--space-4)}
+  .privacy-page .pp-body{padding:0 var(--space-4) var(--space-4)}
+}
 

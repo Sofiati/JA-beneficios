@@ -13,9 +13,9 @@ export const Ecossistema: React.FC = () => {
       <div className="container">
         <div className="categorias-layout" data-animate>
           <div className="categorias-copy">
-            <h3>Do essencial ao bem-estar, tudo centralizado em um só cartão Visa</h3>
+            <h3>Do essencial ao bem-estar, tudo centralizado em um só cartão <span className="visa-marca">VISA</span></h3>
             <p className="lead">
-              Vale Alimentação e Vale Refeição, vinculados ao PAT, além de cultura, mobilidade, saúde, educação e outras categorias em um só cartão.
+              Descubra como integrar benefícios múltiplos em uma experiência única, segura e sem burocracia.
             </p>
             <a href="#beneficiosForm" className="btn btn-solid">
               Quero JÁ! <span aria-hidden="true">→</span>
@@ -34,10 +34,8 @@ export const Ecossistema: React.FC = () => {
           <div className="categorias-index">
             <div className="cat-group">
               <div className="cat-group-head">
-                <h4 className="cat-group-title">
-                  Alimentação <span className="cat-tag">PAT</span>
-                </h4>
-                <p className="cat-group-desc">Compra de alimentos e refeição pronta, com conformidade no novo PAT.</p>
+                <h4 className="cat-group-title">Trilho Voucher <span className="cat-tag">PAT</span></h4>
+                <p className="cat-group-desc">Mais segurança, simplicidade e eficiência, mantenha o padrão</p>
               </div>
               <div className="cat-grid">
                 <article className="cat-card">
@@ -51,28 +49,28 @@ export const Ecossistema: React.FC = () => {
                   <p>Refeições prontas para a rotina de trabalho, com praticidade na hora de se alimentar.</p>
                 </article>
                 <article className="cat-card">
-                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-utensils"></i></div>
-                  <h5>Alimentação e Refeição</h5>
-                  <p>As duas modalidades em uma única solução, com liberdade para usar em cada categoria, conforme as regras aplicáveis.</p>
+                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-theater-masks"></i></div>
+                  <h5>Cultura</h5>
+                  <p>Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal para o colaborador.</p>
                 </article>
               </div>
             </div>
 
             <div className="cat-group">
               <div className="cat-group-head">
-                <h4 className="cat-group-title">Bem-estar e rotina</h4>
-                <p className="cat-group-desc">Cultura, saúde, educação e os deslocamentos do dia a dia do time.</p>
+                <h4 className="cat-group-title">Multibeneficios</h4>
+                <p className="cat-group-desc">saúde, educação, deslocamento, premiação e muito mais!</p>
               </div>
               <div className="cat-grid">
                 <article className="cat-card">
-                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-masks-theater"></i></div>
-                  <h5>Cultura</h5>
-                  <p>Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal para o colaborador.</p>
+                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-utensils"></i></div>
+                  <h5>Alimentação e Refeição</h5>
+                  <p>As duas modalidades em uma única solução, com liberdade para usar em cada categoria, conforme as regras aplicáveis.</p>
                 </article>
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-hospital"></i></div>
                   <h5>Saúde</h5>
-                  <p>Farmácias, consultas, exames e outros serviços habilitados — cuidado com a saúde e o bem-estar do time.</p>
+                  <p>Farmácias, consultas, exames e outros serviços habilitados.</p>
                 </article>
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-graduation-cap"></i></div>
@@ -94,15 +92,6 @@ export const Ecossistema: React.FC = () => {
                   <h5>Trabalho Remoto</h5>
                   <p>Apoio às despesas do home office — internet, energia e recursos necessários ao trabalho à distância.</p>
                 </article>
-              </div>
-            </div>
-
-            <div className="cat-group">
-              <div className="cat-group-head">
-                <h4 className="cat-group-title">Reconhecimento e flexibilidade</h4>
-                <p className="cat-group-desc">Premiar, reconhecer e liberar saldo livre, sem categoria fechada.</p>
-              </div>
-              <div className="cat-grid">
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-trophy"></i></div>
                   <h5>Premiação</h5>
@@ -119,7 +108,7 @@ export const Ecossistema: React.FC = () => {
                   <p>Reconhecimento da presença e pontualidade conforme os critérios de frequência estabelecidos pela empresa.</p>
                 </article>
                 <article className="cat-card">
-                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-cake-candles"></i></div>
+                  <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-birthday-cake"></i></div>
                   <h5>Aniversário</h5>
                   <p>Um benefício comemorativo para celebrar o aniversário dos colaboradores e fortalecer o pertencimento.</p>
                 </article>

@@ -83,5 +83,25 @@
     "grupo": "Atendimento e conformidade",
     "pergunta": "O JÁ Benefícios atua em conformidade com o PAT?",
     "resposta": "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página."
+  },
+  {
+    "grupo": "Cartão e plataforma",
+    "pergunta": "Quais cartões a JÁ oferece?",
+    "resposta": "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app."
+  },
+  {
+    "grupo": "Contratação e custos",
+    "pergunta": "Quais são as taxas e custos para a empresa?",
+    "resposta": "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial."
+  },
+  {
+    "grupo": "Cartão e plataforma",
+    "pergunta": "Como funciona o app do colaborador?",
+    "resposta": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual."
+  },
+  {
+    "grupo": "Contratação e custos",
+    "pergunta": "Como contratar para minha empresa?",
+    "resposta": "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios."
   }
 ]
