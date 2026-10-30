@@ -605,6 +605,45 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   margin:0 0 16px;text-wrap:pretty}
 .faq-item summary:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px;border-radius:4px}
 
+/* Chips de filtro por tema (inspirado na exploração Stitch): cápsulas discretas,
+   com estado uva quando ativas — reforça a cor primária sem virar botão pesado. */
+.faq-chips{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;
+  margin-bottom:clamp(20px,3vw,32px)}
+.faq-chip{font-family:var(--font-body);font-weight:600;font-size:clamp(14px,.95vw,15px);
+  color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-control);padding:8px 14px 8px 16px;min-height:var(--space-10);
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  transition:background var(--t-base) ease,border-color var(--t-base) ease,color var(--t-base) ease}
+.faq-chip:hover{background:var(--neutral-50)}
+.faq-chip:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.faq-chip--active{background:var(--ja-uva);border-color:var(--ja-uva);color:var(--neutral-white);
+  --color-focus:var(--ja-mostarda)}
+.faq-chip-count{font-weight:400;font-size:clamp(12px,.85vw,13px);
+  color:var(--color-text-muted);background:var(--neutral-100);
+  border-radius:999px;padding:2px 7px;line-height:1.3}
+.faq-chip--active .faq-chip-count{color:var(--neutral-white);
+  background:color-mix(in srgb,var(--neutral-white) 18%,transparent)}
+
+/* Cabeçalho de grupo: título uva à esquerda + contador discreto à direita. */
+.faq-group-head{display:flex;align-items:baseline;justify-content:space-between;
+  gap:var(--space-3);margin:var(--space-3) 0 2px}
+.faq-group-head .faq-group-title{margin:0}
+.faq-group-head:first-child{margin-top:0}
+.faq-group-count{font-family:var(--font-body);font-size:var(--text-small);
+  font-weight:400;color:var(--color-text-muted);letter-spacing:.02em}
+
+/* Faixa de conversão ao fim da lista: leve tint uva; só aparece depois dos
+   accordions (inclusive quando filtrado por chip). */
+.faq-cta{margin-top:var(--space-4);background:color-mix(in srgb,var(--ja-uva) 5%,var(--color-surface));
+  border:1px solid color-mix(in srgb,var(--ja-uva) 14%,var(--color-border));
+  border-radius:var(--radius-card-md);padding:var(--space-5);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.faq-cta-title{font-family:var(--font-body);font-weight:600;font-size:clamp(16px,1.1vw,18px);
+  color:var(--color-text);margin-bottom:4px}
+.faq-cta p{font-size:clamp(15px,.98rem,16px);line-height:1.5;color:var(--color-text-muted)}
+.faq-cta .btn{white-space:nowrap;transition:background var(--t-base) ease,
+  transform var(--t-base) ease,box-shadow var(--t-base) ease}
+
 /* ===== Animações on-scroll ===== */
 /* [data-animate] só esconde o bloco quando o JS está ativo.
    Usa curva e duração otimizadas para efeito de revelação natural e fluido. */
