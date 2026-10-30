@@ -294,6 +294,15 @@
 .zero-shipping,.zero-note{margin:0 auto;font-size:var(--text-small);text-wrap:balance;line-height:1.4}
 .zero-shipping{margin-bottom:var(--space-2)}
 #custo-zero .zero-note{color:var(--color-on-dark-muted);font-size:var(--text-small)}
+/* Linha de confiança sob o botão de envio (exploração Stitch): reafirma o
+   compromisso de atendimento imediatamente antes do clique, sem claims numéricos. */
+.form-trust{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:6px var(--space-4);margin:var(--space-3) 0 0;padding:0}
+.form-trust li{display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-size:clamp(12.5px,.9vw,14px);
+  color:var(--color-text-muted);line-height:1.4}
+.form-trust li::before{content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;
+  background:var(--ja-verde)}
 .custo-zero-card{margin-inline:auto;max-width:calc(var(--max) * .8)}
 .custo-zero-form{--color-focus:var(--color-primary);background:var(--card-bg);color:var(--color-text);border-radius:var(--card-radius);padding:var(--space-12);box-shadow:var(--shadow)}
 .custo-zero-form .form-title{position:relative;width:fit-content;padding-right:var(--space-8);font-size:var(--text-h3);margin:0 0 var(--space-2);color:var(--color-primary)}
