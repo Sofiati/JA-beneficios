@@ -92,6 +92,26 @@ const STATIC_FAQ: FaqItem[] = [
     grupo: "Atendimento e conformidade",
     pergunta: "O JÁ Benefícios atua em conformidade com o PAT?",
     resposta: "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página."
+  },
+  {
+    grupo: "Cartão e plataforma",
+    pergunta: "Quais cartões a JÁ oferece?",
+    resposta: "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app."
+  },
+  {
+    grupo: "Contratação e custos",
+    pergunta: "Quais são as taxas e custos para a empresa?",
+    resposta: "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial."
+  },
+  {
+    grupo: "Cartão e plataforma",
+    pergunta: "Como funciona o app do colaborador?",
+    resposta: "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual."
+  },
+  {
+    grupo: "Contratação e custos",
+    pergunta: "Como contratar para minha empresa?",
+    resposta: "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios."
   }
 ];
 
@@ -169,7 +189,7 @@ export const FaqSection: React.FC = () => {
           <div className="faq-aside" data-animate>
             <p className="eyebrow">Central de dúvidas</p>
             <h2>Perguntas frequentes</h2>
-            <p className="lead">As principais respostas para quem quer simplificar a gestão de benefícios.</p>
+            <p className="lead">Tudo o que você precisa saber sobre o JÁ Benefícios, em respostas simples e diretas.</p>
 
             <div className="faq-help">
               <span className="faq-help-ico" aria-hidden="true">
@@ -180,14 +200,10 @@ export const FaqSection: React.FC = () => {
                   <path d="M18.6 18.6v.9a2 2 0 0 1-2 2h-3.2" />
                 </svg>
               </span>
-              <h3>Precisa de ajuda?</h3>
-              <p>Nossa equipe pode orientar sua empresa.</p>
-              <a href="#beneficiosForm" className="btn btn-cream">Fale com um especialista</a>
+              <h3>Ainda tem dúvidas?</h3>
+              <p>Nossa equipe está pronta para ajudar você a conhecer a solução ideal para sua empresa.</p>
+              <a href="#beneficiosForm" className="btn btn-cream">Conversar com um especialista <span aria-hidden="true">→</span></a>
             </div>
-
-            <p className="faq-note">
-              Condições comerciais e de serviços sujeitas à confirmação na proposta. Quando houver exceções, elas são indicadas antes do fechamento.
-            </p>
           </div>
 
           <div className="faq-list" id="faqList" data-animate>

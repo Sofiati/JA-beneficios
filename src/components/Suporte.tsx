@@ -39,20 +39,7 @@ export const Suporte: React.FC = () => {
             <i className="support-ico fa-solid fa-handshake" aria-hidden="true"></i>
             <h3>Mais controle para o RH. Menos complexidade na rotina.</h3>
             <p>Da implantação às recargas, com orientação para sua empresa.</p>
-            <dl className="support-steps">
-              <div>
-                <dt>Preparação da base de colaboradores</dt>
-                <dd>Cadastro dos colaboradores para implantação e emissão dos cartões.</dd>
-              </div>
-              <div>
-                <dt>Recarga de benefícios</dt>
-                <dd>A empresa disponibiliza créditos pré-pagos pela plataforma.</dd>
-              </div>
-              <div>
-                <dt>Atendimento à empresa</dt>
-                <dd>Orientação durante a implantação e a utilização dos benefícios.</dd>
-              </div>
-            </dl>
+
           </div>
         </div>
         <p className="center">

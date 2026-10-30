@@ -6,7 +6,7 @@ interface PrivacyPolicyProps {
 
 export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
   return (
-    <main id="main" tabIndex={-1}>
+    <main id="main" tabIndex={-1} className="privacy-page">
       <section className="section">
         <div className="container narrow">
           <div className="iub_content legal_pp">
