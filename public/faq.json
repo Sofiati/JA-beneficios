@@ -1,107 +1,389 @@
 [
   {
+    "id": "implantacao-custo",
     "grupo": "Contratação e custos",
     "pergunta": "A implantação tem algum custo?",
-    "resposta": "Não há custo de implantação, mensalidade nem cobrança pela emissão da primeira via do cartão. Os únicos custos são o frete dos cartões físicos, com valor variável conforme a região, e os créditos que a empresa carrega para os colaboradores."
+    "resposta": "Não há custo de implantação, mensalidade nem cobrança pela emissão da primeira via do cartão. Os únicos custos são o frete dos cartões físicos, com valor variável conforme a região, e os créditos que a empresa carrega para os colaboradores.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "mensalidade-custo",
     "grupo": "Contratação e custos",
     "pergunta": "Existe mensalidade ou taxa por colaborador?",
-    "resposta": "Não. A JÁ Benefícios não cobra mensalidade nem taxa por colaborador. Além dos créditos carregados, a empresa paga apenas o frete dos cartões físicos, com valor variável conforme a região. Serviços adicionais são informados antes do fechamento."
+    "resposta": "Não. A JÁ Benefícios não cobra mensalidade nem taxa por colaborador. Além dos créditos carregados, a empresa paga apenas o frete dos cartões físicos, com valor variável conforme a região. Serviços adicionais são informados antes do fechamento.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "segunda-via-custo",
     "grupo": "Contratação e custos",
     "pergunta": "Quanto custa a segunda via do cartão?",
-    "resposta": "A emissão da primeira via é gratuita. Para a segunda via e outros serviços adicionais, o valor é informado na proposta comercial e confirmado pelo atendimento antes da solicitação. Em caso de perda ou roubo, o primeiro passo é bloquear o cartão pelo app."
+    "resposta": "A emissão da primeira via é gratuita. Para a segunda via e outros serviços adicionais, o valor é informado na proposta comercial e confirmado pelo atendimento antes da solicitação. Em caso de perda ou roubo, o primeiro passo é bloquear o cartão pelo app.",
+    "equivalentes": [
+      "A emissão da segunda via tem custo?",
+      "Quanto custa a segunda via?",
+      "Tem taxa para emitir outro cartão?",
+      "Paga para substituir cartão perdido?"
+    ],
+    "exibirNoSite": true
   },
   {
+    "id": "cartao-entrega",
     "grupo": "Contratação e custos",
     "pergunta": "Qual o prazo de emissão e entrega dos cartões?",
-    "resposta": "O prazo depende da conferência da base de colaboradores e da região de entrega, e é confirmado na proposta comercial. A emissão começa após a assinatura do contrato e o cadastro da base. O cartão é liberado para uso no recebimento, com a recarga feita pela própria empresa na plataforma."
+    "resposta": "O prazo depende da conferência da base de colaboradores e da região de entrega, e é confirmado na proposta comercial. A emissão começa após a assinatura do contrato e o cadastro da base. O cartão é liberado para uso no recebimento, com a recarga feita pela própria empresa na plataforma.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "implantacao-processo",
     "grupo": "Contratação e custos",
     "pergunta": "Como funciona a implantação na empresa?",
-    "resposta": "Após análise das obrigações e responsabilidades da empresa perante o PAT, assinamos o contrato e realizamos o cadastro da base de funcionários para dar sequência à emissão dos cartões. A partir daí, a recarga passa a ser feita pela própria empresa na plataforma de venda de benefícios, com créditos pré-pagos — a empresa paga somente pelos créditos dos colaboradores."
+    "resposta": "Após análise das obrigações e responsabilidades da empresa perante o PAT, assinamos o contrato e realizamos o cadastro da base de funcionários para dar sequência à emissão dos cartões. A partir daí, a recarga passa a ser feita pela própria empresa na plataforma de venda de benefícios, com créditos pré-pagos — a empresa paga somente pelos créditos dos colaboradores.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "contrato-cancelamento",
     "grupo": "Contratação e custos",
     "pergunta": "Existe prazo de fidelidade ou multa por cancelamento?",
-    "resposta": "Não há contrato de fidelidade nem multa por cancelamento. A operação segue as regras combinadas na proposta comercial, e a empresa pode encerrar quando quiser."
+    "resposta": "Não há contrato de fidelidade nem multa por cancelamento. A operação segue as regras combinadas na proposta comercial, e a empresa pode encerrar quando quiser.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "fornecedor-migracao",
     "grupo": "Contratação e custos",
     "pergunta": "Como migro do meu fornecedor atual?",
-    "resposta": "A troca é planejada com a equipe comercial. O processo começa pelo cadastro da base de colaboradores e pela emissão dos novos cartões; a partir daí, a recarga passa a ser feita na nossa plataforma. Como não há custo de implantação nem fidelidade, o calendário da migração pode ser alinhado com o contrato atual da empresa."
+    "resposta": "A troca é planejada com a equipe comercial. O processo começa pelo cadastro da base de colaboradores e pela emissão dos novos cartões; a partir daí, a recarga passa a ser feita na nossa plataforma. Como não há custo de implantação nem fidelidade, o calendário da migração pode ser alinhado com o contrato atual da empresa.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "cartao-categorias",
     "grupo": "Cartão e plataforma",
     "pergunta": "Como funcionam as 16 categorias no mesmo cartão?",
-    "resposta": "O cartão físico tem dois chips — voucher e multisaldo — e o colaborador acompanha os saldos separados por categoria no app. Quais categorias a empresa contrata e como elas se distribuem entre os chips é definido na proposta com a equipe comercial, porque depende das regras de cada benefício. O PAT se refere a alimentação e refeição; o Vale-Cultura, quando contratado, pertence ao Programa de Cultura do Trabalhador, com legislação própria."
+    "resposta": "O cartão físico tem dois chips — voucher e multisaldo — e o colaborador acompanha os saldos separados por categoria no app. Quais categorias a empresa contrata e como elas se distribuem entre os chips é definido na proposta com a equipe comercial, porque depende das regras de cada benefício. O PAT se refere a alimentação e refeição; o Vale-Cultura, quando contratado, pertence ao Programa de Cultura do Trabalhador, com legislação própria.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "saldo-categorias",
     "grupo": "Cartão e plataforma",
     "pergunta": "Cada categoria tem saldo separado?",
-    "resposta": "Sim. Os saldos são controlados por categoria e aparecem separados no app, com o extrato de cada um. A empresa define na contratação e nas recargas quanto vai para cada categoria, conforme as regras de cada benefício."
+    "resposta": "Sim. Os saldos são controlados por categoria e aparecem separados no app, com o extrato de cada um. A empresa define na contratação e nas recargas quanto vai para cada categoria, conforme as regras de cada benefício.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "cartao-aceitacao",
     "grupo": "Cartão e plataforma",
     "pergunta": "Onde posso utilizar o cartão JÁ Benefícios?",
-    "resposta": "Em qualquer estabelecimento que aceite a bandeira VISA. Para o saldo no chip voucher, é necessário informar ao estabelecimento que o pagamento é cartão voucher; o uso depende da rede habilitada para cada categoria. O detalhamento por categoria é confirmado na proposta."
+    "resposta": "O uso depende da rede habilitada para cada categoria. Para o saldo no chip voucher, é necessário informar ao estabelecimento que o pagamento é cartão voucher. O detalhamento por categoria é confirmado na proposta.",
+    "equivalentes": [
+      "Onde o cartão é aceito?",
+      "Em quais estabelecimentos posso comprar?",
+      "Onde aceitam meu cartão?",
+      "Aceita em qualquer lugar com Visa?"
+    ],
+    "exibirNoSite": true
   },
   {
+    "id": "cartao-virtual",
     "grupo": "Cartão e plataforma",
     "pergunta": "Existe cartão virtual? Como funcionam as compras online?",
-    "resposta": "Sim. O app reúne a gestão do cartão físico e do cartão virtual: o colaborador acessa os dados completos para compras online, bloqueia e desbloqueia o cartão e acompanha o saldo."
+    "resposta": "Sim. O app reúne a gestão do cartão físico e do cartão virtual: o colaborador acessa os dados completos para compras online, bloqueia e desbloqueia o cartão e acompanha o saldo.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "cartao-perda",
     "grupo": "Cartão e plataforma",
-    "pergunta": "Perdi o cartão ou esqueci a senha. O que faço?",
-    "resposta": "Bloqueie o cartão imediatamente pelo app. Em seguida, fale com o atendimento pelo e-mail falecom@jadigital.com.br ou pelo WhatsApp (11) 91099-3348 para solicitar a segunda via e receber as orientações. A senha do cartão também é consultada no app."
+    "pergunta": "Perdi meu cartão. O que faço?",
+    "resposta": "Bloqueie o cartão imediatamente pelo app. Em seguida, fale com o atendimento pelo e-mail falecom@jadigital.com.br ou pelo WhatsApp (11) 91099-3348 para solicitar a segunda via e receber as orientações.",
+    "equivalentes": [
+      "Perdi meu cartão. Como solicitar a segunda via?",
+      "Perdi meu cartão, e agora?",
+      "Como pedir segunda via?",
+      "Roubaram meu cartão"
+    ],
+    "exibirNoSite": true
   },
   {
+    "id": "app-funcionalidades",
     "grupo": "Cartão e plataforma",
     "pergunta": "Quais funcionalidades estão disponíveis no aplicativo?",
-    "resposta": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual."
+    "resposta": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual.",
+    "equivalentes": [
+      "Como funciona o app do colaborador?",
+      "Quais funcionalidades estão disponíveis no app?"
+    ],
+    "exibirNoSite": true
   },
   {
+    "id": "empresa-recarga",
     "grupo": "Gestão e rotina do RH",
     "pergunta": "Como a empresa administra os benefícios?",
-    "resposta": "A empresa faz a recarga dos cartões de forma autônoma, pela nossa plataforma de venda de benefícios. Os créditos são pré-pagos: a empresa paga somente pelos créditos dos colaboradores."
+    "resposta": "A empresa faz a recarga dos cartões de forma autônoma, pela nossa plataforma de venda de benefícios. Os créditos são pré-pagos: a empresa paga somente pelos créditos dos colaboradores.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "colaborador-cadastro",
     "grupo": "Gestão e rotina do RH",
     "pergunta": "Como incluir um colaborador ou desligar quem saiu da empresa?",
-    "resposta": "Na implantação, a base de colaboradores é cadastrada com apoio da nossa equipe. Depois disso, novas admissões entram nessa base e passam a receber recarga no calendário definido pela empresa. Em desligamentos, o atendimento orienta o bloqueio do cartão e o tratamento do saldo remanescente, conforme as regras de cada benefício."
+    "resposta": "Na implantação, a base de colaboradores é cadastrada com apoio da nossa equipe. Depois disso, novas admissões entram nessa base e passam a receber recarga no calendário definido pela empresa. Em desligamentos, o atendimento orienta o bloqueio do cartão e o tratamento do saldo remanescente, conforme as regras de cada benefício.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "suporte-canais",
     "grupo": "Atendimento e conformidade",
     "pergunta": "Como funciona o atendimento para empresas e colaboradores?",
-    "resposta": "Através dos nossos canais de atendimento: e-mail falecom@jadigital.com.br e WhatsApp (11) 91099-3348."
+    "resposta": "Através dos nossos canais de atendimento: e-mail falecom@jadigital.com.br e WhatsApp (11) 91099-3348.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "pat-conformidade",
     "grupo": "Atendimento e conformidade",
     "pergunta": "O JÁ Benefícios atua em conformidade com o PAT?",
-    "resposta": "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página."
+    "resposta": "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página.",
+    "equivalentes": [],
+    "exibirNoSite": true
   },
   {
+    "id": "cartoes-oferecidos",
     "grupo": "Cartão e plataforma",
     "pergunta": "Quais cartões a JÁ oferece?",
-    "resposta": "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app."
+    "resposta": "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app.",
+    "equivalentes": [],
+    "exibirNoSite": false
   },
   {
+    "id": "empresa-custos",
     "grupo": "Contratação e custos",
     "pergunta": "Quais são as taxas e custos para a empresa?",
-    "resposta": "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial."
+    "resposta": "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial.",
+    "equivalentes": [],
+    "exibirNoSite": false
   },
   {
-    "grupo": "Cartão e plataforma",
-    "pergunta": "Como funciona o app do colaborador?",
-    "resposta": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual."
-  },
-  {
+    "id": "empresa-contratar",
     "grupo": "Contratação e custos",
     "pergunta": "Como contratar para minha empresa?",
-    "resposta": "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios."
+    "resposta": "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios.",
+    "equivalentes": [],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-senha",
+    "grupo": "Senhas e segurança",
+    "pergunta": "Como consultar a senha do cartão?",
+    "resposta": "A senha do cartão pode ser consultada no aplicativo. Se não conseguir acessar essa informação, fale com o atendimento oficial pelo WhatsApp (11) 91099-3348 ou pelo e-mail falecom@jadigital.com.br para receber orientação. Nunca envie sua senha na conversa.",
+    "equivalentes": [
+      "Esqueci a senha do cartão",
+      "Onde vejo a senha do cartão?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-acesso",
+    "grupo": "Aplicativo",
+    "pergunta": "Como faço para acessar o aplicativo JÁ Digital?",
+    "resposta": "Instale o aplicativo Já Digital pela loja oficial do seu celular. Na tela inicial, selecione “Já tenho uma conta” e depois “Entrar com CPF”. Caso não consiga entrar, procure o atendimento oficial para receber orientação. Nunca compartilhe sua senha na conversa.",
+    "equivalentes": [
+      "Como entro no app JÁ Digital?",
+      "Como fazer login com CPF?",
+      "Quero acessar minha conta"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-cartao-empresa",
+    "grupo": "Aplicativo",
+    "pergunta": "Recebi o cartão da empresa. Preciso criar uma conta?",
+    "resposta": "Quem recebeu o cartão da empresa pode já ter cadastro. No aplicativo Já Digital, tente a opção “Já tenho uma conta” e “Entrar com CPF”. Se não conseguir acessar, solicite a verificação do cadastro ao atendimento oficial.",
+    "equivalentes": [
+      "Já tenho o cartão, como faço o cadastro?",
+      "Recebi meu benefício, preciso me cadastrar?",
+      "Como ativar meu acesso à conta?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-erro-acesso",
+    "grupo": "Aplicativo",
+    "pergunta": "Não consigo entrar no aplicativo. O que devo fazer?",
+    "resposta": "Verifique se selecionou “Entrar com CPF” e se está usando as credenciais corretas. Feche e abra o aplicativo novamente. Se o problema persistir, contate o suporte oficial e descreva o erro, sem compartilhar sua senha.",
+    "equivalentes": [
+      "O aplicativo não entra",
+      "Não consigo fazer login",
+      "Meu CPF não acessa o app",
+      "Erro ao acessar minha conta"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-exibicao",
+    "grupo": "Aplicativo",
+    "pergunta": "O aplicativo está exibindo informações cortadas ou fora da tela. Como resolver?",
+    "resposta": "Verifique se o tamanho da fonte ou a escala de exibição do celular está ampliado. Se o problema continuar, entre em contato com o suporte.",
+    "equivalentes": [
+      "A tela do app está cortada",
+      "As letras ficam fora da tela",
+      "O aplicativo está desconfigurado"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-dois-cartoes",
+    "grupo": "Aplicativo",
+    "pergunta": "O aplicativo mostra dois cartões, mas eu só recebi um. Isso é normal?",
+    "resposta": "Um mesmo cartão físico pode aparecer como duas opções no aplicativo, incluindo a carteira voucher. Isso não significa necessariamente que serão entregues dois cartões físicos. Se tiver dúvida sobre os cartões exibidos, confirme com o atendimento.",
+    "equivalentes": [
+      "Por que aparecem dois cartões no app?",
+      "Tenho dois cartões digitais e um físico",
+      "Recebi apenas um cartão"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-download",
+    "grupo": "Aplicativo",
+    "pergunta": "Onde encontro o aplicativo JÁ Digital?",
+    "resposta": "O aplicativo é o Já Digital. Para iPhone, acesse https://apps.apple.com/br/app/ja-digital/id6497330228 . Para Android, acesse https://play.google.com/store/apps/details?id=br.com.jadigital .",
+    "equivalentes": [
+      "Onde baixar o aplicativo?",
+      "Tem aplicativo para Android e iPhone?",
+      "Qual é o app oficial?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "senha-transacao",
+    "grupo": "Senhas e segurança",
+    "pergunta": "O que é a senha de transação?",
+    "resposta": "A senha de transação é usada nas operações do cartão e é diferente da senha de acesso ao aplicativo. Mantenha as duas em sigilo. Se tiver dúvida sobre qual senha utilizar, procure o atendimento oficial sem enviar suas senhas.",
+    "equivalentes": [
+      "Senha do aplicativo é a mesma senha do cartão?",
+      "O que significa senha de transação?",
+      "Qual senha uso para comprar?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-bloqueio-senha",
+    "grupo": "Senhas e segurança",
+    "pergunta": "Digitei a senha errada e meu cartão foi bloqueado. Como desbloquear?",
+    "resposta": "Verifique a situação do cartão no aplicativo. Caso o bloqueio tenha ocorrido por tentativas incorretas ou prevenção de segurança, entre em contato com o atendimento para validação e orientação. A liberação pode não ser imediata.",
+    "equivalentes": [
+      "Bloqueei o cartão errando a senha",
+      "Cartão bloqueado por senha errada",
+      "Como liberar cartão bloqueado?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-bloqueio-preventivo",
+    "grupo": "Senhas e segurança",
+    "pergunta": "Meu cartão foi bloqueado preventivamente. O que significa?",
+    "resposta": "O sistema pode aplicar bloqueios preventivos quando identifica operações que exigem verificação adicional. O atendimento poderá confirmar a situação e orientar a regularização, após verificar a identidade do titular.",
+    "equivalentes": [
+      "Por que bloquearam meu cartão?",
+      "Meu cartão está bloqueado por segurança",
+      "Recebi aviso de bloqueio preventivo"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-ativacao",
+    "grupo": "Cartão e pagamento",
+    "pergunta": "Como desbloquear meu cartão pela primeira vez?",
+    "resposta": "Acesse o aplicativo e procure a opção “Desbloquear cartão”. Siga as instruções apresentadas. Se houver erro ou se a opção não estiver disponível, solicite suporte pelo canal oficial.",
+    "equivalentes": [
+      "Como ativar um cartão novo?",
+      "Primeiro desbloqueio do cartão",
+      "Como liberar meu cartão recebido?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-pagamento-recusado",
+    "grupo": "Cartão e pagamento",
+    "pergunta": "Meu cartão não passou na maquininha. O que verificar?",
+    "resposta": "Confira o saldo na carteira correta, a modalidade aceita pelo estabelecimento, a senha utilizada e se o cartão está desbloqueado. Para o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se a compra continuar recusada, mesmo que o cartão apareça ativo, contate o suporte e informe o estabelecimento e o horário aproximado da tentativa, sem enviar senha ou dados completos do cartão.",
+    "equivalentes": [
+      "Meu cartão não passa",
+      "Pagamento recusado na maquininha",
+      "Não consigo comprar com o cartão",
+      "Deu erro na hora de pagar",
+      "Como proceder se o cartão parecer desbloqueado, mas ainda não funcionar?",
+      "Aparece desbloqueado mas não funciona",
+      "Meu cartão está ativo e não passa",
+      "Desbloqueei e continua recusando"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "cartao-modalidade-voucher",
+    "grupo": "Cartão e pagamento",
+    "pergunta": "Preciso avisar ao caixa que meu cartão é voucher?",
+    "resposta": "Para usar o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se houver dúvida sobre a modalidade ou recusa do pagamento, confirme a orientação com o atendimento.",
+    "equivalentes": [
+      "Preciso selecionar voucher na maquininha?",
+      "O caixa deve passar como voucher?",
+      "Qual modalidade selecionar na maquininha?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "compra-saldo",
+    "grupo": "Cartão e pagamento",
+    "pergunta": "Posso fazer compras acima do saldo disponível?",
+    "resposta": "Uma transação pode ser recusada quando o valor excede o saldo disponível na carteira habilitada para aquele tipo de estabelecimento. Consulte o saldo e a modalidade antes de tentar novamente.",
+    "equivalentes": [
+      "Posso gastar mais que meu saldo?",
+      "Pode passar compra sem saldo suficiente?",
+      "Cartão tem limite extra?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "app-saldo",
+    "grupo": "Saldo e carteiras",
+    "pergunta": "Como consultar o saldo do cartão?",
+    "resposta": "Acesse o aplicativo Já Digital e consulte os saldos exibidos em suas carteiras. Se o valor não aparecer corretamente, procure o atendimento oficial.",
+    "equivalentes": [
+      "Onde vejo meu saldo?",
+      "Como saber quanto tenho disponível?",
+      "Consultar saldo do benefício"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "saldo-compra-recusada",
+    "grupo": "Saldo e carteiras",
+    "pergunta": "Por que tenho saldo no aplicativo, mas a compra foi recusada?",
+    "resposta": "O saldo pode estar em uma carteira diferente da aceita no estabelecimento. Confira se o valor está disponível em Vale-Alimentação, Vale-Refeição ou outra modalidade e verifique possíveis bloqueios.",
+    "equivalentes": [
+      "Tenho saldo mas pagamento não passou",
+      "Saldo disponível e transação negada",
+      "Por que minha compra foi recusada com saldo?"
+    ],
+    "exibirNoSite": false
+  },
+  {
+    "id": "suporte-informacoes",
+    "grupo": "Atendimento",
+    "pergunta": "Quais informações devo ter em mãos ao solicitar suporte?",
+    "resposta": "Descreva o problema e a mensagem de erro apresentada. Em caso de transação recusada, informe o estabelecimento e o horário aproximado da tentativa. Envie dados pessoais somente pelos canais oficiais e nunca compartilhe senhas ou dados completos do cartão.",
+    "equivalentes": [
+      "Quais dados enviar ao suporte?",
+      "O que preciso informar para abrir atendimento?",
+      "Como relatar problema ao suporte?"
+    ],
+    "exibirNoSite": false
   }
 ]

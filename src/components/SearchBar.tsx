@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import FlexSearch from "flexsearch";
+import { siteFaqItems } from "../faq";
 
 export interface SearchDoc {
   id: string;
@@ -201,7 +202,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     const docIndex = new FlexSearch.Document({
       document: {
         id: "id",
-        index: ["title", "content", "category"],
+        index: ["title", "content", "category", "equivalents"],
         store: ["id", "type", "title", "category", "content", "targetId"],
       },
       tokenize: "forward",
@@ -211,27 +212,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     // Add static benefits and fees
     STATIC_SEARCH_DATA.forEach((doc) => docIndex.add(doc));
 
-    // Add FAQ items dynamically
-    fetch("/faq.json")
-      .then((res) => (res.ok ? res.json() : []))
-      .then((faqItems: any[]) => {
-        if (Array.isArray(faqItems)) {
-          faqItems.forEach((faq, index) => {
-            docIndex.add({
-              id: `faq-${index}`,
-              type: "faq",
-              title: faq.pergunta,
-              category: faq.grupo || "FAQ",
-              content: faq.resposta,
-              targetId: "faq",
-            });
-          });
-        }
-      })
-      .catch(() => {})
-      .finally(() => {
-        setFlexIndex(docIndex);
+    siteFaqItems.forEach((faq) => {
+      docIndex.add({
+        id: faq.id,
+        type: "faq",
+        title: faq.pergunta,
+        category: faq.grupo || "FAQ",
+        content: faq.resposta,
+        equivalents: faq.equivalentes.join(" "),
+        targetId: "faq",
       });
+    });
+    setFlexIndex(docIndex);
   }, []);
 
   // Handle Close on Click Outside
