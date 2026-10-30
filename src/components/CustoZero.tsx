@@ -193,19 +193,19 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
             <li>
               <span className="chip chip--implanta">
                 <i className="fa-solid fa-rocket chip-ico" aria-hidden="true"></i>
-                Implantação
+                Implantação gratuita
               </span>
             </li>
             <li>
               <span className="chip chip--mensal">
                 <i className="fa-solid fa-calendar-days chip-ico" aria-hidden="true"></i>
-                Mensalidade
+                Zero mensalidade
               </span>
             </li>
             <li>
               <span className="chip chip--cartao">
                 <i className="fa-solid fa-credit-card chip-ico" aria-hidden="true"></i>
-                Emissão da primeira<br />via do cartão
+                1ª via dos cartões<br />sem custo
               </span>
             </li>
           </ul>
@@ -348,6 +348,10 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                       <>Solicitar contato comercial <span aria-hidden="true">→</span></>
                     )}
                   </button>
+                  <ul className="form-trust" aria-label="Compromissos de atendimento">
+                    <li>Atendimento consultivo, sem compromisso</li>
+                    <li>Suporte dedicado a RH</li>
+                  </ul>
                 </div>
               </div>
             </form>
