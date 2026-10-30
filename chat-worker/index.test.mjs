@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 // Executa o Worker sem dependências externas: substitui o import JSON no teste.
 const source = readFileSync(new URL("./index.js", import.meta.url), "utf8");
 const faqSource = readFileSync(new URL("../public/faq.json", import.meta.url), "utf8");
-const code = source.replace('import faq from "../public/faq.json";', `const faq = ${faqSource};`);
+const code = source.replace('import faq from "../public/faq.json";', `const faq = ${faqSource};`)
+  .replace('"../src/faq-search.mjs"', JSON.stringify(new URL("../src/faq-search.mjs", import.meta.url).href));
 if (code === source) throw new Error("Import da FAQ não localizado no Worker");
 const { default: worker } = await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`);
 const faq = JSON.parse(readFileSync(new URL("../public/faq.json", import.meta.url), "utf8"));
@@ -120,7 +121,7 @@ test("modelo sem base na FAQ (SEM_RESPOSTA) cai no fallback", async (t) => {
 // A resposta da FAQ cobre senha do cartão; o Worker não pode bloquear a pergunta.
 test("pergunta sobre senha é respondida pela FAQ", async () => {
   const data = await (await ask("Esqueci a senha do cartão")).json();
-  assert.equal(data.answer, answerFor(/Perdi o cartão ou esqueci a senha/));
+  assert.equal(data.answer, answerFor(/Como consultar a senha do cartão/));
   assert.equal(data.handoff, false);
 });
 
@@ -152,7 +153,9 @@ test("funcionalidades encontra o item do aplicativo", async () => {
 
 test("app é tratado como aplicativo", async () => {
   const data = await (await ask("app")).json();
-  assert.equal(data.answer, answerFor(/Quais funcionalidades/));
+  const other = await (await ask("aplicativo")).json();
+  assert.deepEqual(data, other);
+  assert.ok(data.suggestions?.length > 0);
   assert.equal(data.handoff, false);
 });
 
@@ -295,4 +298,27 @@ test("agradecimento é tratado sem IA", async (t) => {
   assert.equal(data.handoff, false);
   assert.match(data.answer, /Por nada/);
   assert.equal(api.mock.callCount(), 0);
+});
+
+test("equivalentes do suporte retornam literalmente a base sem consultar IA", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", async () => { throw new Error("Equivalente não deve consultar IA"); });
+  for (const item of faq) {
+    for (const question of item.equivalentes) {
+      const data = await (await ask(question, withKey)).json();
+      assert.equal(data.answer, item.resposta, question);
+      assert.equal(data.handoff, false);
+    }
+  }
+  assert.equal(api.mock.callCount(), 0);
+});
+
+test("modelo recebe só a base consolidada, sem histórico nem referências internas", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  const data = await (await ask("Qual o horário de atendimento?", withKey)).json();
+  assert.equal(data.handoff, true);
+  assert.equal(api.mock.callCount(), 1);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  const context = body.contents[0].parts[0].text;
+  assert.ok(context.includes(faq.find((item) => item.id === "app-saldo").resposta));
+  assert.doesNotMatch(context, /CHAT-\d+|R\$\s*25|8h às 18h|revisao_editorial|Referências internas/);
 });

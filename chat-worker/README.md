@@ -56,8 +56,20 @@ pode responder apenas se a FAQ sustentar a resposta; caso contrário, encaminha.
 - Sem armazenamento de conversas.
 
 ## Atualizar respostas
-Edite `public/faq.json`, rode `node --test chat-worker/index.test.mjs` e `npx wrangler deploy`
-nesta pasta. O JSON entra no bundle do Worker: não existe snapshot para sincronizar.
+Edite `public/faq.json`: cada entrada precisa de `id`, `grupo`, `pergunta`, `resposta`,
+`equivalentes` (lista) e `exibirNoSite` (booleano). O assistente usa todas as entradas;
+a FAQ visual, a pesquisa da landing e o JSON-LD usam apenas `exibirNoSite: true`.
+A busca compartilhada está em `src/faq-search.mjs`; não mantenha uma cópia separada
+no Worker ou no frontend. O mapa das 29 perguntas e pendências fica em
+`docs/faq-consolidacao.md`, fora da base pública.
+
+Na raiz, rode `node --test chat-worker/index.test.mjs src/faq-search.test.mjs` e
+`npm run check`. Publique a landing e rode `npx wrangler deploy` dentro de
+`chat-worker`. Ambos incorporam o JSON no build.
+
+Versione a integração completa: `public/faq.json`, `src/faq.ts`, `src/faq-search.mjs`,
+`src/faq-search.d.mts`, consumidores e `tsconfig.json`. Manter o tipo novo com o JSON
+antigo causa erro de build; tornar esses campos opcionais esconderia a migração incompleta.
 
 ## Testes
 `node --test chat-worker/index.test.mjs` (na raiz) cobre preflight CORS, origem desconhecida,

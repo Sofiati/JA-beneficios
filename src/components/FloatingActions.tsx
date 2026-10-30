@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Index } from "flexsearch";
+import { faqItems } from "../faq";
+import { createFaqSearch, FAQ_FALLBACK } from "../faq-search.mjs";
 import "../chat.css";
 
 interface ChatMessage {
@@ -7,12 +8,6 @@ interface ChatMessage {
   role: "bot" | "user";
   text: string;
   isPending?: boolean;
-}
-
-interface FaqItem {
-  grupo?: string;
-  pergunta: string;
-  resposta: string;
 }
 
 const STORAGE_KEY = "ja_chat_messages_v2";
@@ -24,26 +19,7 @@ const STARTER_QUESTIONS = [
   { icon: "📋", question: "Como contratar para minha empresa?" },
 ];
 
-const STOP_WORDS = new Set([
-  "a", "o", "os", "as", "um", "uma", "de", "da", "do", "das", "dos", "no", "na",
-  "nos", "nas", "para", "por", "que", "com", "como", "qual", "quais", "quem", "e",
-  "em", "ao", "aos", "meu", "minha", "sua", "suas", "seus", "tem", "ter", "onde",
-  "esse", "essa", "sobre", "quero", "preciso", "gostaria", "voces", "voce", "faz",
-  "funciona", "funcionam", "funcionar", "fazem", "for"
-]);
-
-function normalizeText(str: string): string {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function getTokens(str: string): string[] {
-  return (normalizeText(str).match(/[a-z0-9]{3,}/g) || []).filter(
-    (t) => !STOP_WORDS.has(t)
-  );
-}
+const searchLocalFaq = createFaqSearch(faqItems);
 
 const INITIAL_MESSAGE: ChatMessage = {
   id: "init",
@@ -78,12 +54,10 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
   const [showHandoff, setShowHandoff] = useState(false);
   const [handoffText, setHandoffText] = useState("Olá! Gostaria de falar com a equipe JÁ Benefícios.");
   const [endpoint, setEndpoint] = useState("");
-  const [faqData, setFaqData] = useState<FaqItem[]>([]);
   const [feedbackMap, setFeedbackMap] = useState<Record<string, "up" | "down">>({});
 
   const feedRef = useRef<HTMLDivElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
-  const flexIndexRef = useRef<Index | null>(null);
 
   // Save messages to sessionStorage
   useEffect(() => {
@@ -162,23 +136,6 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
       })
       .catch(() => {});
 
-    // Fetch local FAQ data & initialize FlexSearch
-    fetch("/faq.json")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: FaqItem[] | null) => {
-        if (Array.isArray(data)) {
-          setFaqData(data);
-          const index = new Index({
-            tokenize: "forward",
-            resolution: 9,
-          });
-          data.forEach((item, id) => {
-            index.add(id, `${item.pergunta} ${item.resposta}`);
-          });
-          flexIndexRef.current = index;
-        }
-      })
-      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -206,127 +163,6 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
 
   const handleFeedback = (msgId: string, rating: "up" | "down") => {
     setFeedbackMap((prev) => ({ ...prev, [msgId]: rating }));
-  };
-
-  // Client-side local search engine (FlexSearch + lexical score fallback)
-  const searchLocalFaq = (query: string): { answer: string; suggestions?: string[]; handoff?: boolean } => {
-    const norm = normalizeText(query).replace(/[^a-z0-9\s]/g, " ").trim();
-
-    // Conversational greetings
-    if (/^(oi|ola|opa|e ai|bom dia|boa tarde|boa noite)( (tudo bem|tudo bom|pessoal|equipe|assistente))?$/.test(norm)) {
-      return {
-        answer: "Olá! 👋 Sou o Assistente JÁ. Posso ajudar com dúvidas sobre benefícios corporativos, cartões, taxas e contratação. O que você gostaria de saber?",
-      };
-    }
-    if (/^(obrigado|obrigada|muito obrigado|muito obrigada|valeu|agradeco)$/.test(norm)) {
-      return {
-        answer: "Por nada! Se precisar de mais informações sobre o JÁ Benefícios, estou à disposição.",
-      };
-    }
-    if (/^(tchau|ate logo|ate mais|falou)$/.test(norm)) {
-      return { answer: "Até logo! Se precisar de informações sobre o JÁ Benefícios, é só chamar." };
-    }
-
-    const queryTokens = getTokens(query);
-
-    if (queryTokens.length === 0 || !faqData.length) {
-      return {
-        answer: "Não encontrei uma informação oficial suficiente para responder com segurança. Você pode falar com nossa equipe pelo WhatsApp ou solicitar contato comercial pelo formulário.",
-        handoff: true,
-      };
-    }
-
-    // Direct exact question match
-    const exactQuestionMatch = faqData.find(
-      (item) => normalizeText(item.pergunta) === norm
-    );
-    if (exactQuestionMatch) {
-      return { answer: exactQuestionMatch.resposta };
-    }
-
-    // Build corpus of known tokens in the FAQ
-    const corpusTokens = new Set<string>();
-    faqData.forEach((item) => {
-      getTokens(item.pergunta).forEach((t) => corpusTokens.add(t));
-      getTokens(item.resposta).forEach((t) => corpusTokens.add(t));
-    });
-
-    // Identify informative tokens in the query that do not exist in the FAQ corpus
-    const unknownTokens = queryTokens.filter(
-      (token) =>
-        !corpusTokens.has(token) &&
-        !Array.from(corpusTokens).some(
-          (ct) => ct.startsWith(token.slice(0, 4)) || token.startsWith(ct.slice(0, 4))
-        )
-    );
-
-    // If query contains unknown topics or key terms not covered in the FAQ (e.g. "marmita", "domicilio")
-    if (unknownTokens.length >= 2 || (unknownTokens.length >= 1 && queryTokens.length >= 2)) {
-      return {
-        answer:
-          "Não encontrei uma informação oficial suficiente para responder com segurança. Você pode falar com nossa equipe pelo WhatsApp ou solicitar contato comercial pelo formulário.",
-        handoff: true,
-      };
-    }
-
-    // FlexSearch query if available
-    let flexHits: FaqItem[] = [];
-    if (flexIndexRef.current) {
-      const results = flexIndexRef.current.search(query, 5);
-      flexHits = results.map((idx: string | number) => faqData[Number(idx)]).filter(Boolean);
-    }
-
-    // Token score calculation
-    const scored = faqData.map((item) => {
-      const qTokens = new Set(getTokens(item.pergunta));
-      const aTokens = new Set(getTokens(item.resposta));
-
-      let score = 0;
-      let qHits = 0;
-
-      queryTokens.forEach((token) => {
-        if (qTokens.has(token)) {
-          score += 3;
-          qHits += 1;
-        } else if (aTokens.has(token)) {
-          score += 1;
-        } else {
-          for (const qt of qTokens) {
-            if (qt.startsWith(token.slice(0, 4)) || token.startsWith(qt.slice(0, 4))) {
-              score += 2;
-              qHits += 0.5;
-              break;
-            }
-          }
-        }
-      });
-
-      return { item, score, qHits };
-    });
-
-    scored.sort((a, b) => b.score - a.score);
-    const topMatches = scored.filter((s) => s.score > 0);
-
-    if (!topMatches.length && !flexHits.length) {
-      return {
-        answer: "Não encontrei uma informação oficial suficiente para responder com segurança. Você pode falar com nossa equipe pelo WhatsApp ou solicitar contato comercial pelo formulário.",
-        handoff: true,
-      };
-    }
-
-    // Generic query or multiple close options
-    if (queryTokens.length === 1 || (topMatches.length > 1 && topMatches[0].score - topMatches[1].score < 3)) {
-      const candidates = topMatches.length > 0 ? topMatches.map((m) => m.item) : flexHits;
-      const closeMatches = candidates.slice(0, 5).map((item) => item.pergunta);
-      return {
-        answer: `Encontrei os seguintes assuntos sobre "${query}" na central de dúvidas:`,
-        suggestions: closeMatches,
-      };
-    }
-
-    // Clear top match
-    const winner = topMatches.length > 0 ? topMatches[0].item : flexHits[0];
-    return { answer: winner.resposta };
   };
 
   const handleSendMessage = async (textToSend: string) => {
@@ -386,7 +222,7 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
 
     // Fallback to local search
     if (!botAnswer) {
-      const localResult = searchLocalFaq(msg);
+      const localResult = searchLocalFaq(msg) || { answer: FAQ_FALLBACK, suggestions: undefined, handoff: true };
       botAnswer = localResult.answer;
       botSuggestions = localResult.suggestions;
       botHandoff = !!localResult.handoff;
