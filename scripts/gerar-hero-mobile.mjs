@@ -22,9 +22,10 @@ import { decodePng } from "./lib/png.mjs";
 import { encodePng } from "./lib/png-encode.mjs";
 
 const RAIZ = fileURLToPath(new URL("..", import.meta.url));
-// Fonte lossless fora de `public/` (não vai ao dist); saída em `public/` vira .webp.
+// Master lossless fora de `public/` (não vai ao dist); dele derivam o `.webp` mobile
+// e o fallback JPEG de `public/` (`npm run hero:fallbacks`).
 const SRC = `${RAIZ}assets-fonte/hero01.png`;
-const OUT = `${RAIZ}public/hero01-mobile.png`;
+const OUT = `${RAIZ}assets-fonte/hero01-mobile.png`;
 
 const x0 = Number(process.argv[2] ?? 706);
 const largura = Number(process.argv[3] ?? 816);
@@ -48,4 +49,6 @@ for (let y = 0; y < height; y += 1) {
 }
 
 writeFileSync(OUT, encodePng(out, largura, height));
-console.log(`hero01-mobile.png: ${largura}x${height} (recorte x∈[${x0}, ${x0 + largura}])`);
+console.log(
+  `assets-fonte/hero01-mobile.png: ${largura}x${height} (recorte x∈[${x0}, ${x0 + largura}])`,
+);

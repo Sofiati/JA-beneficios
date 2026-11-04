@@ -6,12 +6,12 @@ export const Hero: React.FC = () => {
       <div className="hero-banner" data-animate>
         <picture className="hero-picture">
           <source media="(max-width:767px)" type="image/webp" srcSet="/hero01-mobile.webp" />
-          <source media="(max-width:767px)" type="image/png" srcSet="/hero01-mobile.png" />
+          <source media="(max-width:767px)" type="image/jpeg" srcSet="/hero01-mobile.jpg" />
           <source type="image/webp" srcSet="/hero01.webp" />
-          <source type="image/png" srcSet="/hero01.png" />
+          <source type="image/jpeg" srcSet="/hero01.jpg" />
           <img 
             className="hero-img" 
-            src="/hero01.png" 
+            src="/hero01.jpg" 
             width="1672" 
             height="941" 
             fetchPriority="high" 

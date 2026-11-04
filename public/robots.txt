@@ -1,2 +1,22 @@
 User-agent: *
 Allow: /
+
+# Rastreadores de IA — liberados por decisão consciente (2026-11-03).
+# A JÁ Benefícios quer ser citada nas respostas de ChatGPT, Perplexity e Gemini,
+# então nenhum deles é bloqueado. Revisar esta decisão só de forma intencional.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://jadigital.com.br/sitemap.xml

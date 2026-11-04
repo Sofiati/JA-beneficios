@@ -134,7 +134,7 @@ const ALLOWED_ORPHANS = {
   "visa.svg": "marca de terceiros — manter no repositório",
   "preview.html": "galeria de ícones — referência de design",
   "robots.txt": "lido por crawlers, nunca referenciado no código — precisa ser servido em `/robots.txt`",
-  "hero01-mobile.png": "fonte lossless do recorte mobile gerado por `npm run hero:mobile` (`scripts/gerar-hero-mobile.mjs`); o `.webp` em uso é derivado dele",
+  "sitemap.xml": "lido por crawlers, nunca referenciado no código — precisa ser servido em `/sitemap.xml`",
   "privacidade.html": "stub de compatibilidade: redireciona links antigos para `/#privacidade` (`PrivacyPolicy.tsx`)",
 };
 
