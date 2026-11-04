@@ -3,8 +3,6 @@ import { useEffect } from "react";
 export interface SEOProps {
   title: string;
   description: string;
-  ogTitle?: string;
-  ogDescription?: string;
   canonicalUrl?: string;
 }
 
@@ -15,8 +13,6 @@ export interface SEOProps {
 export const useSEO = ({
   title,
   description,
-  ogTitle,
-  ogDescription,
   canonicalUrl,
 }: SEOProps): void => {
   useEffect(() => {
@@ -50,38 +46,23 @@ export const useSEO = ({
       element.setAttribute("href", href);
     };
 
-    const effectiveOgTitle = ogTitle || title;
-    const effectiveOgDesc = ogDescription || description;
-
     // 2. Standard Meta Description
     setMetaTag('meta[name="description"]', "name", "description", description);
 
-    // 3. OpenGraph Tags
-    setMetaTag('meta[property="og:title"]', "property", "og:title", effectiveOgTitle);
-    setMetaTag(
-      'meta[property="og:description"]',
-      "property",
-      "og:description",
-      effectiveOgDesc
-    );
+    // 3. OpenGraph + Twitter Card tags
+    setMetaTag('meta[property="og:title"]', "property", "og:title", title);
+    setMetaTag('meta[property="og:description"]', "property", "og:description", description);
     setMetaTag('meta[property="og:type"]', "property", "og:type", "website");
     setMetaTag('meta[property="og:site_name"]', "property", "og:site_name", "JÁ Benefícios");
-
-    // 4. Twitter Card Tags
     setMetaTag('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
-    setMetaTag('meta[name="twitter:title"]', "name", "twitter:title", effectiveOgTitle);
-    setMetaTag(
-      'meta[name="twitter:description"]',
-      "name",
-      "twitter:description",
-      effectiveOgDesc
-    );
+    setMetaTag('meta[name="twitter:title"]', "name", "twitter:title", title);
+    setMetaTag('meta[name="twitter:description"]', "name", "twitter:description", description);
 
-    // 5. Canonical URL if provided or derived from window location
+    // 4. Canonical URL if provided or derived from window location
     const url = canonicalUrl || (typeof window !== "undefined" ? window.location.href : "");
     if (url) {
       setLinkTag("canonical", url);
       setMetaTag('meta[property="og:url"]', "property", "og:url", url);
     }
-  }, [title, description, ogTitle, ogDescription, canonicalUrl]);
+  }, [title, description, canonicalUrl]);
 };

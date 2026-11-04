@@ -385,5 +385,149 @@
       "Como relatar problema ao suporte?"
     ],
     "exibirNoSite": false
+  },
+  {
+    "id": "cat-alimentacao",
+    "grupo": "Alimentação PAT",
+    "pergunta": "Alimentação (PAT)",
+    "resposta": "Apoio às compras de alimentos em supermercados e mercearias para o dia a dia do colaborador e da família.",
+    "equivalentes": ["vale alimentação", "PAT", "supermercado", "mercearia"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-refeicao",
+    "grupo": "Alimentação PAT",
+    "pergunta": "Refeição (PAT)",
+    "resposta": "Refeições prontas para a rotina de trabalho em restaurantes, lanchonetes e padarias.",
+    "equivalentes": ["vale refeição", "restaurante", "lanchonete"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-alimentacao-refeicao",
+    "grupo": "Alimentação PAT",
+    "pergunta": "Alimentação e Refeição (PAT)",
+    "resposta": "As duas modalidades em uma única solução com liberdade de uso conforme as regras do PAT.",
+    "equivalentes": ["alimentação e refeição", "multibenefício PAT"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-cultura",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Cultura",
+    "resposta": "Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal.",
+    "equivalentes": ["cinema", "show", "livraria", "benefício cultural"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-saude",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Saúde",
+    "resposta": "Farmácias, consultas, exames e outros serviços habilitados de saúde e bem-estar.",
+    "equivalentes": ["farmácia", "consulta", "exame", "benefício saúde"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-educacao",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Educação",
+    "resposta": "Incentivo ao aprendizado contínuo, cursos e desenvolvimento profissional.",
+    "equivalentes": ["cursos", "estudo", "benefício educação"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-mobilidade",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Mobilidade",
+    "resposta": "Transporte urbano, aplicativos de mobilidade como Uber e 99 e locomoção do dia a dia.",
+    "equivalentes": ["transporte", "Uber", "99", "passagem"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-combustivel",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Combustível",
+    "resposta": "Abastecimento em postos habilitados apoiando os deslocamentos do time.",
+    "equivalentes": ["gasolina", "posto", "abastecimento"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-trabalho-remoto",
+    "grupo": "Bem-estar e rotina",
+    "pergunta": "Trabalho Remoto / Home Office",
+    "resposta": "Apoio às despesas de home office como internet, energia elétrica e equipamentos de trabalho à distância.",
+    "equivalentes": ["home office", "trabalho à distância", "internet"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-premiacao",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Premiação",
+    "resposta": "Reconheça resultados, metas alcançadas e desempenho de destaque do time.",
+    "equivalentes": ["bônus", "metas", "recompensa"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-incentivo",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Incentivo",
+    "resposta": "Campanhas de engajamento, desafios corporativos e motivação do time.",
+    "equivalentes": ["campanha", "engajamento", "motivação"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-assiduidade",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Assiduidade",
+    "resposta": "Reconhecimento da presença e pontualidade do colaborador.",
+    "equivalentes": ["presença", "pontualidade", "frequência"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-aniversario",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Aniversário",
+    "resposta": "Benefício comemorativo para celebrar o aniversário dos colaboradores.",
+    "equivalentes": ["aniversário do colaborador", "data comemorativa"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-natal",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Natal",
+    "resposta": "Presente de fim de ano para substituir ou complementar a cesta natalina.",
+    "equivalentes": ["cesta natalina", "fim de ano", "presente de natal"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-multiuso",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Multiuso",
+    "resposta": "Diferentes possibilidades em uma única solução com regras flexíveis.",
+    "equivalentes": ["uso livre", "cartão multiuso"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
+  },
+  {
+    "id": "cat-saldo-livre",
+    "grupo": "Reconhecimento e flexibilidade",
+    "pergunta": "Saldo Livre",
+    "resposta": "Valores com utilização mais flexível em toda a rede de aceitação Visa.",
+    "equivalentes": ["rede Visa", "saldo flexível"],
+    "exibirNoSite": false,
+    "alvo": "ecossistema"
   }
 ]

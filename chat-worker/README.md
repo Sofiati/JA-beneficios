@@ -4,10 +4,32 @@ Híbrido, em duas camadas:
 
 1. **FAQ primeiro** — pergunta igual ou próxima de um item de `public/faq.json` (importado no
    build, fonte única) recebe a resposta **literal** do JSON, sem modelo.
-2. **Modelo só no fallback** — se nada casar com confiança, o Gemini responde usando
-   **exclusivamente** os itens da FAQ como contexto. Ele é instruído a devolver
-   `SEM_RESPOSTA` quando a FAQ não cobre o assunto.
+2. **Modelo contextual** — se nada casar com confiança, ou se uma continuação com histórico
+   precisar de interpretação, o Gemini recebe os itens da FAQ e decide responder (`answer`),
+   pedir esclarecimento (`clarify`) ou encaminhar (`handoff`). Perguntas canônicas/equivalentes,
+   saudações e gentilezas continuam diretas. Sem chave, a busca local é preservada.
+   Para esclarecer, a instrução exige uma pergunta curta por vez, sem repetir informações já
+   fornecidas. Recusa persistente e consultas individuais devem seguir ao atendimento humano.
 3. **Sem base / sem chave / erro** — devolve o `FALLBACK` e o site oferece WhatsApp e formulário.
+
+O modelo retorna JSON estruturado com `decision`, `answer` e `sourceIds`. O Worker exige IDs
+existentes na FAQ para responder/esclarecer, texto de até 900 caracteres e uma única interrogação
+no esclarecimento. JSON inválido, fontes ausentes/desconhecidas, saída truncada pelo provedor e
+`handoff` usam o encaminhamento oficial. O contrato do site continua `{answer, handoff}`.
+Essa validação verifica formato e existência das fontes; não comprova a fidelidade semântica
+de cada afirmação. A condução da conversa precisa também de avaliação com o Gemini real.
+
+O modelo padrão é `gemini-3.5-flash-lite`, configurado também em `wrangler.toml`.
+`GEMINI_MODEL` permite sobrescrevê-lo no ambiente local. Uma decisão válida de atendimento
+registra `path: ai_handoff`; falha da API ou saída inválida registra `path: fallback`.
+O teste real exige `ai_handoff` na última etapa para não aprovar um timeout como decisão da IA.
+
+O corpo do POST aceita, junto com `message`, um `history` opcional: até 8 turnos
+`{ role: "user" | "bot", text }` das últimas mensagens da conversa. O histórico serve
+**apenas** para interpretar follow-ups ("e o segundo tem anuidade?") — não é tratado como
+fonte de informação sobre a JÁ, e o ancoramento na FAQ continua valendo. Turnos inválidos
+cortados (texto não string, role desconhecido, >450 caracteres) são descartados
+silenciosamente; a chamada sem `history` se comporta exatamente como antes.
 
 ## Instalação (Node 24, npm)
 1. `cd chat-worker`
@@ -44,7 +66,7 @@ Perguntas com vocabulário fora da FAQ ("vocês entregam em Portugal?") vão par
 pode responder apenas se a FAQ sustentar a resposta; caso contrário, encaminha.
 
 ## Privacidade e segurança
-- Perguntas com CPF ou número de cartão **não são enviadas ao provedor**: caem direto no
+- Perguntas ou histórico enviado ao modelo com CPF ou número de cartão **não são enviados ao provedor**: caem direto no
   encaminhamento humano.
 - O texto da pergunta não é registrado em log. O log `Assistente JÁ: resposta` traz apenas
   `path` (`faq_exact`, `faq_match`, `ai`, `blocked` ou `fallback`), `totalMs` e, quando houve
@@ -78,3 +100,30 @@ resposta do modelo no fallback, ausência de chave, erro do provedor, `SEM_RESPO
 de CPF/cartão e `Server-Timing`.
 
 O deploy precisa ser refeito nesta pasta; recompilar a landing não atualiza o Worker.
+
+### Teste de conversa com o Gemini real
+
+Na raiz, com `GEMINI_API_KEY` disponível apenas no ambiente do processo, execute:
+`node --test chat-worker/conversation.live.test.mjs`. `GEMINI_MODEL` é opcional e usa o mesmo
+padrão do Worker. O teste faz chamadas reais e pode consumir a cota do provedor; sem chave,
+fica explicitamente ignorado. Repete três vezes um relato fictício de R$ 250, uma continuação sobre a
+carteira e um pedido de atendimento humano. Não imprime a chave nem os textos das respostas.
+Há 20 segundos entre as conversas para distribuir as nove chamadas reais e evitar uma
+rajada contra a cota por minuto; a bateria leva cerca de um minuto. Cotas dependem da conta.
+
+Os testes de `index.test.mjs` substituem a chamada ao provedor para verificar roteamento,
+contrato estruturado, fontes inválidas, contexto em múltiplos turnos e bloqueio de dados no
+histórico. Eles não medem a qualidade do raciocínio do modelo real.
+
+Se o teste real falhar com `fallback`, confira o aviso `Assistente JÁ: modelo indisponível`:
+`timeout` indica o limite da tentativa, `http_error` inclui o status HTTP do provedor
+(por exemplo, 503), e `request_error` indica falha na requisição/leitura da resposta.
+Os avisos não incluem chave, URL, mensagens da conversa ou corpo retornado pelo provedor.
+O Worker faz no máximo duas tentativas para timeout e HTTP 500/502/503/504, com uma pausa
+de 150 ms entre elas. A primeira pode usar o orçamento total de 7 segundos; se houver erro
+transitório antes desse prazo, a segunda usa somente o tempo restante. Não há um corte
+intermediário em 3,5 segundos. Isso preserva margem antes dos 8 segundos do navegador. Erros de chave,
+modelo, cota (429), formato e validação não são repetidos. Falhas persistentes continuam
+gerando encaminhamento; a repetição não garante disponibilidade do provedor.
+Use `node --env-file=chat-worker/.dev.vars --test chat-worker/conversation.live.test.mjs`
+na raiz para carregar a configuração local.
