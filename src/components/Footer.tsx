@@ -2,15 +2,20 @@ import React from "react";
 
 interface FooterProps {
   onOpenPrivacy: () => void;
-  onNavigateHome: () => void;
+  onNavigateHome: (target?: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome }) => {
+  const goToSection = (target: string) => (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    event.preventDefault();
+    onNavigateHome(target);
+  };
+
   return (
     <footer className="site-footer" id="siteFooter">
       <div className="container footer-grid">
         <div className="footer-brand">
-          <a className="brand brand--footer" href="#topo" aria-label="JÁ Benefícios" onClick={onNavigateHome}>
+          <a className="brand brand--footer" href="#topo" aria-label="JÁ Benefícios" onClick={goToSection("topo")}>
             <img 
               className="brand-logo brand-logo--footer" 
               src="/logo-ja-negativo.svg" 
@@ -30,21 +35,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
         </div>
 
         <nav aria-label="Institucional">
-          <h3>Institucional</h3>
-          <a href="#topo" onClick={onNavigateHome}>Início</a>
-          <a href="#ecossistema" onClick={onNavigateHome}>Benefícios</a>
+          <h2>Institucional</h2>
+          <a href="#topo" onClick={goToSection("topo")}>Início</a>
+          <a href="#ecossistema" onClick={goToSection("ecossistema")}>Benefícios</a>
         </nav>
 
         <nav aria-label="Soluções">
-          <h3>Soluções</h3>
-          <a href="#custo-zero" onClick={onNavigateHome}>Para empresas</a>
-          <a href="#suporte" onClick={onNavigateHome}>Para colaboradores</a>
-          <a href="#app" onClick={onNavigateHome}>Aplicativo</a>
+          <h2>Soluções</h2>
+          <a href="#custo-zero" onClick={goToSection("custo-zero")}>Para empresas</a>
+          <a href="#suporte" onClick={goToSection("suporte")}>Para colaboradores</a>
+          <a href="#app" onClick={goToSection("app")}>Aplicativo</a>
         </nav>
 
         <nav aria-label="Atendimento">
-          <h3>Atendimento</h3>
-          <a href="#faq" onClick={onNavigateHome}>Central de ajuda</a>
+          <h2>Atendimento</h2>
+          <a href="#faq" onClick={goToSection("faq")}>Central de ajuda</a>
           <div className="footer-social">
             <a
               href="https://wa.me/5511910993348?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20J%C3%81%20Benef%C3%ADcios."
@@ -62,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
 
       <section className="container footer-downloads" aria-labelledby="footerAppTitle">
         <div className="footer-downloads-copy">
-          <h3 id="footerAppTitle">Leve seus benefícios com você</h3>
+          <h2 id="footerAppTitle">Leve seus benefícios com você</h2>
           <p>Acesse o aplicativo Já Digital.</p>
         </div>
         <div className="footer-store-links">
@@ -76,7 +81,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
       </section>
 
       <div className="container footer-legal-strip">
-        <h3>Dados da empresa</h3>
+        <h2>Dados da empresa</h2>
         <div className="footer-legal-details">
           <p className="footer-legal-name">Já Benefícios e Pagamentos Ltda.</p>
           <p>CNPJ 52.316.137/0001-53</p>
@@ -88,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
       <div className="container footer-bottom">
         <span>© 2026 JÁ Benefícios. Todos os direitos reservados.</span>
         <nav className="footer-links" aria-label="Links legais">
-          <a href="#privacidade" onClick={(e) => { e.preventDefault(); onOpenPrivacy(); }}>Privacidade</a>
+          <a href="/privacidade" onClick={(e) => { e.preventDefault(); onOpenPrivacy(); }}>Privacidade</a>
           <a href="https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm" target="_blank" rel="noopener noreferrer">Código de Defesa do Consumidor</a>
           <a href="https://www.procon.sp.gov.br/" target="_blank" rel="noopener noreferrer">Procon-SP</a>
         </nav>

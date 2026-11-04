@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 interface HeaderProps {
-  onNavigateHome?: () => void;
+  /** Recebe o id da seção de destino (sem `#`) quando a home precisa ser montada antes de rolar. */
+  onNavigateHome?: (target?: string) => void;
   isPrivacyPage?: boolean;
 }
 
@@ -58,17 +59,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome, isPrivacyPage = 
 
     if (isPrivacyPage && onNavigateHome) {
       e.preventDefault();
-      onNavigateHome();
-      setTimeout(() => {
-        if (href === "#topo") {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          const el = document.querySelector(href);
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth" });
-          }
-        }
-      }, 100);
+      // A home ainda não está montada; o App navega e rola depois da renderização.
+      onNavigateHome(href.slice(1));
       return;
     }
 

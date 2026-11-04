@@ -330,7 +330,7 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                     <input type="checkbox" id="bfConsent" name="consent" checked={formData.consent} onChange={handleChange} onBlur={handleBlur} required aria-invalid={!!errors.consent} />
                     <span className="form-consent-text">
                       Concordo em ser contatado pela equipe comercial e aceito a{" "}
-                      <a href="#privacidade" onClick={(e) => { e.preventDefault(); if (onOpenPrivacy) onOpenPrivacy(); }}>
+                      <a href="/privacidade" onClick={(e) => { e.preventDefault(); if (onOpenPrivacy) onOpenPrivacy(); }}>
                         Política de Privacidade
                       </a>.
                     </span>

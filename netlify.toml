@@ -5,6 +5,20 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# A política tem URL própria: `dist/privacidade/index.html` é gerado no build
+# (`scripts/gerar-rota-privacidade.mjs`) com título e canonical próprios. Sem esta
+# regra a URL cairia no fallback SPA abaixo e serviria o head da home.
+[[redirects]]
+  from = "/privacidade"
+  to = "/privacidade/index.html"
+  status = 200
+
+# Endereço antigo em arquivo solto — 301 para a URL canônica.
+[[redirects]]
+  from = "/privacidade.html"
+  to = "/privacidade"
+  status = 301
+
 # Fallback SPA para o index.html (garante suporte a rotas e recargas no Netlify)
 [[redirects]]
   from = "/*"

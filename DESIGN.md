@@ -208,8 +208,8 @@ apresentação à esquerda; títulos e ações podem centralizar.
 Mobile-first com pontos de quebra observados: 1150px (menu), 1100px (logos/hero
 médio), 900px (grade de categorias 3 → 2 colunas e a foto do cartão passa para o
 lado do texto), 767px (hero mobile), 640px (foto do cartão abaixo do texto) e
-520px (header, formulário e categorias em duas colunas compactas, só ícone + nome). A arte do hero muda de arquivo (desktop `hero01.png`,
-mobile `hero01-mobile.png`) — troca de asset, não recorte CSS.
+520px (header, formulário e categorias em duas colunas compactas, só ícone + nome). A arte do hero muda de arquivo (desktop `hero01.webp`,
+mobile `hero01-mobile.webp`) — troca de asset, não recorte CSS.
 
 **A Regra da Dobra.** Em notebook de tela baixa (altura ≤820px) o hero abandona a
 proporção 16:9 e ocupa a altura útil (`100svh` − header, mínimo 540px): a linha de

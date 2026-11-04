@@ -36,7 +36,7 @@ está versionado.
 ```
 index.html              # shell HTML com <div id="root"> + <script type="module" src="/src/main.tsx">
 src/main.tsx            # entrypoint React (createRoot + import de style.css)
-src/App.tsx             # composição das seções + navegação home/privacidade por hash
+src/App.tsx             # composição das seções + rotas `/` e `/privacidade` (History API)
 src/components/         # 13 componentes de seção (Header, Hero, Prova, Ecossistema, ...)
 src/mail.ts             # envio de lead via Web3Forms (fetch JSON, modo demo sem chave)
 src/styles/base.css     # design tokens em :root, @font-face, reset, foco, skip link
@@ -47,14 +47,21 @@ public/logo-ja-positivo.svg  # lockup JÁ uva + benefícios verde (fundo claro)
 public/logo-ja-negativo.svg  # lockup JÁ mostarda + benefícios verde (fundo uva)
 public/logo-ja-especial-branco.svg  # versão especial 100% branca (fora do universo / ≤5mm)
 public/logo-ja-monogram.svg  # monograma JÁ (uva) — somente favicon
-public/hero01-mobile.png    # arte do hero no mobile (816×941) — recorte emoldurado no cartão e nos rostos
+public/hero01.jpg       # fallback do hero no desktop (1040×585) — o `.webp` é o arquivo principal
+public/hero01-mobile.jpg # fallback do hero no mobile (600×692) — recorte emoldurado no cartão e nos rostos
+public/og-image.jpg     # miniatura de compartilhamento (1200×630) — usada só por `index.html`
+public/sitemap.xml      # índice de URLs para buscadores — ver `robots.txt`
 public/faq.json         # fonte única da FAQ (consumida pela UI e pelo chat-worker)
 chat-worker/            # Cloudflare Worker do Assistente JÁ (ver chat-worker/README)
 assets-fonte/           # PNGs fonte lossless (fora de `public/`, não vão ao dist): hero01, hero-clean,
                         # aceito, colaborador, rh, mockup-cartao-clean — ver assets-fonte/README.md
 scripts/deploy-zip.mjs  # empacota dist/ em deploy.zip
 scripts/audit-cores.mjs # auditoria de conformidade de cores (paleta, WCAG, assets órfãos)
-scripts/gerar-hero-mobile.mjs # recorta public/hero01-mobile.png a partir de assets-fonte/hero01.png (npm run hero:mobile)
+scripts/gerar-hero-mobile.mjs # recorta assets-fonte/hero01-mobile.png a partir de assets-fonte/hero01.png (npm run hero:mobile)
+scripts/gerar-fallbacks-hero.mjs # gera os JPEGs de fallback do hero (npm run hero:fallbacks, requer ffmpeg)
+scripts/gerar-og-image.mjs # gera public/og-image.jpg a partir de assets-fonte/hero01.png (npm run og:image, requer ffmpeg)
+scripts/gerar-rota-privacidade.mjs # gera dist/privacidade/index.html com title/canonical próprios (roda no fim de npm run build)
+scripts/rota-privacidade.test.mjs # falha se /privacidade perder title/canonical próprios (npm run test:build, dentro do check)
 scripts/lib/png.mjs     # decodificador PNG sem dependências (usado pela auditoria)
 docs/correcao-conformidade-cores.md # plano de correção de conformidade de cores
 docs/design-references/ # evidências visuais (screenshots de crítica/QA)

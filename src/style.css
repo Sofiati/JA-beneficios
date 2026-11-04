@@ -66,7 +66,7 @@
    direta do banner (posicionamento absoluto e contexto de container intactos). */
 .hero-banner picture{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:right center;display:block}
-/* Textos reais sobre hero01.png — caixas em % e fontes em vw espelham a arte
+/* Textos reais sobre a arte do hero — caixas em % e fontes em vw espelham a arte
    (1672×941); o banner ocupa 100% da largura, então vw ≈ cqi. O overlay é
    absoluto para não esticar a caixa: se esticasse, a arte voltaria a ser
    cortada. */
@@ -497,7 +497,7 @@ input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visi
 .footer-store-links{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6);max-width:100%}
 .site-footer .footer-store-links a{display:inline-flex;padding:0;min-height:var(--space-12);max-width:100%}
 .footer-store-links img{width:168px;height:auto}
-.site-footer h3{font-family:var(--font-body);color:var(--color-on-primary);margin-bottom:var(--space-3);font-size:1rem;font-weight:600}
+.site-footer h2{font-family:var(--font-body);color:var(--color-on-primary);margin-bottom:var(--space-3);font-size:1rem;font-weight:600}
 .site-footer a{display:block;padding:var(--space-2) 0;color:var(--color-on-dark-muted)}
 .site-footer a:hover{color:var(--color-on-primary);text-decoration:underline;text-underline-offset:4px}
 .site-footer .brand--footer:hover{text-decoration:none}
@@ -984,6 +984,8 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .privacy-page .pp-sec[open]{box-shadow:var(--shadow)}
 .privacy-page .pp-sec summary{cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--color-text);padding:var(--space-4) var(--space-5);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);transition:background var(--t-fast)}
 .privacy-page .pp-sec summary::-webkit-details-marker{display:none}
+/* O título da seção é um <h2> dentro do <summary>: herda a tipografia do sumário. */
+.privacy-page .pp-sec summary h2{font:inherit;letter-spacing:inherit;margin:0;color:inherit}
 .privacy-page .pp-sec summary::after{content:"+";font-family:var(--font-body);font-weight:700;color:var(--color-primary);font-size:1.25rem;transition:transform var(--t-base)}
 .privacy-page .pp-sec[open] summary::after{content:"−"}
 .privacy-page .pp-sec summary:hover{background:var(--color-background-alt)}

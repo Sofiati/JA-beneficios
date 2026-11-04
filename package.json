@@ -10,14 +10,17 @@
   },
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5173",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/gerar-rota-privacidade.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 5173",
     "lint": "tsc --noEmit",
     "deploy:zip": "node scripts/deploy-zip.mjs",
     "typecheck": "tsc --noEmit",
     "audit:cores": "node scripts/audit-cores.mjs",
+    "test:build": "node --test scripts/rota-privacidade.test.mjs",
     "hero:mobile": "node scripts/gerar-hero-mobile.mjs",
-    "check": "npm run typecheck && npm run build && npm run audit:cores"
+    "hero:fallbacks": "node scripts/gerar-fallbacks-hero.mjs",
+    "og:image": "node scripts/gerar-og-image.mjs",
+    "check": "npm run typecheck && npm run build && npm run test:build && npm run audit:cores"
   },
   "devDependencies": {
     "@types/flexsearch": "^0.7.6",

@@ -13,7 +13,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             <div className="iub_header">
               <a 
                 className="link-arrow" 
-                href="#topo" 
+                href="/" 
                 onClick={(e) => { e.preventDefault(); onBack(); }}
               >
                 ← Voltar para o início
@@ -25,7 +25,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </div>
 
             <details className="pp-sec" open>
-              <summary>Proprietário e Controlador de Dados</summary>
+              <summary><h2>Proprietário e Controlador de Dados</h2></summary>
               <div className="pp-body">
                 <p><strong>Proprietário e Controlador de Dados:</strong> Já Digital Instituição de Pagamento S.A</p>
                 <p>
@@ -36,7 +36,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Tipos de Dados coletados</summary>
+              <summary><h2>Tipos de Dados coletados</h2></summary>
               <div className="pp-body">
                 <p>Uso de Dados e outros dados coletados</p>
                 <p>
@@ -51,7 +51,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Modo e local de processamento dos Dados</summary>
+              <summary><h2>Modo e local de processamento dos Dados</h2></summary>
               <div className="pp-body">
                 <h3>Método de processamento</h3>
                 <p>
@@ -73,7 +73,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Política de Cookies</summary>
+              <summary><h2>Política de Cookies</h2></summary>
               <div className="pp-body">
                 <p>Política de Cookies do jadigital.com.br</p>
                 <p>
@@ -97,7 +97,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Informações adicionais para usuários</summary>
+              <summary><h2>Informações adicionais para usuários</h2></summary>
               <div className="pp-body">
                 <h3>Base jurídica para o processamento</h3>
                 <p>O Proprietário poderá processar os Dados Pessoais relacionados ao Usuário se uma das hipóteses a seguir se aplicar:</p>
@@ -130,7 +130,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Informações adicionais sobre a coleta e processamento de Dados</summary>
+              <summary><h2>Informações adicionais sobre a coleta e processamento de Dados</h2></summary>
               <div className="pp-body">
                 <h3>Ação jurídica</h3>
                 <p>
@@ -148,21 +148,21 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </details>
 
             <details className="pp-sec">
-              <summary>Definições e referências jurídicas</summary>
+              <summary><h2>Definições e referências jurídicas</h2></summary>
               <div className="pp-body">
-                <h4>Dados Pessoais (ou Dados)</h4>
+                <h3>Dados Pessoais (ou Dados)</h3>
                 <p>Quaisquer informações que permitam a identificação ou identificabilidade de uma pessoa física.</p>
 
-                <h4>Dados de Uso</h4>
+                <h3>Dados de Uso</h3>
                 <p>As informações coletadas automaticamente através deste Aplicativo (ou serviços de terceiros contratados).</p>
 
-                <h4>Usuário</h4>
+                <h3>Usuário</h3>
                 <p>A pessoa que usa este Aplicativo.</p>
 
-                <h4>Titular dos Dados</h4>
+                <h3>Titular dos Dados</h3>
                 <p>A pessoa física a quem os Dados Pessoais se referem.</p>
 
-                <h4>Controlador de Dados (ou Proprietário)</h4>
+                <h3>Controlador de Dados (ou Proprietário)</h3>
                 <p>Já Digital Instituição de Pagamento S.A.</p>
               </div>
             </details>
