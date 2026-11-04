@@ -51,7 +51,7 @@ public/hero01.jpg       # fallback do hero no desktop (1040×585) — o `.webp` 
 public/hero01-mobile.jpg # fallback do hero no mobile (600×692) — recorte emoldurado no cartão e nos rostos
 public/og-image.jpg     # miniatura de compartilhamento (1200×630) — usada só por `index.html`
 public/sitemap.xml      # índice de URLs para buscadores — ver `robots.txt`
-public/faq.json         # fonte única da FAQ (consumida pela UI e pelo chat-worker)
+src/faq.json           # fonte única da FAQ (emitida em /faq.json pelo plugin do Vite em vite.config.ts; consumida pela UI e pelo chat-worker)
 chat-worker/            # Cloudflare Worker do Assistente JÁ (ver chat-worker/README)
 assets-fonte/           # PNGs fonte lossless (fora de `public/`, não vão ao dist): hero01, hero-clean,
                         # aceito, colaborador, rh, mockup-cartao-clean — ver assets-fonte/README.md

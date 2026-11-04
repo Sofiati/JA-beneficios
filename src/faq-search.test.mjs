@@ -21,7 +21,8 @@ test("base tem IDs e perguntas únicos, campos tipados e nenhum metadado interno
     for (const field of ["grupo", "pergunta", "resposta"]) assert.ok(typeof entry[field] === "string" && entry[field].trim());
     assert.equal(typeof entry.exibirNoSite, "boolean");
     assert.ok(Array.isArray(entry.equivalentes));
-    assert.deepEqual(Object.keys(entry).sort(), ["id", "grupo", "pergunta", "resposta", "equivalentes", "exibirNoSite"].sort());
+    const allowed = ["id", "grupo", "pergunta", "resposta", "equivalentes", "exibirNoSite", "alvo"].sort();
+    assert.deepEqual(Object.keys(entry).filter((k) => !allowed.includes(k)), [], `${entry.id}: campo desconhecido`);
     for (const phrase of [entry.pergunta, ...entry.equivalentes]) {
       assert.equal(typeof phrase, "string");
       const previous = phrases.get(flat(phrase));

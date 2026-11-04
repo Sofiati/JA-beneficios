@@ -22,9 +22,130 @@ const ask = (message, runtime = env) => worker.fetch(new Request("https://worker
   headers: { Origin: origin, "Content-Type": "application/json" },
   body: JSON.stringify({ message }),
 }), runtime);
+const askWithHistory = (payload, runtime = env) => worker.fetch(new Request("https://worker.example", {
+  method: "POST",
+  headers: { Origin: origin, "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+}), runtime);
 const gemini = (text) => async () => new Response(JSON.stringify({
   candidates: [{ content: { parts: [{ text }] } }],
 }), { status: 200, headers: { "content-type": "application/json" } });
+
+const complexQuestion = "Tenho R$ 250 de saldo, fui comprar no supermercado, mas a maquininha recusou. Ontem consegui usar normalmente.";
+const modelDecision = (decision, answer, sourceIds = ["saldo-compra-recusada"]) =>
+  JSON.stringify({ decision, answer, sourceIds });
+
+test("relato de recusa permite esclarecimento fundamentado sem encaminhar", async (t) => {
+  const answer = "Em qual carteira aparecem os R$ 250: Alimentação, Refeição ou outra?";
+  const api = t.mock.method(globalThis, "fetch", gemini(modelDecision("clarify", answer)));
+  const data = await (await ask(complexQuestion, withKey)).json();
+  assert.deepEqual(data, { answer, handoff: false });
+  assert.equal(api.mock.callCount(), 1);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.generationConfig.responseMimeType, "application/json");
+  assert.ok(body.contents[0].parts[0].text.includes("saldo-compra-recusada"));
+});
+
+test("continuação curta usa o histórico em vez de responder uma FAQ isolada", async (t) => {
+  const answer = "O total da compra ficou dentro dos R$ 250 disponíveis nessa carteira?";
+  const api = t.mock.method(globalThis, "fetch", gemini(modelDecision("clarify", answer, ["compra-saldo"])));
+  const data = await (await askWithHistory({ message: "Alimentação", history: [
+    { role: "user", text: complexQuestion },
+    { role: "bot", text: "Em qual carteira aparecem os R$ 250?" },
+  ] }, withKey)).json();
+  assert.deepEqual(data, { answer, handoff: false });
+  assert.equal(api.mock.callCount(), 1);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents[0].parts[0].text, complexQuestion);
+  assert.equal(body.contents[2].parts[0].text.endsWith("Alimentação"), true);
+});
+
+test("modelo pode combinar fontes oficiais para responder", async (t) => {
+  const answer = "Confira a carteira e a modalidade. Para usar saldo do chip voucher, informe ao caixa que o pagamento é cartão voucher.";
+  t.mock.method(globalThis, "fetch", gemini(modelDecision("answer", answer, ["saldo-compra-recusada", "cartao-modalidade-voucher"])));
+  assert.deepEqual(await (await ask(complexQuestion, withKey)).json(), { answer, handoff: false });
+});
+
+for (const output of [
+  "Resposta livre sem contrato",
+  modelDecision("answer", "Uma resposta", []),
+  modelDecision("answer", "Uma resposta", ["fonte-inventada"]),
+  modelDecision("answer", "Uma resposta", [null]),
+  modelDecision("unknown", "Uma resposta"),
+  modelDecision("clarify", "Sem pergunta"),
+  modelDecision("clarify", "Qual carteira? Qual senha?"),
+  modelDecision("answer", " "),
+  modelDecision("answer", "x".repeat(901)),
+  "null",
+]) {
+  test(`saída inválida não chega ao visitante: ${output.slice(0, 65)}`, async (t) => {
+    t.mock.method(globalThis, "fetch", gemini(output));
+    const data = await (await ask(complexQuestion, withKey)).json();
+    assert.equal(data.handoff, true);
+    assert.match(data.answer, /Não encontrei uma informação oficial suficiente/);
+  });
+}
+
+test("decisão de atendimento usa o encaminhamento oficial, não texto livre", async (t) => {
+  const log = t.mock.method(console, "log", () => {});
+  t.mock.method(globalThis, "fetch", gemini(modelDecision("handoff", "Consultei seu cartão e desbloqueei.", [])));
+  const data = await (await ask(complexQuestion, withKey)).json();
+  assert.equal(data.handoff, true);
+  assert.doesNotMatch(data.answer, /desbloqueei/);
+  assert.equal(log.mock.calls[0].arguments[1].path, "ai_handoff");
+});
+
+test("CPF ou cartão no histórico não são enviados ao modelo", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  for (const text of ["CPF 123.456.789-00", "Cartão 4111 1111 1111 1111"]) {
+    const data = await (await askWithHistory({ message: "E agora?", history: [
+      { role: "user", text }, { role: "bot", text: "Como posso ajudar?" },
+    ] }, withKey)).json();
+    assert.equal(data.handoff, true);
+  }
+  assert.equal(api.mock.callCount(), 0);
+});
+
+test("pergunta canônica com histórico continua literal e sem modelo", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  const item = faq.find((entry) => entry.id === "app-saldo");
+  const data = await (await askWithHistory({ message: item.pergunta, history: [
+    { role: "user", text: complexQuestion }, { role: "bot", text: "Qual carteira?" },
+  ] }, withKey)).json();
+  assert.equal(data.answer, item.resposta);
+  assert.equal(api.mock.callCount(), 0);
+});
+
+test("conversa de recusa preserva contexto até encaminhar ao suporte", async (t) => {
+  const outputs = [
+    modelDecision("clarify", "Em qual carteira aparecem os R$ 250?"),
+    modelDecision("clarify", "O total da compra estava dentro desse saldo?", ["compra-saldo"]),
+    modelDecision("handoff", "", []),
+  ];
+  const api = t.mock.method(globalThis, "fetch", async () => gemini(outputs.shift())());
+  const history = [];
+  for (const [message, handoff] of [
+    [complexQuestion, false],
+    ["Alimentação", false],
+    ["Sim, a compra era R$ 100. Já conferi modalidade, senha e cartão ativo, mas continua recusando.", true],
+  ]) {
+    const data = await (await askWithHistory({ message, history }, withKey)).json();
+    assert.equal(data.handoff, handoff);
+    history.push({ role: "user", text: message }, { role: "bot", text: data.answer });
+  }
+  assert.equal(api.mock.callCount(), 3);
+  const lastCall = JSON.parse(api.mock.calls[2].arguments[1].body);
+  assert.equal(lastCall.contents.length, 5);
+  assert.equal(lastCall.contents[2].parts[0].text, "Alimentação");
+});
+
+test("resposta truncada pelo provedor não é exibida mesmo com JSON válido", async (t) => {
+  t.mock.method(globalThis, "fetch", async () => new Response(JSON.stringify({ candidates: [{
+    finishReason: "MAX_TOKENS",
+    content: { parts: [{ text: modelDecision("clarify", "Qual carteira?") }] },
+  }] })));
+  assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+});
 
 test("preflight autorizado retorna 204 sem corpo e permite o POST JSON", async () => {
   const response = await worker.fetch(new Request("https://worker.example", {
@@ -109,6 +230,111 @@ test("erro do provedor cai no fallback com encaminhamento", async (t) => {
   const data = await (await ask("Vocês entregam em Portugal?", withKey)).json();
   assert.match(data.answer, /Não encontrei uma informação oficial suficiente/);
   assert.equal(data.handoff, true);
+});
+
+test("503 transitório é repetido uma vez e a resposta válida chega ao visitante", async (t) => {
+  const answer = "Em qual carteira aparece o saldo?";
+  let attempts = 0;
+  const api = t.mock.method(globalThis, "fetch", async (...args) => ++attempts === 1
+    ? new Response("indisponível", { status: 503 })
+    : gemini(modelDecision("clarify", answer))(...args));
+  const data = await (await ask(complexQuestion, withKey)).json();
+  assert.deepEqual(data, { answer, handoff: false });
+  assert.equal(api.mock.callCount(), 2);
+  assert.equal(api.mock.calls[0].arguments[1].body, api.mock.calls[1].arguments[1].body);
+});
+
+test("timeout transitório permite uma segunda tentativa", async (t) => {
+  const answer = "Em qual carteira aparece o saldo?";
+  let attempts = 0;
+  const api = t.mock.method(globalThis, "fetch", async (...args) => {
+    if (++attempts === 1) throw new DOMException("timeout", "TimeoutError");
+    return gemini(modelDecision("clarify", answer))(...args);
+  });
+  assert.deepEqual(await (await ask(complexQuestion, withKey)).json(), { answer, handoff: false });
+  assert.equal(api.mock.callCount(), 2);
+});
+
+test("indisponibilidade persistente termina após duas tentativas", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", async () => new Response("erro", { status: 503 }));
+  assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+  assert.equal(api.mock.callCount(), 2);
+});
+
+test("orçamento total esgotado impede uma nova chamada ao provedor", async (t) => {
+  const start = Date.now();
+  let elapsed = 0;
+  t.mock.method(Date, "now", () => start + elapsed);
+  const api = t.mock.method(globalThis, "fetch", async () => {
+    elapsed = 7001;
+    throw new DOMException("timeout", "TimeoutError");
+  });
+  assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+  assert.equal(api.mock.callCount(), 1);
+});
+
+test("uma resposta lenta pode usar o prazo inteiro, sem corte prematuro em 3,5s", async (t) => {
+  const start = Date.now();
+  let elapsed = 0;
+  const limits = [];
+  t.mock.method(Date, "now", () => start + elapsed);
+  t.mock.method(AbortSignal, "timeout", (ms) => {
+    limits.push(ms);
+    return new AbortController().signal;
+  });
+  let attempts = 0;
+  const answer = "Em qual carteira aparece o saldo?";
+  t.mock.method(globalThis, "fetch", async (...args) => {
+    if (++attempts === 1) {
+      elapsed = 2000;
+      return new Response("indisponível", { status: 503 });
+    }
+    return gemini(modelDecision("clarify", answer))(...args);
+  });
+  assert.deepEqual(await (await ask(complexQuestion, withKey)).json(), { answer, handoff: false });
+  assert.equal(limits[0], 7000);
+  assert.ok(limits[1] <= 5000 && limits[1] > 3500);
+});
+
+test("JSON inválido do provedor não é repetido", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", async () => new Response("não é JSON", { status: 200 }));
+  assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+  assert.equal(api.mock.callCount(), 1);
+});
+
+for (const status of [400, 401, 403, 404, 429]) {
+  test(`erro HTTP ${status} não gera repetição automática`, async (t) => {
+    const api = t.mock.method(globalThis, "fetch", async () => new Response("erro", { status }));
+    assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+    assert.equal(api.mock.callCount(), 1);
+  });
+}
+
+test("indisponibilidade do provedor registra status sem vazar corpo ou chave", async (t) => {
+  const log = t.mock.method(console, "warn", () => {});
+  t.mock.method(globalThis, "fetch", async () => new Response("conteúdo privado do provedor", { status: 503 }));
+  const data = await (await ask(complexQuestion, withKey)).json();
+  assert.equal(data.handoff, true);
+  assert.equal(log.mock.callCount(), 2);
+  assert.deepEqual(log.mock.calls[0].arguments, ["Assistente JÁ: modelo indisponível", { reason: "http_error", status: 503 }]);
+  assert.doesNotMatch(JSON.stringify(log.mock.calls), /conteúdo privado|test-key/);
+});
+
+test("timeout é identificado sem registrar mensagem da exceção", async (t) => {
+  const log = t.mock.method(console, "warn", () => {});
+  t.mock.method(globalThis, "fetch", async () => { throw new DOMException("conteúdo privado", "TimeoutError"); });
+  const data = await (await ask(complexQuestion, withKey)).json();
+  assert.equal(data.handoff, true);
+  assert.equal(log.mock.callCount(), 2);
+  assert.deepEqual(log.mock.calls[0].arguments, ["Assistente JÁ: modelo indisponível", { reason: "timeout" }]);
+});
+
+test("falha de rede é identificada sem registrar URL ou chave da exceção", async (t) => {
+  const log = t.mock.method(console, "warn", () => {});
+  t.mock.method(globalThis, "fetch", async () => { throw new TypeError("URL privada com test-key"); });
+  assert.equal((await (await ask(complexQuestion, withKey)).json()).handoff, true);
+  assert.equal(log.mock.callCount(), 1);
+  assert.deepEqual(log.mock.calls[0].arguments, ["Assistente JÁ: modelo indisponível", { reason: "request_error" }]);
 });
 
 test("modelo sem base na FAQ (SEM_RESPOSTA) cai no fallback", async (t) => {
@@ -321,4 +547,63 @@ test("modelo recebe só a base consolidada, sem histórico nem referências inte
   const context = body.contents[0].parts[0].text;
   assert.ok(context.includes(faq.find((item) => item.id === "app-saldo").resposta));
   assert.doesNotMatch(context, /CHAT-\d+|R\$\s*25|8h às 18h|revisao_editorial|Referências internas/);
+});
+
+// Histórico recente permite follow-ups ("e o segundo?") sem abrir mão do ancoramento na FAQ.
+test("histórico válido é enviado ao modelo como conversa estruturada", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  const data = await (await askWithHistory({
+    message: "E o segundo tem anuidade?",
+    history: [
+      { role: "user", text: "Quais cartões a JÁ oferece?" },
+      { role: "bot", text: "Oferecemos cartão refeição e cartão virtual." },
+    ],
+  }, withKey)).json();
+  assert.equal(data.handoff, true);
+  assert.equal(api.mock.callCount(), 1);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents.length, 3);
+  assert.equal(body.contents[0].role, "user");
+  assert.match(body.contents[0].parts[0].text, /Quais cartões/);
+  assert.equal(body.contents[1].role, "model");
+  assert.equal(body.contents[2].role, "user");
+  assert.match(body.contents[2].parts[0].text, /E o segundo tem anuidade/);
+  assert.match(body.contents[2].parts[0].text, /Acima está o trecho recente/);
+});
+
+test("histórico de bot na primeira posição é descartado (Gemini espera começar com user)", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  await askWithHistory({
+    message: "e depois?",
+    history: [
+      { role: "bot", text: "Resposta inicial." },
+      { role: "user", text: "Outra pergunta" },
+    ],
+  }, withKey);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents.length, 2); // 1 turno válido + pergunta atual
+  assert.equal(body.contents[0].role, "user");
+});
+
+test("histórico inválido é descartado sem quebrar a chamada", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  const data = await (await askWithHistory({
+    message: "Vocês entregam em Portugal?",
+    history: [null, 42, { role: "alien" }, { role: "user", text: "   " }, { role: "user", text: "pergunta real" }],
+  }, withKey)).json();
+  assert.equal(data.handoff, true);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents.length, 2);
+  assert.match(body.contents[0].parts[0].text, /pergunta real/);
+});
+
+test("histórico longo é cortado nos 8 turnos e 450 caracteres por texto", async (t) => {
+  const api = t.mock.method(globalThis, "fetch", gemini("SEM_RESPOSTA"));
+  const filler = "x".repeat(600);
+  const history = Array.from({ length: 12 }, (_, i) => ({ role: i % 2 ? "bot" : "user", text: `${i} ${filler}` }));
+  await askWithHistory({ message: "Vocês entregam em Portugal?", history }, withKey);
+  const body = JSON.parse(api.mock.calls[0].arguments[1].body);
+  assert.equal(body.contents.length, 9); // 8 turnos + pergunta atual
+  assert.ok(body.contents.slice(0, -1).every((c) => c.parts[0].text.length <= 450));
+  assert.ok(body.contents[0].parts[0].text.startsWith("4 "));
 });
