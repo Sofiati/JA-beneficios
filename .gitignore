@@ -11,6 +11,7 @@ _quarantine/
 # Artefatos de auditoria local e logs
 .gstack/
 .playwright-mcp/
+.hallmark/
 dev-server.log
 # Estado local do Wrangler e segredos de desenvolvimento
 chat-worker/.wrangler/
