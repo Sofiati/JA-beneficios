@@ -11,8 +11,10 @@
 .btn:disabled{background:color-mix(in srgb,currentColor 12%,var(--color-surface));
   border-color:color-mix(in srgb,currentColor 35%,var(--color-surface));
   color:color-mix(in srgb,currentColor 65%,var(--color-surface));cursor:wait;transform:none}
-/* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez). */
-.btn-sm{padding:calc(9px - .08em) var(--space-5) calc(9px + .08em);font-size:.92rem;white-space:nowrap}
+/* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez).
+   11px/1rem ⇒ 44.4px de altura — piso de toque e mais perto do CTA do hero (50.7px),
+   sem disputar a primazia dele. (FINDING-003, design-review R2.) */
+.btn-sm{padding:calc(11px - .08em) var(--space-5) calc(11px + .08em);font-size:1rem;white-space:nowrap}
 /* CTA do header: rótulo completo no desktop; curto em telas estreitas (medido p/ caber em 360px). */
 .btn-label-short{display:none}
 /* Cápsula fantasma: repetições do CTA primário ao longo da página. Transparente
