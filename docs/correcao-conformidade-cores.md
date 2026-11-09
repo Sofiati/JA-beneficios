@@ -107,7 +107,7 @@ da marca anterior e induz a erro em qualquer trabalho futuro.
 | 1.6 | Classificar o restante: 16 ícones como *pendentes de aprovação* (não órfãos), 4 assets como *mantidos por decisão documentada* (logo especial, licença Arvo, `visa.svg`, `preview.html`) | ✅ |
 | 1.7 | Marcar `--ja-cinza` como token reservado (não morto) — cinza oficial é referência de marca, não cor ativa | ✅ |
 | 1.8 | Limpar `.gitignore`: remover `public/hero-cleanX.png` (obsoleto após 1.5) | ✅ |
-| 1.9 | Decidir o destino de `docs/design-references/auditoria-cores-manual-1280x7841.png` (1,7 MB) | ✅ movido para `_quarantine/design-references/` |
+| 1.9 | Decidir o destino de `docs/design-references/auditoria-cores-manual-1280x7841.png` (1,7 MB) | ✅ removido do repositório (quarentena descartada) |
 
 **Resultado da Fase 1:** `public/` 17,9 MB → 9,3 MB. `npm run check` verde com auditoria
 integrada. Nenhuma alteração visual.
