@@ -12,7 +12,8 @@
 .ja-chat-action-btn:hover,.ja-chat-close:hover{background:color-mix(in srgb,var(--neutral-white) 20%,transparent)}
 .ja-chat-close{font-size:22px;line-height:1}
 .ja-chat-messages{flex:1;overflow:auto;padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3);background:var(--neutral-50);overscroll-behavior:contain}
-.ja-chat-bubble{max-width:89%;padding:var(--space-3);border-radius:15px;line-height:1.5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+/* Raios internos do painel: aninhamento 24px (outer) − 12px de gap = 12px (inner) = --radius-input */
+.ja-chat-bubble{max-width:89%;padding:var(--space-3);border-radius:var(--radius-input);line-height:1.5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
 .ja-chat-bubble a{color:var(--ja-uva);text-decoration:underline;font-weight:600;word-break:break-all}
 .ja-chat-bubble a:hover{color:var(--ja-uva-escuro)}
 .ja-chat-bubble strong{font-weight:700}
@@ -38,12 +39,12 @@
 .ja-chat-suggestion:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
 
 .ja-chat-feedback{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-2);font-size:11px;color:var(--neutral-700)}
-.ja-chat-feedback-btn{background:transparent;border:1px solid var(--color-border);border-radius:8px;padding:4px var(--space-2);cursor:pointer;font-size:12px;color:var(--neutral-700);line-height:1;display:inline-flex;align-items:center;transition:background var(--t-fast)}
+.ja-chat-feedback-btn{background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-input);padding:4px var(--space-2);cursor:pointer;font-size:12px;color:var(--neutral-700);line-height:1;display:inline-flex;align-items:center;transition:background var(--t-fast)}
 .ja-chat-feedback-btn:hover{background:var(--uva-100);color:var(--ja-uva)}
 .ja-chat-feedback-thanks{font-size:11px;color:var(--ja-uva);font-weight:600}
 
-.ja-chat-handoff{padding:var(--space-2) var(--space-3);display:flex;gap:var(--space-2);background:var(--color-surface);border-top:1px solid var(--uva-100);flex-wrap:wrap}.ja-chat-handoff[hidden]{display:none}.ja-chat-handoff a,.ja-chat-handoff button{font-size:12px;font-weight:700;text-decoration:none;color:var(--ja-uva);border:1px solid var(--ja-uva);border-radius:20px;padding:var(--space-2) var(--space-3);background:transparent;cursor:pointer;font-family:inherit;white-space:nowrap}.ja-chat-handoff a:hover,.ja-chat-handoff button:hover{background:var(--uva-100)}
-.ja-chat-form{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3);border-top:1px solid var(--uva-100);background:var(--color-surface)}.ja-chat-form input{min-width:0;flex:1;border:1px solid var(--color-border-control);border-radius:20px;padding:var(--space-3);font:inherit;font-size:16px}.ja-chat-form button{background:var(--ja-mostarda);color:var(--color-accent-ink);border:0;border-radius:50%;width:42px;height:42px;flex:none;cursor:pointer;font-size:20px;font-weight:700}.ja-chat-form button:disabled{background:color-mix(in srgb,var(--ja-mostarda) 35%,var(--color-surface));color:color-mix(in srgb,var(--ja-uva-escuro) 55%,var(--color-surface));cursor:wait}
+.ja-chat-handoff{padding:var(--space-2) var(--space-3);display:flex;gap:var(--space-2);background:var(--color-surface);border-top:1px solid var(--uva-100);flex-wrap:wrap}.ja-chat-handoff[hidden]{display:none}.ja-chat-handoff a,.ja-chat-handoff button{font-size:12px;font-weight:700;text-decoration:none;color:var(--ja-uva);border:1px solid var(--ja-uva);border-radius:var(--radius-input);padding:var(--space-2) var(--space-3);background:transparent;cursor:pointer;font-family:inherit;white-space:nowrap}.ja-chat-handoff a:hover,.ja-chat-handoff button:hover{background:var(--uva-100)}
+.ja-chat-form{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3);border-top:1px solid var(--uva-100);background:var(--color-surface)}.ja-chat-form input{min-width:0;flex:1;border:1px solid var(--color-border-control);border-radius:var(--radius-input);padding:var(--space-3);font:inherit;font-size:16px}.ja-chat-form button{background:var(--ja-mostarda);color:var(--color-accent-ink);border:0;border-radius:50%;width:42px;height:42px;flex:none;cursor:pointer;font-size:20px;font-weight:700}.ja-chat-form button:disabled{background:color-mix(in srgb,var(--ja-mostarda) 35%,var(--color-surface));color:color-mix(in srgb,var(--ja-uva-escuro) 55%,var(--color-surface));cursor:wait}
 .ja-chat-note{background:var(--color-surface);color:var(--neutral-700);font-size:10px;padding:0 var(--space-4) var(--space-2);line-height:1.3}
 /* Superfícies do navegador dentro do painel seguem o tema do site. */
 .ja-chat-panel{scrollbar-color:var(--ja-uva) var(--neutral-50)}
