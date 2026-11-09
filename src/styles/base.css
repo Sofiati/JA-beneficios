@@ -40,8 +40,8 @@
   /* Espaçamento (base 4/8; valores medidos já usados na interface). */
   --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
   --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px;
-  /* Raios: base 24 (cards) + outliers nomeados até a unificação da Fase 2. */
-  --radius-card:24px; --radius-card-sm:18px; --radius-card-md:20px; --radius-panel:22px;
+  /* Raios: base 24 (cards); outliers card-md/panel unificados na Fase 2 (09/11/2026) — alias de compatibilidade. */
+  --radius-card:24px; --radius-card-sm:18px; --radius-card-md:var(--radius-card); --radius-panel:var(--radius-card);
   --radius-control:40px; --radius-input:12px; --radius-device:36px; --radius-device-screen:28px;
   /* Motion: mesmas durações medidas dos valores crus anteriores. */
   --t-fast:.2s; --t-base:.25s; --t-mid:.3s; --t-nav:.35s; --t-slow:.45s; --t-enter:.7s;

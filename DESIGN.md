@@ -13,10 +13,15 @@ colors:
   tinta: "#333333"
   tinta-suave: "#5C564E"
   borda-suave: "#E5E0D6"
+  borda-controle: "#8B857B"
+  fundo-neutro-alto: "#F3EFE7"
+  saida-painel-sombra: "#24121C"
   erro-claro: "#FFC9C9"
   tinta-sombra: "#3C280A"
   tinta-backdrop: "#2B1920"
+  tinta-painel: "#24121C"
   whatsapp-teal: "#128C7E"
+  whatsapp-teal-tinta: "#07463E"
 typography:
   display:
     fontFamily: "Arvo, 'Trebuchet MS', Verdana, sans-serif"
@@ -243,8 +248,9 @@ não pertence ao sistema.
 Forma linguagem de cantos generosos e controles-cápsula. Raios observados:
 card base 24px; card compacto de categoria 18px; controle/botão 40px (cápsula
 completa); input interno 12px; artes de dispositivo 36px/28px. Os outliers
-`--radius-card-md` (20px) e `--radius-panel` (22px) existem nomeados e aguardam
-unificação no base 24px (Fase 2) — não crie novos outliers.
+`--radius-card-md` e `--radius-panel` foram **unificados na Fase 2**
+(09/11/2026): apontam para `--radius-card` (24px) como alias de compatibilidade —
+não crie novos outliers.
 
 Bordas: botões com 2px na cor da ação; cards de categoria com 1px quente
 (`--shadow-ink` a 8%) mais filete superior de 4px que revela acento uva no hover.
@@ -360,3 +366,28 @@ clareiam no hover; foco mostarda.
 - **Don't** publicar claims com números sem fonte comprovada nas seções vizinhas.
 - **Don't** introduzir frameworks ou dependências de UI (React, Tailwind, GSAP):
   o projeto é Vite + TypeScript estrito + HTML/CSS puro.
+
+## Motion
+
+- **Approach:** intentional — movimento tokenizado, discreto, sempre a serviço
+  de estado (entrada de seção, hover, foco) e com `prefers-reduced-motion`
+  respeitado globalmente (a `A Regra do Toque` em forma de tempo).
+- **Tokens de duração (`--t-*` em `src/styles/base.css`):**
+  - `--t-fast` `.2s` — microestados (skip link, toggles pequenos)
+  - `--t-base` `.25s` — botões e controles (todas as variantes de cápsula)
+  - `--t-mid` `.3s` — cards e superfícies
+  - `--t-nav` `.35s` — header e painel de navegação
+  - `--t-slow` `.45s` — persistências maiores (FAB, °painel do chat)
+  - `--t-enter` `.7s` — entrada de seções via `[data-animate]` +
+    `IntersectionObserver`
+- **Easing:** entrada e saída ease-out; deslocamento (transform/opacity) compõe
+  na GPU — nunca animar propriedades de layout (`height`, `top`, `margin`).
+- **O momento assinado:** a cápsula "Quero JÁ!" que sobe -2px com sombra de
+  interação no hover — o convite respondendo ao toque.
+
+## Decisions Log
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-11-09 | Atualização via /design-consultation: tokens da camada de evolução do `base.css` formalizados no doc (`--neutral-100`/borda-controle/tinta-painel/teal-tinta), seção Motion registrada com os tokens `--t-*`, e unificação de raios da Fase 2 concluída (outliers viram alias de 24px) | Manter o doc como fonte da verdade sincronizada com o código; `npm run audit:cores` sem violações às 2026-11-09 |
+| 2026-10-09 | Sistema original criado a partir do manual JA + protótipo medido | Conformidade de marca (Pantone 7642 C e companhia) e WCAA auditado |
