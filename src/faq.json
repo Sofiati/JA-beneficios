@@ -4,122 +4,156 @@
     "grupo": "Contratação e custos",
     "pergunta": "A implantação tem algum custo?",
     "resposta": "Não há custo de implantação, mensalidade nem cobrança pela emissão da primeira via do cartão. Os únicos custos são o frete dos cartões físicos, com valor variável conforme a região, e os créditos que a empresa carrega para os colaboradores.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["tem custo para implantar?", "paga para comecar?", "implantacao e gratis?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Sem custo de implantacao, sem mensalidade e 1a via gratis. Voce so paga o frete dos cartoes (varia por regiao) + os creditos que carregar.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "mensalidade-custo",
     "grupo": "Contratação e custos",
     "pergunta": "Existe mensalidade ou taxa por colaborador?",
     "resposta": "Não. A JÁ Benefícios não cobra mensalidade nem taxa por colaborador. Além dos créditos carregados, a empresa paga apenas o frete dos cartões físicos, com valor variável conforme a região. Serviços adicionais são informados antes do fechamento.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["tem mensalidade?", "cobra por funcionario?", "tem taxa por colaborador?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Nao cobramos mensalidade nem taxa por colaborador. So frete dos cartoes + creditos carregados.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "segunda-via-custo",
     "grupo": "Contratação e custos",
     "pergunta": "Quanto custa a segunda via do cartão?",
     "resposta": "A emissão da primeira via é gratuita. Para a segunda via e outros serviços adicionais, o valor é informado na proposta comercial e confirmado pelo atendimento antes da solicitação. Em caso de perda ou roubo, o primeiro passo é bloquear o cartão pelo app.",
-    "equivalentes": [
-      "A emissão da segunda via tem custo?",
-      "Quanto custa a segunda via?",
-      "Tem taxa para emitir outro cartão?",
-      "Paga para substituir cartão perdido?"
-    ],
-    "exibirNoSite": true
+    "equivalentes": ["A emissão da segunda via tem custo?", "Quanto custa a segunda via?", "Tem taxa para emitir outro cartão?", "Paga para substituir cartão perdido?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "1a via e gratis. O valor da 2a via e informado na proposta e confirmado pelo atendimento antes de voce solicitar. Perdeu ou foi roubado? Bloqueie primeiro pelo app.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-entrega",
     "grupo": "Contratação e custos",
     "pergunta": "Qual o prazo de emissão e entrega dos cartões?",
     "resposta": "O prazo depende da conferência da base de colaboradores e da região de entrega, e é confirmado na proposta comercial. A emissão começa após a assinatura do contrato e o cadastro da base. O cartão é liberado para uso no recebimento, com a recarga feita pela própria empresa na plataforma.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["quando chega o cartao?", "prazo de entrega do cartao", "demora quanto para chegar?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "O prazo depende da conferencia da sua base e da regiao, e e confirmado na proposta. A emissao comeca apos contrato + cadastro da base. Nao tenho um prazo fixo aqui para te passar.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "implantacao-processo",
     "grupo": "Contratação e custos",
     "pergunta": "Como funciona a implantação na empresa?",
     "resposta": "Após análise das obrigações e responsabilidades da empresa perante o PAT, assinamos o contrato e realizamos o cadastro da base de funcionários para dar sequência à emissão dos cartões. A partir daí, a recarga passa a ser feita pela própria empresa na plataforma de venda de benefícios, com créditos pré-pagos — a empresa paga somente pelos créditos dos colaboradores.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["como funciona a implantacao?", "como comeca?", "quais os passos para implantar?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Após análise das obrigações e responsabilidades da empresa perante o PAT, assinamos o contrato e realizamos o cadastro da base de funcionários para dar sequência à emissão dos cartões. A partir daí, a recarga passa a ser feita pela própria empresa na plataforma de venda de benefícios, com créditos pré-pagos — a empresa paga somente pelos créditos dos colaboradores.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "contrato-cancelamento",
     "grupo": "Contratação e custos",
     "pergunta": "Existe prazo de fidelidade ou multa por cancelamento?",
     "resposta": "Não há contrato de fidelidade nem multa por cancelamento. A operação segue as regras combinadas na proposta comercial, e a empresa pode encerrar quando quiser.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["tem fidelidade?", "tem multa para cancelar?", "posso cancelar quando quiser?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Sem fidelidade e sem multa por cancelamento. Voce pode encerrar quando quiser, seguindo o que foi combinado na proposta.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "fornecedor-migracao",
     "grupo": "Contratação e custos",
     "pergunta": "Como migro do meu fornecedor atual?",
     "resposta": "A troca é planejada com a equipe comercial. O processo começa pelo cadastro da base de colaboradores e pela emissão dos novos cartões; a partir daí, a recarga passa a ser feita na nossa plataforma. Como não há custo de implantação nem fidelidade, o calendário da migração pode ser alinhado com o contrato atual da empresa.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["como trocar de fornecedor?", "como migrar para voces?"],
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "A troca é planejada com a equipe comercial. O processo começa pelo cadastro da base de colaboradores e pela emissão dos novos cartões; a partir daí, a recarga passa a ser feita na nossa plataforma. Como não há custo de implantação nem fidelidade, o calendário da migração pode ser alinhado com o contrato atual da empresa.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-categorias",
     "grupo": "Cartão e plataforma",
     "pergunta": "Como funcionam as 16 categorias no mesmo cartão?",
     "resposta": "O cartão físico tem dois chips — voucher e multisaldo — e o colaborador acompanha os saldos separados por categoria no app. Quais categorias a empresa contrata e como elas se distribuem entre os chips é definido na proposta com a equipe comercial, porque depende das regras de cada benefício. O PAT se refere a alimentação e refeição; o Vale-Cultura, quando contratado, pertence ao Programa de Cultura do Trabalhador, com legislação própria.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["como funcionam as categorias?", "o que sao os 2 chips?", "como funciona o multisaldo?"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "O cartão físico tem dois chips — voucher e multisaldo — e o colaborador acompanha os saldos separados por categoria no app. Quais categorias a empresa contrata e como elas se distribuem entre os chips é definido na proposta com a equipe comercial, porque depende das regras de cada benefício. O PAT se refere a alimentação e refeição; o Vale-Cultura, quando contratado, pertence ao Programa de Cultura do Trabalhador, com legislação própria.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "saldo-categorias",
     "grupo": "Cartão e plataforma",
     "pergunta": "Cada categoria tem saldo separado?",
     "resposta": "Sim. Os saldos são controlados por categoria e aparecem separados no app, com o extrato de cada um. A empresa define na contratação e nas recargas quanto vai para cada categoria, conforme as regras de cada benefício.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["cada categoria tem saldo separado?"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Sim. Os saldos são controlados por categoria e aparecem separados no app, com o extrato de cada um. A empresa define na contratação e nas recargas quanto vai para cada categoria, conforme as regras de cada benefício.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-aceitacao",
     "grupo": "Cartão e plataforma",
     "pergunta": "Onde posso utilizar o cartão JÁ Benefícios?",
     "resposta": "O uso depende da rede habilitada para cada categoria. Para o saldo no chip voucher, é necessário informar ao estabelecimento que o pagamento é cartão voucher. O detalhamento por categoria é confirmado na proposta.",
-    "equivalentes": [
-      "Onde o cartão é aceito?",
-      "Em quais estabelecimentos posso comprar?",
-      "Onde aceitam meu cartão?",
-      "Aceita em qualquer lugar com Visa?"
-    ],
-    "exibirNoSite": true
+    "equivalentes": ["Onde o cartão é aceito?", "Em quais estabelecimentos posso comprar?", "Onde aceitam meu cartão?", "Aceita em qualquer lugar com Visa?"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Depende da rede habilitada para cada categoria. Se for saldo no chip voucher, avise o estabelecimento que e cartao voucher. O detalhamento por categoria e confirmado na proposta.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-virtual",
     "grupo": "Cartão e plataforma",
     "pergunta": "Existe cartão virtual? Como funcionam as compras online?",
     "resposta": "Sim. O app reúne a gestão do cartão físico e do cartão virtual: o colaborador acessa os dados completos para compras online, bloqueia e desbloqueia o cartão e acompanha o saldo.",
-    "equivalentes": [],
-    "exibirNoSite": true
+    "equivalentes": ["tem cartao virtual?", "como comprar online?"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Sim. O app reúne a gestão do cartão físico e do cartão virtual: o colaborador acessa os dados completos para compras online, bloqueia e desbloqueia o cartão e acompanha o saldo.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-perda",
     "grupo": "Cartão e plataforma",
     "pergunta": "Perdi meu cartão. O que faço?",
     "resposta": "Bloqueie o cartão imediatamente pelo app. Em seguida, fale com o atendimento pelo e-mail falecom@jadigital.com.br ou pelo WhatsApp (11) 91099-3348 para solicitar a segunda via e receber as orientações.",
-    "equivalentes": [
-      "Perdi meu cartão. Como solicitar a segunda via?",
-      "Perdi meu cartão, e agora?",
-      "Como pedir segunda via?",
-      "Roubaram meu cartão"
-    ],
-    "exibirNoSite": true
+    "equivalentes": ["Perdi meu cartão. Como solicitar a segunda via?", "Perdi meu cartão, e agora?", "Como pedir segunda via?", "Roubaram meu cartão"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "Bloqueie agora pelo app. Depois fale com a gente: falecom@jadigital.com.br ou WhatsApp (11) 91099-3348 para pedir a 2a via.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-funcionalidades",
     "grupo": "Cartão e plataforma",
     "pergunta": "Quais funcionalidades estão disponíveis no aplicativo?",
     "resposta": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual.",
-    "equivalentes": [
-      "Como funciona o app do colaborador?",
-      "Quais funcionalidades estão disponíveis no app?"
-    ],
-    "exibirNoSite": true
+    "equivalentes": ["Como funciona o app do colaborador?", "Quais funcionalidades estão disponíveis no app?"],
+    "exibirNoSite": true,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Pelo app, o colaborador consulta saldos por categoria e extratos, acessa a senha e os dados do cartão para compras online, bloqueia e desbloqueia o cartão e gerencia o cartão físico e o virtual.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "empresa-recarga",
@@ -127,7 +161,11 @@
     "pergunta": "Como a empresa administra os benefícios?",
     "resposta": "A empresa faz a recarga dos cartões de forma autônoma, pela nossa plataforma de venda de benefícios. Os créditos são pré-pagos: a empresa paga somente pelos créditos dos colaboradores.",
     "equivalentes": [],
-    "exibirNoSite": true
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "A empresa faz a recarga dos cartões de forma autônoma, pela nossa plataforma de venda de benefícios. Os créditos são pré-pagos: a empresa paga somente pelos créditos dos colaboradores.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "colaborador-cadastro",
@@ -135,7 +173,11 @@
     "pergunta": "Como incluir um colaborador ou desligar quem saiu da empresa?",
     "resposta": "Na implantação, a base de colaboradores é cadastrada com apoio da nossa equipe. Depois disso, novas admissões entram nessa base e passam a receber recarga no calendário definido pela empresa. Em desligamentos, o atendimento orienta o bloqueio do cartão e o tratamento do saldo remanescente, conforme as regras de cada benefício.",
     "equivalentes": [],
-    "exibirNoSite": true
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Na implantação, a base de colaboradores é cadastrada com apoio da nossa equipe. Depois disso, novas admissões entram nessa base e passam a receber recarga no calendário definido pela empresa. Em desligamentos, o atendimento orienta o bloqueio do cartão e o tratamento do saldo remanescente, conforme as regras de cada benefício.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "suporte-canais",
@@ -143,7 +185,11 @@
     "pergunta": "Como funciona o atendimento para empresas e colaboradores?",
     "resposta": "Através dos nossos canais de atendimento: e-mail falecom@jadigital.com.br e WhatsApp (11) 91099-3348.",
     "equivalentes": [],
-    "exibirNoSite": true
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Através dos nossos canais de atendimento: e-mail falecom@jadigital.com.br e WhatsApp (11) 91099-3348.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "pat-conformidade",
@@ -151,7 +197,11 @@
     "pergunta": "O JÁ Benefícios atua em conformidade com o PAT?",
     "resposta": "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página.",
     "equivalentes": [],
-    "exibirNoSite": true
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Sim. Nosso nº de Registro PAT é o FA000031, em conformidade com a Lei 14.442/2022 e com as normas do Programa de Alimentação do Trabalhador (PAT). Os dados cadastrais completos constam no rodapé desta página.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartoes-oferecidos",
@@ -159,7 +209,11 @@
     "pergunta": "Quais cartões a JÁ oferece?",
     "resposta": "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app.",
     "equivalentes": [],
-    "exibirNoSite": false
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "A JÁ Benefícios oferece cartões corporativos com bandeira VISA que reúnem vários benefícios em um só cartão. As principais categorias são alimentação e refeição (PAT), Vale-Cultura (Programa de Cultura do Trabalhador) e categorias de saúde, educação, deslocamento e premiação (multibenefícios), com saldos separados por categoria no app.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "empresa-custos",
@@ -167,7 +221,11 @@
     "pergunta": "Quais são as taxas e custos para a empresa?",
     "resposta": "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial.",
     "equivalentes": [],
-    "exibirNoSite": false
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Não há custo de implantação, mensalidade nem taxa por colaborador. A empresa paga apenas pelos créditos carregados para os colaboradores e pelo frete dos cartões físicos, com valor variável conforme a região. Outros custos eventuais são informados na proposta comercial.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "empresa-contratar",
@@ -175,216 +233,227 @@
     "pergunta": "Como contratar para minha empresa?",
     "resposta": "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios.",
     "equivalentes": [],
-    "exibirNoSite": false
+    "exibirNoSite": true,
+    "persona": "empresa_RH",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "Fale com nossa equipe comercial pelo formulário de contato (role até o final da página) ou pelo WhatsApp. Após a proposta comercial, assinamos o contrato, cadastramos a base de colaboradores e emitimos os cartões. A partir daí, a empresa faz as recargas pela nossa plataforma de benefícios.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
+  },
+  {
+    "id": "falar-com-humano",
+    "grupo": "Atendimento",
+    "pergunta": "Quero falar com atendente",
+    "resposta": "Claro, vou encaminhar para nossa equipe. Você pode falar pelo WhatsApp (11) 91099-3348 ou pelo e-mail falecom@jadigital.com.br.",
+    "equivalentes": ["atendente", "humano", "falar com pessoa", "quero falar com alguém", "quero falar com atendente", "preciso de atendimento humano"],
+    "exibirNoSite": false,
+    "persona": "ambos",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "Claro, vou encaminhar para nossa equipe. Fale pelo WhatsApp (11) 91099-3348 ou pelo e-mail falecom@jadigital.com.br.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-senha",
     "grupo": "Senhas e segurança",
     "pergunta": "Como consultar a senha do cartão?",
     "resposta": "A senha do cartão pode ser consultada no aplicativo. Se não conseguir acessar essa informação, fale com o atendimento oficial pelo WhatsApp (11) 91099-3348 ou pelo e-mail falecom@jadigital.com.br para receber orientação. Nunca envie sua senha na conversa.",
-    "equivalentes": [
-      "Esqueci a senha do cartão",
-      "Onde vejo a senha do cartão?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Esqueci a senha do cartão", "Onde vejo a senha do cartão?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "A senha do cartão pode ser consultada no aplicativo. Se não conseguir acessar essa informação, fale com o atendimento oficial pelo WhatsApp (11) 91099-3348 ou pelo e-mail falecom@jadigital.com.br para receber orientação. Nunca envie sua senha na conversa.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-acesso",
     "grupo": "Aplicativo",
     "pergunta": "Como faço para acessar o aplicativo JÁ Digital?",
     "resposta": "Instale o aplicativo Já Digital pela loja oficial do seu celular. Na tela inicial, selecione “Já tenho uma conta” e depois “Entrar com CPF”. Caso não consiga entrar, procure o atendimento oficial para receber orientação. Nunca compartilhe sua senha na conversa.",
-    "equivalentes": [
-      "Como entro no app JÁ Digital?",
-      "Como fazer login com CPF?",
-      "Quero acessar minha conta"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Como entro no app JÁ Digital?", "Como fazer login com CPF?", "Quero acessar minha conta"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Instale o aplicativo Já Digital pela loja oficial do seu celular. Na tela inicial, selecione “Já tenho uma conta” e depois “Entrar com CPF”. Caso não consiga entrar, procure o atendimento oficial para receber orientação. Nunca compartilhe sua senha na conversa.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-cartao-empresa",
     "grupo": "Aplicativo",
     "pergunta": "Recebi o cartão da empresa. Preciso criar uma conta?",
     "resposta": "Quem recebeu o cartão da empresa pode já ter cadastro. No aplicativo Já Digital, tente a opção “Já tenho uma conta” e “Entrar com CPF”. Se não conseguir acessar, solicite a verificação do cadastro ao atendimento oficial.",
-    "equivalentes": [
-      "Já tenho o cartão, como faço o cadastro?",
-      "Recebi meu benefício, preciso me cadastrar?",
-      "Como ativar meu acesso à conta?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Já tenho o cartão, como faço o cadastro?", "Recebi meu benefício, preciso me cadastrar?", "Como ativar meu acesso à conta?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Quem recebeu o cartão da empresa pode já ter cadastro. No aplicativo Já Digital, tente a opção “Já tenho uma conta” e “Entrar com CPF”. Se não conseguir acessar, solicite a verificação do cadastro ao atendimento oficial.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-erro-acesso",
     "grupo": "Aplicativo",
     "pergunta": "Não consigo entrar no aplicativo. O que devo fazer?",
     "resposta": "Verifique se selecionou “Entrar com CPF” e se está usando as credenciais corretas. Feche e abra o aplicativo novamente. Se o problema persistir, contate o suporte oficial e descreva o erro, sem compartilhar sua senha.",
-    "equivalentes": [
-      "O aplicativo não entra",
-      "Não consigo fazer login",
-      "Meu CPF não acessa o app",
-      "Erro ao acessar minha conta"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["O aplicativo não entra", "Não consigo fazer login", "Meu CPF não acessa o app", "Erro ao acessar minha conta"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Verifique se selecionou “Entrar com CPF” e se está usando as credenciais corretas. Feche e abra o aplicativo novamente. Se o problema persistir, contate o suporte oficial e descreva o erro, sem compartilhar sua senha.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-exibicao",
     "grupo": "Aplicativo",
     "pergunta": "O aplicativo está exibindo informações cortadas ou fora da tela. Como resolver?",
     "resposta": "Verifique se o tamanho da fonte ou a escala de exibição do celular está ampliado. Se o problema continuar, entre em contato com o suporte.",
-    "equivalentes": [
-      "A tela do app está cortada",
-      "As letras ficam fora da tela",
-      "O aplicativo está desconfigurado"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["A tela do app está cortada", "As letras ficam fora da tela", "O aplicativo está desconfigurado"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Verifique se o tamanho da fonte ou a escala de exibição do celular está ampliado. Se o problema continuar, entre em contato com o suporte.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-dois-cartoes",
     "grupo": "Aplicativo",
     "pergunta": "O aplicativo mostra dois cartões, mas eu só recebi um. Isso é normal?",
     "resposta": "Um mesmo cartão físico pode aparecer como duas opções no aplicativo, incluindo a carteira voucher. Isso não significa necessariamente que serão entregues dois cartões físicos. Se tiver dúvida sobre os cartões exibidos, confirme com o atendimento.",
-    "equivalentes": [
-      "Por que aparecem dois cartões no app?",
-      "Tenho dois cartões digitais e um físico",
-      "Recebi apenas um cartão"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Por que aparecem dois cartões no app?", "Tenho dois cartões digitais e um físico", "Recebi apenas um cartão"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Um mesmo cartão físico pode aparecer como duas opções no aplicativo, incluindo a carteira voucher. Isso não significa necessariamente que serão entregues dois cartões físicos. Se tiver dúvida sobre os cartões exibidos, confirme com o atendimento.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-download",
     "grupo": "Aplicativo",
     "pergunta": "Onde encontro o aplicativo JÁ Digital?",
     "resposta": "O aplicativo é o Já Digital. Para iPhone, acesse https://apps.apple.com/br/app/ja-digital/id6497330228 . Para Android, acesse https://play.google.com/store/apps/details?id=br.com.jadigital .",
-    "equivalentes": [
-      "Onde baixar o aplicativo?",
-      "Tem aplicativo para Android e iPhone?",
-      "Qual é o app oficial?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Onde baixar o aplicativo?", "Tem aplicativo para Android e iPhone?", "Qual é o app oficial?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "O aplicativo é o Já Digital. Para iPhone, acesse https://apps.apple.com/br/app/ja-digital/id6497330228 . Para Android, acesse https://play.google.com/store/apps/details?id=br.com.jadigital .",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "senha-transacao",
     "grupo": "Senhas e segurança",
     "pergunta": "O que é a senha de transação?",
     "resposta": "A senha de transação é usada nas operações do cartão e é diferente da senha de acesso ao aplicativo. Mantenha as duas em sigilo. Se tiver dúvida sobre qual senha utilizar, procure o atendimento oficial sem enviar suas senhas.",
-    "equivalentes": [
-      "Senha do aplicativo é a mesma senha do cartão?",
-      "O que significa senha de transação?",
-      "Qual senha uso para comprar?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Senha do aplicativo é a mesma senha do cartão?", "O que significa senha de transação?", "Qual senha uso para comprar?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "A senha de transação é usada nas operações do cartão e é diferente da senha de acesso ao aplicativo. Mantenha as duas em sigilo. Se tiver dúvida sobre qual senha utilizar, procure o atendimento oficial sem enviar suas senhas.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-bloqueio-senha",
     "grupo": "Senhas e segurança",
     "pergunta": "Digitei a senha errada e meu cartão foi bloqueado. Como desbloquear?",
     "resposta": "Verifique a situação do cartão no aplicativo. Caso o bloqueio tenha ocorrido por tentativas incorretas ou prevenção de segurança, entre em contato com o atendimento para validação e orientação. A liberação pode não ser imediata.",
-    "equivalentes": [
-      "Bloqueei o cartão errando a senha",
-      "Cartão bloqueado por senha errada",
-      "Como liberar cartão bloqueado?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Bloqueei o cartão errando a senha", "Cartão bloqueado por senha errada", "Como liberar cartão bloqueado?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "Verifique a situação do cartão no aplicativo. Caso o bloqueio tenha ocorrido por tentativas incorretas ou prevenção de segurança, entre em contato com o atendimento para validação e orientação. A liberação pode não ser imediata.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-bloqueio-preventivo",
     "grupo": "Senhas e segurança",
     "pergunta": "Meu cartão foi bloqueado preventivamente. O que significa?",
     "resposta": "O sistema pode aplicar bloqueios preventivos quando identifica operações que exigem verificação adicional. O atendimento poderá confirmar a situação e orientar a regularização, após verificar a identidade do titular.",
-    "equivalentes": [
-      "Por que bloquearam meu cartão?",
-      "Meu cartão está bloqueado por segurança",
-      "Recebi aviso de bloqueio preventivo"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Por que bloquearam meu cartão?", "Meu cartão está bloqueado por segurança", "Recebi aviso de bloqueio preventivo"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "O sistema pode aplicar bloqueios preventivos quando identifica operações que exigem verificação adicional. O atendimento poderá confirmar a situação e orientar a regularização, após verificar a identidade do titular.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-ativacao",
     "grupo": "Cartão e pagamento",
     "pergunta": "Como desbloquear meu cartão pela primeira vez?",
     "resposta": "Acesse o aplicativo e procure a opção “Desbloquear cartão”. Siga as instruções apresentadas. Se houver erro ou se a opção não estiver disponível, solicite suporte pelo canal oficial.",
-    "equivalentes": [
-      "Como ativar um cartão novo?",
-      "Primeiro desbloqueio do cartão",
-      "Como liberar meu cartão recebido?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Como ativar um cartão novo?", "Primeiro desbloqueio do cartão", "Como liberar meu cartão recebido?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Acesse o aplicativo e procure a opção “Desbloquear cartão”. Siga as instruções apresentadas. Se houver erro ou se a opção não estiver disponível, solicite suporte pelo canal oficial.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-pagamento-recusado",
     "grupo": "Cartão e pagamento",
     "pergunta": "Meu cartão não passou na maquininha. O que verificar?",
     "resposta": "Confira o saldo na carteira correta, a modalidade aceita pelo estabelecimento, a senha utilizada e se o cartão está desbloqueado. Para o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se a compra continuar recusada, mesmo que o cartão apareça ativo, contate o suporte e informe o estabelecimento e o horário aproximado da tentativa, sem enviar senha ou dados completos do cartão.",
-    "equivalentes": [
-      "Meu cartão não passa",
-      "Pagamento recusado na maquininha",
-      "Não consigo comprar com o cartão",
-      "Deu erro na hora de pagar",
-      "Como proceder se o cartão parecer desbloqueado, mas ainda não funcionar?",
-      "Aparece desbloqueado mas não funciona",
-      "Meu cartão está ativo e não passa",
-      "Desbloqueei e continua recusando"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Meu cartão não passa", "Pagamento recusado na maquininha", "Não consigo comprar com o cartão", "Deu erro na hora de pagar", "Como proceder se o cartão parecer desbloqueado, mas ainda não funcionar?", "Aparece desbloqueado mas não funciona", "Meu cartão está ativo e não passa", "Desbloqueei e continua recusando"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Confira o saldo na carteira correta, a modalidade aceita pelo estabelecimento, a senha utilizada e se o cartão está desbloqueado. Para o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se a compra continuar recusada, mesmo que o cartão apareça ativo, contate o suporte e informe o estabelecimento e o horário aproximado da tentativa, sem enviar senha ou dados completos do cartão.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cartao-modalidade-voucher",
     "grupo": "Cartão e pagamento",
     "pergunta": "Preciso avisar ao caixa que meu cartão é voucher?",
     "resposta": "Para usar o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se houver dúvida sobre a modalidade ou recusa do pagamento, confirme a orientação com o atendimento.",
-    "equivalentes": [
-      "Preciso selecionar voucher na maquininha?",
-      "O caixa deve passar como voucher?",
-      "Qual modalidade selecionar na maquininha?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Preciso selecionar voucher na maquininha?", "O caixa deve passar como voucher?", "Qual modalidade selecionar na maquininha?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Para usar o saldo do chip voucher, informe ao estabelecimento que o pagamento é cartão voucher. Se houver dúvida sobre a modalidade ou recusa do pagamento, confirme a orientação com o atendimento.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "compra-saldo",
     "grupo": "Cartão e pagamento",
     "pergunta": "Posso fazer compras acima do saldo disponível?",
     "resposta": "Uma transação pode ser recusada quando o valor excede o saldo disponível na carteira habilitada para aquele tipo de estabelecimento. Consulte o saldo e a modalidade antes de tentar novamente.",
-    "equivalentes": [
-      "Posso gastar mais que meu saldo?",
-      "Pode passar compra sem saldo suficiente?",
-      "Cartão tem limite extra?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Posso gastar mais que meu saldo?", "Pode passar compra sem saldo suficiente?", "Cartão tem limite extra?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Uma transação pode ser recusada quando o valor excede o saldo disponível na carteira habilitada para aquele tipo de estabelecimento. Consulte o saldo e a modalidade antes de tentar novamente.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "app-saldo",
     "grupo": "Saldo e carteiras",
     "pergunta": "Como consultar o saldo do cartão?",
     "resposta": "Acesse o aplicativo Já Digital e consulte os saldos exibidos em suas carteiras. Se o valor não aparecer corretamente, procure o atendimento oficial.",
-    "equivalentes": [
-      "Onde vejo meu saldo?",
-      "Como saber quanto tenho disponível?",
-      "Consultar saldo do benefício"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Onde vejo meu saldo?", "Como saber quanto tenho disponível?", "Consultar saldo do benefício"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Acesse o aplicativo Já Digital e consulte os saldos exibidos em suas carteiras. Se o valor não aparecer corretamente, procure o atendimento oficial.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "saldo-compra-recusada",
     "grupo": "Saldo e carteiras",
     "pergunta": "Por que tenho saldo no aplicativo, mas a compra foi recusada?",
     "resposta": "O saldo pode estar em uma carteira diferente da aceita no estabelecimento. Confira se o valor está disponível em Vale-Alimentação, Vale-Refeição ou outra modalidade e verifique possíveis bloqueios.",
-    "equivalentes": [
-      "Tenho saldo mas pagamento não passou",
-      "Saldo disponível e transação negada",
-      "Por que minha compra foi recusada com saldo?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Tenho saldo mas pagamento não passou", "Saldo disponível e transação negada", "Por que minha compra foi recusada com saldo?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+    "resposta_bot_whatsapp": "Pode ser saldo em carteira diferente da aceita no local. Confira se o valor esta em Vale-Alimentacao, Vale-Refeicao ou outra modalidade e veja se ha bloqueio.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "suporte-informacoes",
     "grupo": "Atendimento",
     "pergunta": "Quais informações devo ter em mãos ao solicitar suporte?",
     "resposta": "Descreva o problema e a mensagem de erro apresentada. Em caso de transação recusada, informe o estabelecimento e o horário aproximado da tentativa. Envie dados pessoais somente pelos canais oficiais e nunca compartilhe senhas ou dados completos do cartão.",
-    "equivalentes": [
-      "Quais dados enviar ao suporte?",
-      "O que preciso informar para abrir atendimento?",
-      "Como relatar problema ao suporte?"
-    ],
-    "exibirNoSite": false
+    "equivalentes": ["Quais dados enviar ao suporte?", "O que preciso informar para abrir atendimento?", "Como relatar problema ao suporte?"],
+    "exibirNoSite": false,
+    "persona": "colaborador",
+    "comportamento": "HANDOFF_RAPIDO",
+    "resposta_bot_whatsapp": "Descreva o problema e a mensagem de erro apresentada. Em caso de transação recusada, informe o estabelecimento e o horário aproximado da tentativa. Envie dados pessoais somente pelos canais oficiais e nunca compartilhe senhas ou dados completos do cartão.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-alimentacao",
@@ -393,7 +462,11 @@
     "resposta": "Apoio às compras de alimentos em supermercados e mercearias para o dia a dia do colaborador e da família.",
     "equivalentes": ["vale alimentação", "PAT", "supermercado", "mercearia"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Apoio às compras de alimentos em supermercados e mercearias para o dia a dia do colaborador e da família.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-refeicao",
@@ -402,7 +475,11 @@
     "resposta": "Refeições prontas para a rotina de trabalho em restaurantes, lanchonetes e padarias.",
     "equivalentes": ["vale refeição", "restaurante", "lanchonete"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Refeições prontas para a rotina de trabalho em restaurantes, lanchonetes e padarias.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-alimentacao-refeicao",
@@ -411,7 +488,11 @@
     "resposta": "As duas modalidades em uma única solução com liberdade de uso conforme as regras do PAT.",
     "equivalentes": ["alimentação e refeição", "multibenefício PAT"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "As duas modalidades em uma única solução com liberdade de uso conforme as regras do PAT.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-cultura",
@@ -420,7 +501,11 @@
     "resposta": "Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal.",
     "equivalentes": ["cinema", "show", "livraria", "benefício cultural"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-saude",
@@ -429,7 +514,11 @@
     "resposta": "Farmácias, consultas, exames e outros serviços habilitados de saúde e bem-estar.",
     "equivalentes": ["farmácia", "consulta", "exame", "benefício saúde"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Farmácias, consultas, exames e outros serviços habilitados de saúde e bem-estar.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-educacao",
@@ -438,7 +527,11 @@
     "resposta": "Incentivo ao aprendizado contínuo, cursos e desenvolvimento profissional.",
     "equivalentes": ["cursos", "estudo", "benefício educação"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Incentivo ao aprendizado contínuo, cursos e desenvolvimento profissional.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-mobilidade",
@@ -447,7 +540,11 @@
     "resposta": "Transporte urbano, aplicativos de mobilidade como Uber e 99 e locomoção do dia a dia.",
     "equivalentes": ["transporte", "Uber", "99", "passagem"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Transporte urbano, aplicativos de mobilidade como Uber e 99 e locomoção do dia a dia.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-combustivel",
@@ -456,7 +553,11 @@
     "resposta": "Abastecimento em postos habilitados apoiando os deslocamentos do time.",
     "equivalentes": ["gasolina", "posto", "abastecimento"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Abastecimento em postos habilitados apoiando os deslocamentos do time.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-trabalho-remoto",
@@ -465,7 +566,11 @@
     "resposta": "Apoio às despesas de home office como internet, energia elétrica e equipamentos de trabalho à distância.",
     "equivalentes": ["home office", "trabalho à distância", "internet"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Apoio às despesas de home office como internet, energia elétrica e equipamentos de trabalho à distância.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-premiacao",
@@ -474,7 +579,11 @@
     "resposta": "Reconheça resultados, metas alcançadas e desempenho de destaque do time.",
     "equivalentes": ["bônus", "metas", "recompensa"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Reconheça resultados, metas alcançadas e desempenho de destaque do time.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-incentivo",
@@ -483,7 +592,11 @@
     "resposta": "Campanhas de engajamento, desafios corporativos e motivação do time.",
     "equivalentes": ["campanha", "engajamento", "motivação"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Campanhas de engajamento, desafios corporativos e motivação do time.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-assiduidade",
@@ -492,7 +605,11 @@
     "resposta": "Reconhecimento da presença e pontualidade do colaborador.",
     "equivalentes": ["presença", "pontualidade", "frequência"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Reconhecimento da presença e pontualidade do colaborador.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-aniversario",
@@ -501,7 +618,11 @@
     "resposta": "Benefício comemorativo para celebrar o aniversário dos colaboradores.",
     "equivalentes": ["aniversário do colaborador", "data comemorativa"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Benefício comemorativo para celebrar o aniversário dos colaboradores.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-natal",
@@ -510,7 +631,11 @@
     "resposta": "Presente de fim de ano para substituir ou complementar a cesta natalina.",
     "equivalentes": ["cesta natalina", "fim de ano", "presente de natal"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Presente de fim de ano para substituir ou complementar a cesta natalina.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-multiuso",
@@ -519,7 +644,11 @@
     "resposta": "Diferentes possibilidades em uma única solução com regras flexíveis.",
     "equivalentes": ["uso livre", "cartão multiuso"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Diferentes possibilidades em uma única solução com regras flexíveis.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   },
   {
     "id": "cat-saldo-livre",
@@ -528,6 +657,10 @@
     "resposta": "Valores com utilização mais flexível em toda a rede de aceitação Visa.",
     "equivalentes": ["rede Visa", "saldo flexível"],
     "exibirNoSite": false,
-    "alvo": "ecossistema"
+    "alvo": "ecossistema",
+    "persona": "ambos",
+    "comportamento": "RESPOSTA_DIRETA",
+    "resposta_bot_whatsapp": "Valores com utilização mais flexível em toda a rede de aceitação Visa.",
+    "nunca_dizer": ["Nao invente valor de frete, prazo exato, valor de 2a via ou rede de aceitacao especifica.", "Nao diga 'provavelmente' ou 'acredito que'.", "Nao peca senha, CPF completo, numero completo do cartao ou codigo.", "Nao prometa o que so esta na proposta comercial."]
   }
 ]

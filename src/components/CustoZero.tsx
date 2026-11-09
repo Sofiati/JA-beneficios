@@ -387,17 +387,36 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
               onSubmit={handleSubmit}
               data-animate
             >
-              <input type="checkbox" name="botcheck" id="botcheckBeneficios" className="honeypot" tabIndex={-1} aria-hidden="true" autoComplete="off" checked={formData.botcheck} onChange={(e) => setFormData(p => ({ ...p, botcheck: e.target.checked }))} />
+              <input
+                type="checkbox"
+                name="botcheck"
+                id="botcheckBeneficios"
+                className="honeypot"
+                tabIndex={-1}
+                aria-hidden="true"
+                autoComplete="off"
+                checked={formData.botcheck}
+                onChange={(e) => setFormData((p) => ({ ...p, botcheck: e.target.checked }))}
+              />
 
               <h3 className="form-title">
                 Vamos encontrar a solução ideal para sua empresa?
               </h3>
               <p className="form-subtitle">
-                Conte um pouco sobre sua empresa. Nossa equipe entrará em contato por WhatsApp ou e-mail para apresentar uma proposta personalizada que simplifique a gestão dos benefícios e amplie as opções do seu time — sem compromisso.
+                Conte um pouco sobre sua empresa. Nossa equipe entrará em contato por WhatsApp ou e-mail para apresentar uma proposta personalizada que simplifique a gestão dos benefícios e amplie as opções do seu time, sem compromisso.
               </p>
 
-              <div className="beneficios-grid">
-                {FORM_FIELDS.map((field) => (
+              <div className="form-progress" role="progressbar" aria-label="Progresso do formulário" aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
+                <span className="form-progress-label">Preenchimento do formulário</span>
+                <div className="form-progress-track">
+                  <div className="form-progress-fill" style={{ width: "100%" }} />
+                </div>
+              </div>
+
+              <fieldset className="form-fieldset" aria-label="Dados pessoais">
+                <legend className="form-legend">Dados pessoais</legend>
+                <div className="beneficios-grid">
+                  {[FORM_FIELDS[0], FORM_FIELDS[1], FORM_FIELDS[2]].map((field) => (
                   <div className="form-field" key={field.id}>
                     <label htmlFor={field.id}>{field.label} {field.required && <span className="required" aria-hidden="true">*</span>}</label>
                     <div className="form-control">
@@ -416,6 +435,59 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                     {errors[field.name] && <p className="field-error">{errors[field.name]}</p>}
                   </div>
                 ))}
+                </div>
+              </fieldset>
+
+
+              <fieldset className="form-fieldset" aria-label="Dados da empresa">
+                <legend className="form-legend">Dados da empresa</legend>
+                <div className="beneficios-grid">
+                  {[FORM_FIELDS[3], FORM_FIELDS[4], FORM_FIELDS[5], FORM_FIELDS[6]].map((field) => (
+                    <div className="form-field" key={field.id}>
+                      <label htmlFor={field.id}>{field.label} {field.required && <span className="required" aria-hidden="true">*</span>}</label>
+                      <div className="form-control">
+                        <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{field.icon}</svg>
+                        {field.options ? (
+                          <select id={field.id} name={field.name} value={formData[field.name]} onChange={handleChange} onBlur={handleBlur} required={field.required} aria-invalid={!!errors[field.name]}>
+                            <option value="">Selecione</option>
+                            {field.options.map(([value, label]) => (
+                              <option key={value} value={value}>{label}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input type={field.type} id={field.id} name={field.name} value={formData[field.name]} onChange={handleChange} onBlur={handleBlur} placeholder={field.placeholder} required={field.required} autoComplete={field.autoComplete} inputMode={field.inputMode} maxLength={field.maxLength} aria-invalid={!!errors[field.name]} />
+                        )}
+                      </div>
+                      {errors[field.name] && <p className="field-error">{errors[field.name]}</p>}
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset className="form-fieldset" aria-label="Objetivo do contato">
+                <legend className="form-legend">Objetivo do contato</legend>
+                <div className="beneficios-grid">
+                  {[FORM_FIELDS[7]].map((field) => (
+                    <div className="form-field" key={field.id}>
+                      <label htmlFor={field.id}>{field.label} {field.required && <span className="required" aria-hidden="true">*</span>}</label>
+                      <div className="form-control">
+                        <svg className="form-control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{field.icon}</svg>
+                        {field.options ? (
+                          <select id={field.id} name={field.name} value={formData[field.name]} onChange={handleChange} onBlur={handleBlur} required={field.required} aria-invalid={!!errors[field.name]}>
+                            <option value="">Selecione</option>
+                            {field.options.map(([value, label]) => (
+                              <option key={value} value={value}>{label}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input type={field.type} id={field.id} name={field.name} value={formData[field.name]} onChange={handleChange} onBlur={handleBlur} placeholder={field.placeholder} required={field.required} autoComplete={field.autoComplete} inputMode={field.inputMode} maxLength={field.maxLength} aria-invalid={!!errors[field.name]} />
+                        )}
+                      </div>
+                      {errors[field.name] && <p className="field-error">{errors[field.name]}</p>}
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
 
                 <div className="form-field beneficios-full">
                   <label className="form-consent" htmlFor="bfConsent">
@@ -430,23 +502,22 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
                   {errors.consent && <p className="field-error">{errors.consent}</p>}
                 </div>
 
+
                 <div className="form-field beneficios-full">
                   <button 
                     type="submit" 
                     className="btn btn-yellow btn-zero-submit" 
                     disabled={status === "submitting"}
                   >
-                    {status === "submitting" ? "Enviando…" : (
-                      <>Solicitar contato comercial <span aria-hidden="true">→</span></>
-                    )}
+                    {status === "submitting" ? "Enviando…" : "Solicitar contato comercial"}
                   </button>
                   <ul className="form-trust" aria-label="Compromissos de atendimento">
                     <li>Atendimento consultivo, sem compromisso</li>
                     <li>Suporte dedicado a RH</li>
                   </ul>
                 </div>
-              </div>
             </form>
+              </div>
 
             {status === "success" && (
               <p id="beneficiosFormOk" className="form-ok" role="status" tabIndex={-1}>
@@ -474,7 +545,6 @@ export const CustoZero: React.FC<{ onOpenPrivacy?: () => void }> = ({ onOpenPriv
             </p>
           </div>
         </div>
-      </div>
     </section>
   );
 };

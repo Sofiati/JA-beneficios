@@ -1,5 +1,5 @@
 // Assistente JÁ — híbrido:
-// 1) pergunta parecida com a FAQ de src/faq.json -> resposta LITERAL do JSON, sem modelo;
+// 1) pergunta parecida com a FAQ de src/faq.json -> resposta curta cadastrada, sem modelo;
 // 2) sem correspondência confiável -> o modelo responde usando SOMENTE os itens do JSON
 //    como contexto e decide responder, esclarecer ou encaminhar;
 // 3) sem chave, erro ou saída inválida -> FALLBACK + encaminhamento humano.

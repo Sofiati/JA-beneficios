@@ -24,7 +24,7 @@ export const CtaFinal: React.FC = () => {
           className="btn btn-yellow cta-final-button"
           onClick={scrollToForm}
         >
-          Quero conhecer o JÁ Benefícios <span aria-hidden="true">→</span>
+          Conhecer o JÁ Benefícios
         </button>
         <p className="cta-final-note">Atendimento personalizado, sem compromisso.</p>
       </div>

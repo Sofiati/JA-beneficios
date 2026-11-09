@@ -4,7 +4,6 @@ export const Ecossistema: React.FC = () => {
   return (
     <section className="section section--white" id="ecossistema">
       <div className="container narrow center">
-        <p className="eyebrow">PLATAFORMA DE BENEFÍCIOS FLEXÍVEIS</p>
         <h2>O controle que a sua empresa precisa. A flexibilidade que o seu colaborador quer.</h2>
         <p className="lead">
           A empresa escolhe os benefícios, o colaborador escolhe como usá-los. Portal simples de operar, app leve e atendimento de verdade, do início ao fim.
@@ -17,8 +16,8 @@ export const Ecossistema: React.FC = () => {
             <p className="lead">
               Descubra como integrar benefícios múltiplos em uma experiência única, segura e sem burocracia.
             </p>
-            <a href="#beneficiosForm" className="btn btn-solid">
-              Quero JÁ! <span aria-hidden="true">→</span>
+            <a href="#beneficiosForm" className="btn btn-ghost">
+              Quero JÁ!
             </a>
           </div>
           <div className="categorias-stage">
@@ -51,7 +50,7 @@ export const Ecossistema: React.FC = () => {
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-theater-masks"></i></div>
                   <h5>Cultura</h5>
-                  <p>Cinema, teatro, shows, museus, livrarias e eventos — lazer e desenvolvimento pessoal para o colaborador.</p>
+                  <p>Cinema, teatro, shows, museus, livrarias e eventos: lazer e desenvolvimento pessoal para o colaborador.</p>
                 </article>
               </div>
             </div>
@@ -90,7 +89,7 @@ export const Ecossistema: React.FC = () => {
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-laptop"></i></div>
                   <h5>Trabalho Remoto</h5>
-                  <p>Apoio às despesas do home office — internet, energia e recursos necessários ao trabalho à distância.</p>
+                  <p>Apoio às despesas do home office: internet, energia e recursos necessários ao trabalho à distância.</p>
                 </article>
                 <article className="cat-card">
                   <div className="cat-card-ico-wrap"><i className="cat-card-ico fa-solid fa-trophy"></i></div>

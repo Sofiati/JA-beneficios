@@ -15,7 +15,7 @@ const withKey = { ...env, GEMINI_API_KEY: "test-key" };
 const answerFor = (re) => {
   const item = faq.find((i) => re.test(i.pergunta));
   assert.ok(item, `FAQ sem item que case com ${re}`);
-  return item.resposta;
+  return item.resposta_bot_whatsapp || item.resposta;
 };
 const ask = (message, runtime = env) => worker.fetch(new Request("https://worker.example", {
   method: "POST",
@@ -112,7 +112,7 @@ test("pergunta canônica com histórico continua literal e sem modelo", async (t
   const data = await (await askWithHistory({ message: item.pergunta, history: [
     { role: "user", text: complexQuestion }, { role: "bot", text: "Qual carteira?" },
   ] }, withKey)).json();
-  assert.equal(data.answer, item.resposta);
+  assert.equal(data.answer, item.resposta_bot_whatsapp || item.resposta);
   assert.equal(api.mock.callCount(), 0);
 });
 
@@ -189,13 +189,13 @@ test("pergunta idêntica devolve a resposta literal do faq.json", async () => {
   const data = await response.json();
   assert.equal(response.status, 200);
   assert.equal(data.answer, answerFor(/A implantação tem algum custo/));
-  assert.equal(data.handoff, false);
+  assert.equal(data.handoff, true);
 });
 
 test("paráfrase devolve a resposta literal do faq.json", async () => {
   const data = await (await ask("Tem taxa de mensalidade?")).json();
   assert.equal(data.answer, answerFor(/mensalidade ou taxa por colaborador/));
-  assert.equal(data.handoff, false);
+  assert.equal(data.handoff, true);
 });
 
 // Primeira camada não gasta token: com match na FAQ, nenhuma chamada externa.
@@ -424,8 +424,8 @@ test("plural benefícios continua listando assuntos", async () => {
 // "Colaboradores" empata entre custo por colaborador (item 2) e inclusão de colaborador (15).
 test("empate devolve os dois itens oficiais, sem escolher pela ordem do arquivo", async () => {
   const data = await (await ask("Colaboradores")).json();
-  assert.ok(data.answer.includes(answerFor(/mensalidade ou taxa por colaborador/)));
-  assert.ok(data.answer.includes(answerFor(/Como incluir um colaborador/)));
+  assert.ok(data.suggestions.includes(faq.find((item) => item.id === "mensalidade-custo").pergunta));
+  assert.ok(data.suggestions.includes(faq.find((item) => item.id === "colaborador-cadastro").pergunta));
   assert.ok(Array.isArray(data.suggestions) && data.suggestions.length > 0);
   assert.equal(data.handoff, false);
 });
@@ -441,7 +441,7 @@ test("empate não chama o modelo", async (t) => {
 test("palavra única sem empate continua respondendo pela FAQ", async () => {
   const data = await (await ask("Mensalidade")).json();
   assert.equal(data.answer, answerFor(/mensalidade ou taxa por colaborador/));
-  assert.equal(data.handoff, false);
+  assert.equal(data.handoff, true);
 });
 
 // Sanidade de custo: 500 perguntas com match devem resolver em poucos segundos.
@@ -531,8 +531,8 @@ test("equivalentes do suporte retornam literalmente a base sem consultar IA", as
   for (const item of faq) {
     for (const question of item.equivalentes) {
       const data = await (await ask(question, withKey)).json();
-      assert.equal(data.answer, item.resposta, question);
-      assert.equal(data.handoff, false);
+      assert.equal(data.answer, item.resposta_bot_whatsapp || item.resposta, question);
+      assert.equal(data.handoff, item.comportamento !== "RESPOSTA_DIRETA");
     }
   }
   assert.equal(api.mock.callCount(), 0);

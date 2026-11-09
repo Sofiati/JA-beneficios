@@ -22,16 +22,16 @@ export const Hero: React.FC = () => {
         <div className="hero-overlay">
           <div className="hero-copy">
             <h1>
-              <span className="hero-line1">Todos os benefícios do seu time</span>
+              <span className="hero-line1">Todos os benefícios</span>
               <br />
               <span className="hero-line2">em um só cartão</span>
             </h1>
             <p>
-              Mais liberdade para seus colaboradores, mais praticidade para o RH e condições comerciais que facilitam a gestão.
+              Mais liberdade para o seu time, mais controle para o RH.
             </p>
             <div className="hero-cta-wrap">
               <a className="btn btn-yellow hero-cta" href="#beneficiosForm">
-                Solicitar proposta <span aria-hidden="true">→</span>
+                Solicitar proposta
               </a>
             </div>
             <ul className="hero-benefits" aria-label="Diferenciais do cartão JÁ">

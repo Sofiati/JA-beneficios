@@ -29,6 +29,7 @@ export function createFaqRanker(faq) {
   const ITEMS = faq.flatMap(item => [item.pergunta, ...(item.equivalentes || [])].map(pergunta => ({
     item,
     q: new Set(stems(pergunta)),
+    qWords: new Set(tokens(pergunta)),
     a: new Set(stems(item.resposta)),
     // Sem filtro de stopwords: usado só para listar assuntos de um termo genérico.
     // Prefixo de 4 letras para aproximar flexões do menu ("cartão"/"cartões").
@@ -99,6 +100,9 @@ export function createFaqRanker(faq) {
   function matches(question) {
     // Condicionais/negações pedem interpretação contextual; não decidir só pela similaridade.
     if (COMPLEX_INTENT.test(question) || NEGATION.test(question)) return [];
+    const queryWords = tokens(question).filter(t => !STOP.has(t));
+    const singleWord = queryWords.length === 1 ? queryWords[0] : null;
+    const wholeWord = singleWord && ITEMS.some(entry => entry.qWords.has(singleWord)) ? singleWord : null;
     const keys = [];
     for (const token of tokens(question)) {
       if (STOP.has(token)) continue;
@@ -112,6 +116,8 @@ export function createFaqRanker(faq) {
     if (unknown > 0) return [];
     const scored = [];
     for (const entry of ITEMS) {
+      // Preserva flexões próximas, mas separa “funcionalidades” de “funcionário”.
+      if (wholeWord && ![...entry.qWords].some(word => stem(word) === stem(wholeWord) && Math.abs(word.length - wholeWord.length) <= 2)) continue;
       let score = 0, qHits = 0;
       for (const k of keys) {
         if (!k.stem) continue;
@@ -195,6 +201,10 @@ export function createFaqRanker(faq) {
   }
 
   const result = (payload, path) => ({ ...payload, path });
+  const answerItem = (item, path) => result({
+    answer: item.resposta_bot_whatsapp || item.resposta,
+    handoff: item.comportamento === "HANDOFF_RAPIDO" || item.comportamento === "RESPOSTA_PARCIAL + OFERECER_HUMANO",
+  }, path);
   function searchFaq(question) {
     const conversational = normalize(question).replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
     if (/^(oi|ola|opa|e ai|bom dia|boa tarde|boa noite)( (tudo bem|tudo bom|pessoal|equipe|assistente))?$/.test(conversational)) {
@@ -210,25 +220,15 @@ export function createFaqRanker(faq) {
     if (SENSITIVE.test(question)) return result({answer:FAQ_FALLBACK,handoff:true}, "blocked");
 
     const hit = exact(question);
-    if (hit) return result({answer:hit.resposta,handoff:false}, "faq_exact");
+    if (hit) return answerItem(hit, "faq_exact");
     const found = matches(question);
-    if (found.length === 1) return result({answer:found[0].resposta,handoff:false}, "faq_match");
+    if (found.length === 1) return answerItem(found[0], "faq_match");
     if (found.length > 1) {
-      const parts = [];
-      let size = 0;
-      const suggestions = [];
-      for (const item of found) {
-        const block = `• ${item.pergunta}\n${item.resposta}`;
-        if (parts.length >= 2 && size + block.length > 1000) break;
-        parts.push(block);
-        size += block.length;
-        suggestions.push(item.pergunta);
-      }
-      const answer = `Encontrei mais de um assunto na central de dúvidas. Toque em um dos botões abaixo para ver a resposta:\n\n${parts.join("\n\n")}`;
-      return result({answer, suggestions: suggestions.slice(0, 6), handoff:false}, "faq_multi");
+      const answer = "Encontrei mais de um assunto. Qual destas dúvidas você quer esclarecer?";
+      return result({answer, suggestions: found.map(item => item.pergunta), handoff:false}, "faq_multi");
     }
     const related = topics(question);
-    if (related.length === 1) return result({answer:related[0].resposta,handoff:false}, "faq_match");
+    if (related.length === 1) return answerItem(related[0], "faq_match");
     if (related.length > 1) {
       const answer = `Encontrei estes assuntos na central de dúvidas:\n\n${related.map(i => `• ${i.pergunta}`).join("\n")}`;
       return result({answer, suggestions: related.map(i => i.pergunta), handoff:false}, "faq_topics");

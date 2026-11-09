@@ -16,11 +16,11 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                 href="/" 
                 onClick={(e) => { e.preventDefault(); onBack(); }}
               >
-                ← Voltar para o início
+                Voltar para o início
               </a>
               <h1>Política de Privacidade do serviço <strong>jadigital.com.br</strong></h1>
               <p>
-                Para receber informações sobre os seus dados pessoais, os propósitos e as partes de informação que são compartilhadas, entre em contato com o Proprietário.
+                Para informações sobre seus dados, entre em contato com o Proprietário.
               </p>
             </div>
 
@@ -44,7 +44,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                   Os Dados Pessoais poderão ser fornecidos livremente pelo Usuário, ou, no caso dos Dados de Utilização, coletados automaticamente ao se utilizar este Aplicativo.<br />
                   A menos que especificado diferentemente todos os Dados solicitados por este Aplicativo são obrigatórios e a falta de fornecimento destes Dados poderá impossibilitar este Aplicativo de fornecer os seus Serviços. Nos casos em que este Aplicativo afirmar especificamente que alguns Dados não forem obrigatórios, os Usuários ficam livres para deixarem de comunicar estes Dados sem nenhuma consequência para a disponibilidade ou o funcionamento do Serviço.<br />
                   Os Usuários que tiverem dúvidas a respeito de quais Dados Pessoais são obrigatórios estão convidados a entrar em contato com o Proprietário.<br />
-                  Quaisquer usos de cookies – ou de outras ferramentas de rastreamento – por este Aplicativo ou pelos proprietários de serviços terceiros utilizados por este Aplicativo serão para a finalidade de fornecer os Serviços solicitados pelo Usuário, além das demais finalidades descritas no presente documento e na Política de Cookies.
+                  Quaisquer usos de cookies (ou de outras ferramentas de rastreamento) por este Aplicativo ou pelos proprietários de serviços terceiros utilizados por este Aplicativo serão para a finalidade de fornecer os Serviços solicitados pelo Usuário, além das demais finalidades descritas no presente documento e na Política de Cookies.
                 </p>
                 <p>Os Usuários ficam responsáveis por quaisquer Dados Pessoais de terceiros que forem obtidos, publicados ou compartilhados através deste Serviço (este Aplicativo).</p>
               </div>
@@ -80,18 +80,18 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                   Este documento informa os Usuários sobre as tecnologias que ajudam este Aplicativo a alcançar as finalidades descritas abaixo. Tais tecnologias permitem ao Proprietário acessar e armazenar informações (por exemplo, usando um Cookie) ou usar recursos (por exemplo, executando um script) em um dispositivo de um Usuário à medida que interagem com este Aplicativo.
                 </p>
                 <p>
-                  Para fins de simplicidade, todas estas tecnologias são definidas como "Rastreadores" neste documento – a menos que haja um motivo para diferenciá-las. Por exemplo, enquanto Cookies podem ser usados em navegadores de web e dispositivos móveis, seria incorreto falar sobre Cookies no contexto de aplicativos móveis, pois eles são um rastreador baseado em um navegador. Por este motivo, neste documento, o termo Cookies somente é usado onde ele especificamente indicar aquele tipo específico de Rastreador.
+                  Para fins de simplicidade, todas estas tecnologias são definidas como “Rastreadores” neste documento, a menos que haja um motivo para diferenciá-las. Por exemplo, enquanto Cookies podem ser usados em navegadores de web e dispositivos móveis, seria incorreto falar sobre Cookies no contexto de aplicativos móveis, pois eles são um rastreador baseado em um navegador. Por este motivo, neste documento, o termo Cookies somente é usado onde ele especificamente indicar aquele tipo específico de Rastreador.
                 </p>
                 <p>
                   Algumas das finalidades para as quais Rastreadores são usados também podem exigir a permissão do Usuário. Sempre que a permissão for dada, ela pode be livremente retirada a qualquer momento, seguindo as instruções fornecidas neste documento.
                 </p>
                 <p>
-                  Este Aplicativo usa apenas Rastreadores gerenciados diretamente pelo Proprietário (conhecidos como Rastreadores "próprios"). Os períodos de validade e expiração dos Cookies próprios e outros Rastreadores similares poderão variar, dependendo do prazo estabelecido pelo Proprietário. Alguns deles expiram quando do término da sessão de navegação do Usuário.
+                  Este Aplicativo usa apenas Rastreadores gerenciados diretamente pelo Proprietário (conhecidos como Rastreadores “próprios”). Os períodos de validade e expiração dos Cookies próprios e outros Rastreadores similares poderão variar, dependendo do prazo estabelecido pelo Proprietário. Alguns deles expiram quando do término da sessão de navegação do Usuário.
                 </p>
                 <h3>Como este Aplicativo usa Rastreadores</h3>
                 <h4>Necessários</h4>
                 <p>
-                  Este Aplicativo usa Cookies conhecidos como Cookies "técnicos" e outros Rastreadores similares para executar atividades que são estritamente necessárias para operar ou prestar o Serviço.
+                  Este Aplicativo usa Cookies conhecidos como Cookies “técnicos” e outros Rastreadores similares para executar atividades que são estritamente necessárias para operar ou prestar o Serviço.
                 </p>
               </div>
             </details>

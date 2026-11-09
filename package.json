@@ -20,6 +20,8 @@
     "hero:mobile": "node scripts/gerar-hero-mobile.mjs",
     "hero:fallbacks": "node scripts/gerar-fallbacks-hero.mjs",
     "og:image": "node scripts/gerar-og-image.mjs",
+    "hero:retonalizar": "node scripts/retonalizar-hero.mjs",
+
     "check": "npm run typecheck && npm run build && npm run test:build && npm run audit:cores"
   },
   "devDependencies": {

@@ -2,8 +2,10 @@
 
 Híbrido, em duas camadas:
 
-1. **FAQ primeiro** — pergunta igual ou próxima de um item de `public/faq.json` (importado no
-   build, fonte única) recebe a resposta **literal** do JSON, sem modelo.
+1. **FAQ primeiro** — pergunta igual ou próxima de um item de `src/faq.json` (importado no
+   build, fonte única) recebe `resposta_bot_whatsapp` quando cadastrada, ou `resposta`,
+   sem modelo. `HANDOFF_RAPIDO` e `RESPOSTA_PARCIAL + OFERECER_HUMANO` devolvem a
+   orientação junto de `handoff: true`; a resposta completa da FAQ no site é preservada.
 2. **Modelo contextual** — se nada casar com confiança, ou se uma continuação com histórico
    precisar de interpretação, o Gemini recebe os itens da FAQ e decide responder (`answer`),
    pedir esclarecimento (`clarify`) ou encaminhar (`handoff`). Perguntas canônicas/equivalentes,
@@ -53,7 +55,9 @@ preencha a chave e rode `npx wrangler dev`. Nunca versione `.dev.vars`.
 3. **Sem confiança** → modelo ancorado no JSON; se ele não tiver base, fallback.
 
 Quando dois ou mais itens empatam na pontuação, a busca não escolhe pela ordem do
-`faq.json`: devolve os itens empatados (até 3) com a pergunta e a resposta oficiais de cada um.
+`faq.json`: pede ao visitante que escolha entre as perguntas oficiais (até 3), sem
+despejar várias respostas de uma vez. Para consultas de uma palavra, coincidências
+inteiras e flexões próximas evitam colisões como “funcionalidades”/“funcionário”.
 Termo genérico (`"cartão"`, `"benefícios"`) lista até 6 assuntos oficiais em vez de arriscar
 uma resposta; `app` é tratado como `aplicativo`. A lista vem no campo `suggestions` e o cliente
 renderiza cada pergunta como botão — clicar envia a pergunta escolhida. Se nem isso existir,
@@ -78,7 +82,7 @@ pode responder apenas se a FAQ sustentar a resposta; caso contrário, encaminha.
 - Sem armazenamento de conversas.
 
 ## Atualizar respostas
-Edite `public/faq.json`: cada entrada precisa de `id`, `grupo`, `pergunta`, `resposta`,
+Edite `src/faq.json`: cada entrada precisa de `id`, `grupo`, `pergunta`, `resposta`,
 `equivalentes` (lista) e `exibirNoSite` (booleano). O assistente usa todas as entradas;
 a FAQ visual, a pesquisa da landing e o JSON-LD usam apenas `exibirNoSite: true`.
 A busca compartilhada está em `src/faq-search.mjs`; não mantenha uma cópia separada
@@ -89,7 +93,7 @@ Na raiz, rode `node --test chat-worker/index.test.mjs src/faq-search.test.mjs` e
 `npm run check`. Publique a landing e rode `npx wrangler deploy` dentro de
 `chat-worker`. Ambos incorporam o JSON no build.
 
-Versione a integração completa: `public/faq.json`, `src/faq.ts`, `src/faq-search.mjs`,
+Versione a integração completa: `src/faq.json`, `src/faq.ts`, `src/faq-search.mjs`,
 `src/faq-search.d.mts`, consumidores e `tsconfig.json`. Manter o tipo novo com o JSON
 antigo causa erro de build; tornar esses campos opcionais esconderia a migração incompleta.
 

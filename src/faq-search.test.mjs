@@ -12,7 +12,7 @@ const item = (id) => {
 };
 const flat = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-test("base tem IDs e perguntas únicos, campos tipados e nenhum metadado interno", () => {
+test("base tem IDs e perguntas únicos e metadados do assistente tipados", () => {
   assert.equal(new Set(faq.map((entry) => entry.id)).size, faq.length);
   const phrases = new Map();
   for (const entry of faq) {
@@ -21,8 +21,12 @@ test("base tem IDs e perguntas únicos, campos tipados e nenhum metadado interno
     for (const field of ["grupo", "pergunta", "resposta"]) assert.ok(typeof entry[field] === "string" && entry[field].trim());
     assert.equal(typeof entry.exibirNoSite, "boolean");
     assert.ok(Array.isArray(entry.equivalentes));
-    const allowed = ["id", "grupo", "pergunta", "resposta", "equivalentes", "exibirNoSite", "alvo"].sort();
+    const allowed = ["id", "grupo", "pergunta", "resposta", "equivalentes", "exibirNoSite", "alvo", "persona", "comportamento", "resposta_bot_whatsapp", "nunca_dizer"];
     assert.deepEqual(Object.keys(entry).filter((k) => !allowed.includes(k)), [], `${entry.id}: campo desconhecido`);
+    assert.ok(["empresa_RH", "colaborador", "ambos"].includes(entry.persona));
+    assert.ok(["RESPOSTA_DIRETA", "RESPOSTA_PARCIAL + OFERECER_HUMANO", "HANDOFF_RAPIDO"].includes(entry.comportamento));
+    assert.ok(typeof entry.resposta_bot_whatsapp === "string" && entry.resposta_bot_whatsapp.trim());
+    assert.ok(Array.isArray(entry.nunca_dizer) && entry.nunca_dizer.every((rule) => typeof rule === "string" && rule.trim()));
     for (const phrase of [entry.pergunta, ...entry.equivalentes]) {
       assert.equal(typeof phrase, "string");
       const previous = phrases.get(flat(phrase));
@@ -36,16 +40,16 @@ for (const entry of faq) {
   test(`canônica e equivalentes retornam a mesma resposta: ${entry.id}`, () => {
     for (const phrase of [entry.pergunta, ...entry.equivalentes]) {
       const result = search(phrase);
-      assert.equal(result?.answer, entry.resposta, phrase);
+      assert.equal(result?.answer, entry.resposta_bot_whatsapp || entry.resposta, phrase);
       assert.equal(result.path, "faq_exact");
-      assert.equal(result.handoff, false);
+      assert.equal(result.handoff, entry.comportamento !== "RESPOSTA_DIRETA");
       assert.equal(result.suggestions, undefined);
     }
   });
 }
 
 test("normalização ignora acentos e pontuação também nos equivalentes", () => {
-  assert.equal(search("ONDE VEJO MEU SALDO!!!")?.answer, item("app-saldo").resposta);
+  assert.equal(search("ONDE VEJO MEU SALDO!!!")?.answer, item("app-saldo").resposta_bot_whatsapp);
 });
 
 test("perguntas parecidas preservam acesso, erro, consulta de senha e senha de transação", () => {
@@ -58,7 +62,7 @@ test("perguntas parecidas preservam acesso, erro, consulta de senha e senha de t
     ["Tenho saldo mas pagamento não passou", "saldo-compra-recusada"],
     ["Roubaram meu cartão", "cartao-perda"],
   ];
-  for (const [question, id] of cases) assert.equal(search(question)?.answer, item(id).resposta, question);
+  for (const [question, id] of cases) assert.equal(search(question)?.answer, item(id).resposta_bot_whatsapp, question);
 });
 
 test("aliases de um item não geram sugestões duplicadas", () => {
@@ -69,7 +73,7 @@ test("aliases de um item não geram sugestões duplicadas", () => {
 
 test("tópicos de suporte ficam fora da seleção comercial, mas o assistente os responde", () => {
   const visible = faq.filter((entry) => entry.exibirNoSite);
-  assert.equal(visible.length, 17);
+  assert.equal(visible.length, 20);
   assert.ok(!visible.includes(item("app-acesso")));
   assert.ok(!visible.includes(item("app-saldo")));
   assert.equal(search("Onde vejo meu saldo?")?.handoff, false);
@@ -93,4 +97,21 @@ test("procedimentos pendentes não viram respostas por similaridade", () => {
   for (const question of ["Qual o horário de atendimento?", "Posso fazer PIX do saldo?", "Posso usar refeição no atacado?", "Como redefinir a senha do app?"]) {
     assert.equal(search(question), null, question);
   }
+});
+
+test("palavra inteira distingue funcionalidades de funcionário", () => {
+  assert.equal(search("funcionalidades")?.answer, item("app-funcionalidades").resposta_bot_whatsapp);
+});
+
+test("pedido humano e resposta parcial oferecem encaminhamento sem perder orientação", () => {
+  assert.equal(search(item("falar-com-humano").pergunta)?.handoff, true);
+  const response = search(item("segunda-via-custo").pergunta);
+  assert.equal(response?.handoff, true);
+  assert.match(response.answer, /Bloqueie primeiro pelo app/);
+});
+
+test("FAQ sem metadados mantém resposta completa e sem encaminhamento", () => {
+  const response = createFaqSearch([{ pergunta: "Teste simples?", resposta: "Resposta completa." }])("Teste simples?");
+  assert.equal(response.answer, "Resposta completa.");
+  assert.equal(response.handoff, false);
 });

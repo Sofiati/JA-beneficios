@@ -63,7 +63,7 @@ export const FaqSection: React.FC = () => {
   return (
     <section className="section section--white" id="faq">
       <div className="container">
-        <div className="faq-search-box" style={{ marginBottom: "24px" }}>
+        <div className="faq-search-box">
           <SearchBar placeholder="O que você procura? Digite uma dúvida, benefício ou taxa (ex: PAT, frete, 1ª via, app)…" />
         </div>
 
@@ -93,7 +93,6 @@ export const FaqSection: React.FC = () => {
 
         <div className="faq-layout">
           <div className="faq-aside" data-animate>
-            <p className="eyebrow">Central de dúvidas</p>
             <h2>Perguntas frequentes</h2>
             <p className="lead">Tudo o que você precisa saber sobre o JÁ Benefícios, em respostas simples e diretas.</p>
 
@@ -108,7 +107,7 @@ export const FaqSection: React.FC = () => {
               </span>
               <h3>Ainda tem dúvidas?</h3>
               <p>Nossa equipe está pronta para ajudar você a conhecer a solução ideal para sua empresa.</p>
-              <a href="#beneficiosForm" className="btn btn-cream">Conversar com um especialista <span aria-hidden="true">→</span></a>
+              <a href="#beneficiosForm" className="btn btn-ghost">Falar com especialista</a>
             </div>
           </div>
 
@@ -139,7 +138,7 @@ export const FaqSection: React.FC = () => {
                 <h3 className="faq-cta-title">Não encontrou a resposta que procurava?</h3>
                 <p>Cada operação tem suas particularidades. Conte como é a sua e a gente mostra o que se encaixa.</p>
               </div>
-              <a href="#beneficiosForm" className="btn btn-solid btn-sm">Enviar dúvida <span aria-hidden="true">→</span></a>
+              <a href="#beneficiosForm" className="btn btn-ghost btn-sm">Enviar dúvida</a>
             </div>
           </div>
         </div>

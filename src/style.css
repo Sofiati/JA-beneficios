@@ -5,19 +5,25 @@
   /* Centralização óptica: o ascent folgado da Trebuchet + os descendentes (Q, q) deixavam
      ~.08em mais de espaço vazio acima das letras do que abaixo. Padding assimétrico
      (±.08em) equaliza o bloco de glifos sem alterar a altura da cápsula. */
-  padding:calc(14px - .08em) 30px calc(14px + .08em);font-weight:600;font-size:.95rem;cursor:pointer;transition:var(--t-base);font-family:inherit}
+  padding:calc(14px - .08em) 30px calc(14px + .08em);font-weight:600;font-size:.95rem;line-height:1.15;cursor:pointer;transition:var(--t-base);font-family:inherit;white-space:nowrap}
+/* Desabilitado por canal (fill, tinta, cursor), nunca por opacidade — o rótulo
+   segue legível e o estado já vem sinalizado pelo texto ("Enviando…"). */
+.btn:disabled{background:color-mix(in srgb,currentColor 12%,var(--color-surface));
+  border-color:color-mix(in srgb,currentColor 35%,var(--color-surface));
+  color:color-mix(in srgb,currentColor 65%,var(--color-surface));cursor:wait;transform:none}
 /* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez). */
-.btn-sm{padding:calc(9px - .08em) 20px calc(9px + .08em);font-size:.92rem;white-space:nowrap}
+.btn-sm{padding:calc(9px - .08em) var(--space-5) calc(9px + .08em);font-size:.92rem;white-space:nowrap}
 /* CTA do header: rótulo completo no desktop; curto em telas estreitas (medido p/ caber em 360px). */
 .btn-label-short{display:none}
+/* Cápsula fantasma: repetições do CTA primário ao longo da página. Transparente
+   com borda uva 2px; no hover, a cápsula enche — a ação volta a ser primária ao toque. */
+.btn-ghost{background:transparent;color:var(--color-primary)}
+.btn-ghost:hover{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-on-primary);transform:translateY(-2px)}
 .btn-solid{background:var(--button-bg);color:var(--button-fg)}
 .btn-solid:hover{background:var(--button-hover-bg);border-color:var(--button-hover-bg);transform:translateY(-2px)}
-.btn-cream{background:var(--color-background);color:var(--color-primary);border-color:var(--color-background)}
-.btn-cream:hover{transform:translateY(-2px)}
 .btn-yellow{background:var(--color-accent);border-color:var(--color-accent);color:var(--color-on-accent)}
 .btn-yellow:hover{filter:brightness(1.08);transform:translateY(-2px)}
-/* Envio em andamento: botão travado sem hover/pulada e com cursor de espera. */
-.btn:disabled{opacity:.75;cursor:wait;transform:none;pointer-events:none}
+/* Envio em andamento: reservado ao canal .btn (fill/tinta/cursor). */
 .btn:active{transform:none}
 .link-arrow{color:var(--color-primary);font-weight:600;display:inline-block;margin-top:10px}
 .link-arrow:hover{text-decoration:underline}
@@ -58,10 +64,10 @@
 .nav-toggle.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
 
 /* ===== Hero ===== */
-.hero{overflow:hidden;background:var(--ja-uva)}
+.hero{overflow:hidden;background:var(--ja-uva);color:var(--color-on-primary)}
 /* A largura explícita impede que o limite de altura encolha o banner.
    Em telas largas, apenas o conteúdo é limitado; a arte alcança a borda direita. */
-.hero-banner{position:relative;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva)}
+.hero-banner{position:relative;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva);color:var(--color-on-primary)}
 /* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
    direta do banner (posicionamento absoluto e contexto de container intactos). */
 .hero-banner picture{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
@@ -71,7 +77,7 @@
    absoluto para não esticar a caixa: se esticasse, a arte voltaria a ser
    cortada. */
 .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(32px,5vh,64px) 0 clamp(32px,5vh,64px) 6%;color:var(--color-on-primary);
+  padding:clamp(var(--space-8),5vh,var(--space-16)) 0 clamp(var(--space-8),5vh,var(--space-16)) 6%;color:var(--color-on-primary);
   background:linear-gradient(90deg,
     var(--ja-uva) 0%,
     color-mix(in srgb,var(--ja-uva) 94%,transparent) 32%,
@@ -87,29 +93,29 @@
 .hero-copy .hero-line1,.hero-copy .hero-subhl{color:var(--color-on-primary);white-space:nowrap}
 .hero-copy .hero-line2,.hero-copy .hl,.hero-copy .hero-hl{color:var(--ja-mostarda);white-space:nowrap}
 /* Texto secundário: 18px no desktop com line-height 1.55 e escala fluida */
-.hero-copy p{margin-top:clamp(16px,2vh,22px);font-size:clamp(15px,1.3vw,18px);line-height:1.55;max-width:590px;color:color-mix(in srgb,var(--neutral-white) 93%,transparent)}
+.hero-copy p{margin-top:clamp(var(--space-4),2vh,22px);font-size:clamp(15px,1.3vw,18px);line-height:1.55;max-width:590px;color:color-mix(in srgb,var(--neutral-white) 93%,transparent)}
 /* CTA do hero: objetivo, explícito e corporativo com alinhamento óptico da seta */
-.hero-cta-wrap{margin-top:clamp(20px,2.5vh,28px)}
-.hero-cta{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:calc(13px - .08em) 28px calc(13px + .08em);font-size:clamp(15px,1.1vw,17.5px);font-weight:600}
+.hero-cta-wrap{margin-top:clamp(var(--space-5),2.5vh,28px)}
+.hero-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:calc(13px - .08em) 28px calc(13px + .08em);font-size:clamp(15px,1.1vw,17.5px);font-weight:600}
 /* Diferenciais em uma coluna, com ícones e textos alinhados em todas as linhas. */
 .hero-benefits{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-3);margin-top:var(--space-8);padding:0;width:100%}
 .hero-benefits li{display:flex;align-items:center;gap:var(--space-3);text-align:left;padding:0}
 .hero-benefits img,.hero-benefits i{width:23px;height:23px;font-size:22px;color:var(--ja-verde);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .hero-benefits span{font-size:clamp(.875rem,.8rem + .2vw,.9375rem);line-height:1.4;color:color-mix(in srgb,var(--neutral-white) 92%,transparent);white-space:nowrap}
 @supports (font-size:1cqi){
-  .hero-cta{padding:calc(clamp(11px,1.1cqi,16px) - .08em) clamp(22px,2.2cqi,34px)
-    calc(clamp(11px,1.1cqi,16px) + .08em) clamp(22px,2.2cqi,34px);font-size:clamp(15px,1.15cqi,18px)}
+  .hero-cta{padding:calc(clamp(11px,1.1cqi,13px) - .08em) clamp(22px,2.2cqi,34px)
+    calc(clamp(11px,1.1cqi,13px) + .08em) clamp(22px,2.2cqi,34px);font-size:clamp(15px,1.15cqi,18px)}
 }
 /* A escala usa a coluna de texto como contêiner, inclusive no ultrawide.
    A primeira frase pode quebrar para o título crescer sem invadir a arte. */
 @media (min-width:1024px){
-  .hero-overlay{padding-top:clamp(32px,5vh,64px);padding-bottom:clamp(32px,5vh,64px)}
+  .hero-overlay{padding-top:clamp(var(--space-8),5vh,var(--space-16));padding-bottom:clamp(var(--space-8),5vh,var(--space-16))}
   .hero-copy{width:48%;max-width:700px;container-type:inline-size}
   .hero-copy h1{font-size:clamp(2rem,8cqi,3.25rem);text-wrap:balance}
   .hero-copy .hero-line1{white-space:normal}
-  .hero-copy p{width:100%;max-width:590px;margin-top:clamp(16px,2vh,22px);font-size:clamp(1rem,3.25cqi,1.3125rem);line-height:1.55}
+  .hero-copy p{width:100%;max-width:590px;margin-top:clamp(var(--space-4),2vh,22px);font-size:clamp(1rem,3.25cqi,1.3125rem);line-height:1.55}
   .hero-cta{font-size:clamp(1rem,2.8cqi,1.125rem);
-    padding:calc(var(--space-4) - .08em) var(--space-8) calc(var(--space-4) + .08em)}
+    padding:calc(13px - .08em) var(--space-8) calc(13px + .08em)}
   .hero-benefits span{font-size:clamp(.875rem,2.5cqi,.9375rem)}
 }
 @media (min-width:1440px){
@@ -121,7 +127,7 @@
 /* Notebook 1366×768 */
 @media (min-width:1024px) and (max-height:820px){
   .hero-banner{aspect-ratio:auto;height:calc(100svh - 77px);min-height:540px}
-  .hero-overlay{padding-block:clamp(12px,1.8vh,22px)}
+  .hero-overlay{padding-block:clamp(var(--space-3),1.8vh,22px)}
   .hero-copy h1{font-size:clamp(1.75rem,7cqi,3rem)}
   .hero-copy p{font-size:clamp(1rem,3cqi,1.25rem);margin-top:var(--space-2)}
   .hero-cta-wrap{margin-top:var(--space-3)}
@@ -143,8 +149,8 @@
     width:clamp(22px,2.6vw + 2px,28px);height:clamp(22px,2.6vw + 2px,28px);font-size:clamp(22px,2.6vw + 2px,28px)}
 }
 /* Formulário do CTA final (reutiliza a classe .hero-form do antigo hero). */
-.hero-form{display:flex;gap:14px;background:var(--color-surface);padding:16px;border-radius:var(--radius-control);
-  box-shadow:var(--shadow);max-width:560px;margin-bottom:16px;flex-wrap:wrap}
+.hero-form{display:flex;gap:14px;background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-control);
+  box-shadow:var(--shadow);max-width:560px;margin-bottom:var(--space-4);flex-wrap:wrap}
 .hero-form input[type="email"]{width:100%;min-width:0;border:1px solid var(--color-border-control);border-radius:var(--radius-control);background:transparent;padding:var(--space-3) var(--space-4);font:inherit;font-size:1rem}
 
 /* ===== Prova rápida (P0.4 da auditoria) ===== */
@@ -153,7 +159,7 @@
    o RH confere de fato — e o único que um concorrente não copia. Sem números de
    escala sem fonte (AGENTS.md). */
 .proof{background:var(--color-background-alt);border-block:1px solid color-mix(in srgb,var(--neutral-black) 6%,transparent)}
-.proof-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px var(--space-6);
+.proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3) var(--space-6);
   padding-block:34px;text-align:center}
 @media (max-width:900px){
   .proof-row{grid-template-columns:repeat(2,1fr);gap:var(--space-6) var(--space-8)}
@@ -172,7 +178,7 @@
 .section{padding:var(--section-space) 0}
 .section-orange{background:linear-gradient(150deg,var(--ja-uva),var(--ja-uva-escuro));color:var(--neutral-white)}
 .section-orange .lead,.section-orange p{color:color-mix(in srgb,var(--neutral-white) 92%,transparent)}
-.section-cta{background:var(--ja-uva)}
+.section-cta{background:var(--ja-uva);color:var(--color-on-primary)}
 
 /* Ecossistema: introdução curta em coluna estreita + categorias em largura cheia.
    Padding vertical próprio: a seção carrega uma mensagem curta (3 linhas) e o
@@ -180,8 +186,7 @@
    O fundo branco segue no #vantagens: o padding-bottom de 16px + os 90px da
    seção seguinte mantêm o mesmo intervalo (~180px) das outras transições. */
 #ecossistema{padding-block:var(--section-space) var(--space-4)}
-#ecossistema .eyebrow{margin-bottom:10px}
-#ecossistema h2{margin-bottom:12px}
+#ecossistema h2{margin-bottom:var(--space-3)}
 #ecossistema .lead{margin:0 auto}
 
 /* ===== Categorias ===== */
@@ -190,12 +195,12 @@
 /* Proporção 55/45 (texto/imagem) e foto cortada em max-height eliminam o vazio
    do topo; align-items:center centraliza o texto contra a imagem. */
 .categorias-layout{display:grid;grid-template-columns:1.2fr 1fr;
-  grid-template-areas:"copy stage" "index index";gap:36px 48px;margin:var(--space-10) 0 0;
+  grid-template-areas:"copy stage" "index index";gap:36px var(--space-12);margin:var(--space-10) 0 0;
   align-items:center}
 .categorias-copy{grid-area:copy}
 .categorias-copy h3{text-wrap:balance;font-size:clamp(30px,3.4vw,44px)}
-.categorias-copy .lead{text-wrap:pretty;margin:0 0 24px}
-.categorias-copy .btn{margin-top:8px}
+.categorias-copy .lead{text-wrap:pretty;margin:0 0 var(--space-6)}
+.categorias-copy .btn{margin-top:var(--space-2)}
 .categorias-index{grid-area:index}
 /* Foto integrada à seção: sem palco/padding/moldura colorida em volta — o cenário de
    estúdio já está na própria imagem. Tratamento igual ao das outras fotos (.feature-art). */
@@ -215,6 +220,9 @@
 .cat-group-desc{flex:1 1 320px;margin:0;font-size:var(--text-small);
   color:var(--color-text-muted);text-wrap:pretty}
 .cat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;gap:18px}
+/* 13 é primo: qualquer grade uniforme órfã o último. O card final (Saldo Livre,
+   "uso livre") fecha a grade em largura cheia — fecha a leitura, não sobra célula. */
+.cat-grid .cat-card:last-child:nth-child(3n+1){grid-column:1/-1}
 /* Ponte com a foto do topo: borda discreta + hover suave (crítica 06). */
 .cat-card{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;
   align-items:center;column-gap:var(--space-3);background:var(--card-bg);
@@ -234,8 +242,8 @@
 .cat-card p{grid-row:2;grid-column:1/-1;font-size:1rem;color:var(--color-text-muted);
   align-self:start;line-height:1.62;margin-top:var(--space-3);margin-bottom:0}
 .cat-tag{display:inline-block;margin-left:6px;background:var(--ja-mostarda);color:var(--ja-uva-escuro);
-  border-radius:var(--radius-control);padding:3px 9px;font-size:.7rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;vertical-align:2px}
+  border-radius:var(--radius-control);padding:3px 9px;font-size:.75rem;font-weight:700;
+  white-space:nowrap;vertical-align:2px}
 /* Entrada escalonada dos cards. Estado base é visível: sem .visible (ou com
    prefers-reduced-motion, que zera animações) a grade aparece normalmente. */
 .categorias-layout.visible .cat-card{animation:cat-row-in .5s ease backwards}
@@ -244,7 +252,7 @@
 @keyframes cat-row-in{from{opacity:0;transform:translateY(10px)}}
 
 /* ===== Features alternadas ===== */
-.feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:44px 0}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:center;padding:44px 0}
 .feature-copy p{color:var(--color-text-muted);max-width:60ch}
 .feature-art{display:grid;place-items:center;min-height:300px;
   background:linear-gradient(160deg,var(--color-surface),var(--color-background-alt));border-radius:var(--radius-card);box-shadow:var(--shadow)}
@@ -298,7 +306,7 @@
    compromisso de atendimento imediatamente antes do clique, sem claims numéricos. */
 .form-trust{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
   gap:6px var(--space-4);margin:var(--space-3) 0 0;padding:0}
-.form-trust li{display:inline-flex;align-items:center;gap:8px;
+.form-trust li{display:inline-flex;align-items:center;gap:var(--space-2);
   font-family:var(--font-body);font-size:clamp(12.5px,.9vw,14px);
   color:var(--color-text-muted);line-height:1.4}
 .form-trust li::before{content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;
@@ -314,7 +322,7 @@
 .custo-zero-form .form-reassurance{color:var(--color-text-muted);font-size:var(--text-small);
   line-height:1.55;margin-top:var(--space-3);max-width:60ch}
 .beneficios-form{margin:0}
-.beneficios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-8);align-items:end}
+.beneficios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--gap-cols);align-items:end}
 .beneficios-full{grid-column:1 / -1}
 .custo-zero-form .form-field{display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
 .custo-zero-form label{font:inherit;font-size:var(--text-small);font-weight:700;color:var(--color-text-muted)}
@@ -394,11 +402,11 @@
 .support-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:var(--space-6);margin:var(--space-10) 0 34px}
 /* Hierarquia: foto (1774×887) e texto competiam — o texto era pequeno ao lado
    da imagem. Menos respiro no card, título e parágrafo maiores que a foto. */
-.support-card{background:var(--card-bg);border-radius:var(--card-radius);padding:clamp(24px,2.6vw,36px);box-shadow:var(--shadow);border-top:5px solid var(--color-primary)}
+.support-card{background:var(--card-bg);border-radius:var(--card-radius);padding:clamp(var(--space-6),2.6vw,36px);box-shadow:var(--shadow);border-top:5px solid var(--color-primary)}
 /* Ícone da marca (mesma linguagem dos ícones FontAwesome das outras seções). */
 .support-ico{font-size:1.75rem;color:var(--ja-uva-escuro);display:block;margin-bottom:14px}
-.support-img{width:100%;height:auto;margin-bottom:20px;border-radius:calc(var(--radius-card)/2)}
-.support-card h3{font-size:1.35rem;line-height:1.25;margin-top:0;margin-bottom:12px}
+.support-img{width:100%;height:auto;margin-bottom:var(--space-5);border-radius:calc(var(--radius-card)/2)}
+.support-card h3{font-size:1.35rem;line-height:1.25;margin-top:0;margin-bottom:var(--space-3)}
 .support-card p{color:var(--color-text-muted);margin-top:10px;font-size:1.05rem;line-height:1.65}
 .support-steps{margin-top:var(--space-6)}
 .support-steps>div{padding-block:var(--space-4);border-top:1px solid var(--color-border)}
@@ -460,6 +468,25 @@ input[aria-invalid="true"], select[aria-invalid="true"]{
 input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible{
   outline-color:var(--ja-uva);
 }
+/* Barra de progresso do formulário — Efeito Objetivo-Gradiente:
+   mostra ao usuário que está perto de concluir, reduzindo abandono. */
+.form-progress{margin:0 0 var(--space-6);font-size:var(--text-small);color:var(--color-text-muted)}
+.form-progress-label{display:block;margin:0 0 var(--space-2);font-weight:600}
+.form-progress-track{width:100%;height:6px;background:var(--neutral-200);border-radius:var(--radius-input);overflow:hidden}
+.form-progress-fill{height:100%;background:var(--color-accent);border-radius:var(--radius-input);transition:width var(--t-base) ease}
+
+/* Fieldsets agrupados (Gestalt: proximidade/similaridade) — reduzem a carga
+   cognitiva ao separar dados pessoais, empresa e objetivo em blocos visuais. */
+.form-fieldset{border:1px solid var(--color-border);border-radius:var(--radius-card);padding:var(--space-4);margin:0 0 var(--space-6);background:var(--color-surface)}
+.form-legend{padding:0 var(--space-3);font-weight:700;color:var(--color-primary);font-size:var(--text-small)}
+
+/* Lei de Fitt: alvos de toque mínimos de 44px em mobile para botões e links interativos. */
+@media (max-width: 520px){
+  .btn,.btn-yellow,.btn-solid,.btn-ghost,.faqs-chip,.faq-chip,button[type="button"],a[role="button"]{
+    min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center
+  }
+}
+
 
 /* Label visível do campo de e-mail (WCAG 3.3.2 — rótulo visível, não só placeholder). */
 .hero-form label[for="ctaEmail"]{
@@ -484,7 +511,7 @@ input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visi
    Reorganizado conforme "Crítica da seção.pdf": 4 grupos equilibrados + faixa jurídica
    inferior com dados cadastrais separados do conteúdo comercial. Sem cor nova — só uva. */
 .site-footer{background:var(--footer-bg);color:var(--color-on-dark-muted);padding:clamp(var(--space-16),5vw,5rem) 0 0;font-size:.9375rem}
-.footer-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:var(--space-8);padding-bottom:var(--space-10)}
+.footer-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:var(--gap-cols);padding-bottom:var(--space-10)}
 .site-footer .brand--footer{display:inline-flex;padding:0}
 .footer-brand .brand-logo--footer{width:156px}
 .footer-tagline{margin-top:var(--space-5);max-width:36ch;color:var(--color-on-primary);font-weight:700;font-size:1rem;line-height:1.5}
@@ -528,12 +555,15 @@ input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visi
 /* Some no topo e aparece após rolar (classe .is-visible aplicada em src/main.ts).
    Empilhado acima do FAB de WhatsApp: 56px do FAB + 12px de respiro, partindo do
    mesmo offset lateral/inferior. Uva da marca (9,47:1 sobre branco — medido). */
+/* Elevação por sombra (sem hairline decorativa): a cápsula branca já define a aresta. */
 .to-top{position:fixed;right:var(--floating-inset);
   bottom:calc(var(--floating-inset) + 50px + var(--space-3) + var(--floating-chat-size) + var(--space-3) + env(safe-area-inset-bottom, 0px));
-  z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid var(--color-border-control);border-radius:50%;
+  z-index:var(--z-fab);display:grid;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:50%;
   background:var(--color-surface);color:var(--ja-uva);box-shadow:var(--shadow);
-  cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);
-  transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s var(--t-base)}
+  cursor:pointer;transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s var(--t-base)}
+/* O recolhe/mente no topo depende de script: o estado escondido só vale com .js
+   (sem JS o botão fica visível e estático). */
+html.js .to-top{opacity:0;visibility:hidden;transform:translateY(10px)}
 .to-top.is-visible{opacity:1;visibility:visible;transform:none;
   transition:opacity var(--t-base) ease,transform var(--t-base) ease,visibility 0s}
 .to-top:hover{color:var(--color-primary-hover);border-color:var(--color-border-control);
@@ -560,68 +590,68 @@ body:has(.main-nav.open) .whatsapp-fab{opacity:0;visibility:hidden;pointer-event
 /* P0.3: rodapé na viewport -> recolhe o "voltar ao topo". No mobile ele cobria
    os links de Atendimento do footer. Classe alternada pelo IntersectionObserver
    de src/main.ts; visibility remove do tab order. */
-body.footer-in-view .to-top{opacity:0;visibility:hidden;pointer-events:none}
+html.js body.footer-in-view .to-top{opacity:0;visibility:hidden;pointer-events:none}
 
 /* Crítica 23/10: o FAB do WhatsApp é canal de conversão de baixo compromisso —
    recua exatamente quando um link do rodapé estaria sob ele (faixa inferior
    direita do viewport; rootMargin do observer em src/main.ts). Assim o canal
    fica à vista no momento da decisão e nenhum destino clicável é coberto. */
-body.footer-link-in-band .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
+html.js body.footer-link-in-band .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 
 /* O FAB cobria o select de colaboradores e o botão de envio no mobile: recua
    enquanto o formulário está na vista — o próprio card oferece o canal. */
-body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
+html.js body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 
 /* ===== FAQ (itens dinâmicos de /faq.json) ===== */
 /* Duas colunas 35/65: introdução + ponto de conversão fixo à esquerda, perguntas à direita.
    A coluna central estreita anterior deixava ~2/3 da largura vazia em telas grandes. */
+.faq-search-box{margin-bottom:var(--space-6)}
 .faq-layout{display:grid;grid-template-columns:minmax(0,35fr) minmax(0,65fr);
-  gap:clamp(28px,4vw,64px);align-items:start}
+  gap:clamp(28px,4vw,var(--space-16));align-items:start}
 /* Aside acompanha o scroll até o fim da seção (sticky) — o CTA de ajuda fica sempre à vista. */
 .faq-aside{position:sticky;top:calc(90px + var(--space-6))}
-.faq-aside .eyebrow{font-size:.75rem;letter-spacing:.04em;margin-bottom:var(--space-2)}
 .faq-aside h2{font-family:var(--font-body);font-size:clamp(1.5rem,2vw,1.75rem);line-height:1.2;margin-bottom:var(--space-2)}
 .faq-aside .lead{font-size:1rem;line-height:1.5;margin-bottom:var(--space-4)}
 /* Card de conversão: superfície uva (identidade da marca) com cápsula creme, como no protótipo. */
 .faq-help{--color-focus:var(--ja-mostarda);background:var(--ja-uva);color:var(--neutral-white);
   border-radius:var(--radius-card-md);padding:var(--space-5)}
-.faq-help-ico{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
-  background:color-mix(in srgb,var(--neutral-white) 14%,transparent);margin-bottom:var(--space-4)}
-.faq-help-ico svg{width:24px;height:24px}
+/* Ícone direto em currentColor, sem círculo-tint (moeda) — o desenho basta. */
+.faq-help-ico{display:block;margin-bottom:var(--space-4);color:var(--ja-mostarda)}
+.faq-help-ico svg{width:28px;height:28px}
 .faq-help h3{font-family:var(--font-body);font-size:1.125rem;color:var(--neutral-white);margin-bottom:var(--space-4)}
 .faq-help p{color:var(--color-on-dark-muted);font-size:.95rem;line-height:1.5;margin-bottom:var(--space-4)}
 .faq-help .btn{display:flex;align-items:center;justify-content:center;gap:var(--space-2);width:100%;min-height:var(--space-12);padding-inline:var(--space-4);background:var(--color-surface);border-color:var(--color-surface)}
-.faq-list{display:grid;gap:12px}
+.faq-list{display:grid;gap:var(--space-3)}
 /* Subtítulo de tema: sem serifa, caps e uva — separa os 3 grupos sem virar um clique.
    Usa a mesma escala do body (clamp 15-17px): como <h3> semântico, nunca menor que o texto corrido. */
 .faq-group-title{font-family:var(--font-body);font-weight:700;font-size:var(--text-body);
-  text-transform:uppercase;letter-spacing:.12em;color:var(--color-primary);
+  color:var(--color-primary);
   margin:var(--space-3) 0 2px}
 .faq-group-title:first-child{margin-top:0}
 /* Accordion: interface sem serifa (a slab fica para os títulos editoriais) e altura
    mínima confortável para toque. Borda discreta no lugar da sombra intensa anterior. */
 .faq-item{background:var(--color-surface);border:1px solid var(--color-border);
-  border-radius:var(--radius-card);padding:14px clamp(16px,1.8vw,22px)}
+  border-radius:var(--radius-card);padding:14px clamp(var(--space-4),1.8vw,22px)}
 .faq-item summary{cursor:pointer;font-family:var(--font-body);font-weight:600;
   font-size:clamp(16px,1.05vw,17px);color:var(--color-text);line-height:1.4;
-  min-height:64px;padding:16px 0;list-style:none;
+  min-height:64px;padding:var(--space-4) 0;list-style:none;
   display:flex;justify-content:space-between;align-items:center;gap:var(--space-4)}
 .faq-item summary::-webkit-details-marker{display:none}
 .faq-item summary::after{content:"+";font-size:1.25rem;font-weight:400;color:var(--color-primary);
   line-height:1;transition:transform var(--t-base) ease;flex-shrink:0}
 .faq-item[open] summary::after{transform:rotate(45deg)}
 .faq-item p{color:var(--color-text-muted);font-size:clamp(15px,.98rem,16px);line-height:1.65;
-  margin:0 0 16px;text-wrap:pretty}
+  margin:0 0 var(--space-4);text-wrap:pretty}
 .faq-item summary:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px;border-radius:4px}
 
 /* Chips de filtro por tema (inspirado na exploração Stitch): cápsulas discretas,
    com estado uva quando ativas — reforça a cor primária sem virar botão pesado. */
 .faq-chips{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;
-  margin-bottom:clamp(20px,3vw,32px)}
+  margin-bottom:clamp(var(--space-5),3vw,var(--space-8))}
 .faq-chip{font-family:var(--font-body);font-weight:600;font-size:clamp(14px,.95vw,15px);
   color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border);
-  border-radius:var(--radius-control);padding:8px 14px 8px 16px;min-height:var(--space-10);
-  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  border-radius:var(--radius-control);padding:var(--space-2) 14px var(--space-2) var(--space-4);min-height:var(--space-10);
+  display:inline-flex;align-items:center;gap:var(--space-2);cursor:pointer;
   transition:background var(--t-base) ease,border-color var(--t-base) ease,color var(--t-base) ease}
 .faq-chip:hover{background:var(--neutral-50)}
 .faq-chip:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
@@ -639,7 +669,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .faq-group-head .faq-group-title{margin:0}
 .faq-group-head:first-child{margin-top:0}
 .faq-group-count{font-family:var(--font-body);font-size:var(--text-small);
-  font-weight:400;color:var(--color-text-muted);letter-spacing:.02em}
+  font-weight:400;color:var(--color-text-muted);font-variant-numeric:tabular-nums}
 
 /* Faixa de conversão ao fim da lista: leve tint uva; só aparece depois dos
    accordions (inclusive quando filtrado por chip). */
@@ -780,12 +810,14 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 /* Menu mobile a partir de 1150px: abaixo disso a linha não cabe (medido: 1067px necessários
    c/ fallback Verdana vs 1103px disponíveis em 1151px de viewport). */
 @media (max-width:1150px){
-  /* visibility (e não só transform) tira os links do tab order quando o painel está fechado. */
-  .main-nav{position:fixed;inset:76px 0 auto;background:var(--color-background);flex-direction:column;align-items:flex-start;
-    padding:22px 24px;gap:4px;box-shadow:var(--shadow);transform:translateY(-130%);visibility:hidden;
+  /* visibility (e não só transform) tira os links do tab order quando o painel está fechado.
+     Sem JS, o painel fica visível e estático (o botão não existe); o estado escondido
+     só vale quando o script monta o toggle (html.js). */
+  html.js .main-nav{position:fixed;inset:76px 0 auto;background:var(--color-background);flex-direction:column;align-items:flex-start;
+    padding:22px var(--space-6);gap:4px;box-shadow:var(--shadow);transform:translateY(-130%);visibility:hidden;
     transition:transform var(--t-nav),visibility 0s var(--t-nav);z-index:var(--z-nav);font-size:1.05rem;
     max-height:calc(100vh - 76px);overflow-y:auto}
-  .main-nav.open{transform:none;visibility:visible;transition:transform var(--t-nav),visibility 0s}
+  html.js .main-nav.open{transform:none;visibility:visible;transition:transform var(--t-nav),visibility 0s}
   .main-nav>a{padding:11px 0} /* alvo de toque ≥44px no painel (39px com 7px) */
   .nav-toggle{display:flex}
   .header-actions{margin-left:auto}
@@ -804,7 +836,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-brand{grid-column:1/-1}
-  .section{padding:64px 0}
+  .section{padding:var(--space-16) 0}
 }
 @media (max-width:640px){
   /* Celular: a foto volta para baixo do texto, em coluna única. */
@@ -830,7 +862,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
      (medido: com Verdana, logo 98 + CTA longo + toggle estouravam 328px úteis). */
   .header-inner{gap:10px}
   .brand-logo{width:66px}
-  .brand--header{padding:6px 8px}
+  .brand--header{padding:6px var(--space-2)}
   .btn-label-full{display:none}
   .btn-label-short{display:inline}
 }
@@ -839,12 +871,11 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
    Logo e rótulo encolhem mais, gaps caem para 8px e a seta decorativa
    do CTA sai e o conteúdo principal cabe sem corte. */
 @media (max-width:360px){
-  .header-inner{gap:8px}
+  .header-inner{gap:var(--space-2)}
   .brand-logo{width:56px}
   .brand--header{padding:6px 6px}
   .header-actions{gap:10px}
   .header-actions .btn-sm{padding:calc(9px - .08em) 14px calc(9px + .08em);font-size:.85rem}
-  .header-actions .btn-arrow{display:none}
 }
 /* Hero ≤767px: a arte do desktop é um banner 16:9 — mostrá-lo inteiro
    encolheria o casal para ~220px. A arte mobile (816×941, recorte emoldurado
@@ -864,7 +895,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
   .hero-copy h1 br{display:inline}
   .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}
   .hero-cta-wrap{margin-top:4%}
-  .hero-cta{margin-top:0;padding:calc(12px - .08em) 22px calc(12px + .08em);font-size:15px}
+  .hero-cta{margin-top:0;padding:calc(var(--space-3) - .08em) 22px calc(var(--space-3) + .08em);font-size:15px}
   .hero-benefits{width:100%;padding-top:0;gap:var(--space-2)}
   .hero-benefits img,.hero-benefits i{width:18px;height:18px;font-size:17px}
   .hero-benefits span{font-size:clamp(.875rem,3.7vw,.9375rem);white-space:normal}
@@ -880,11 +911,11 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 /* Moldura do app: era 420px com 28px de padding (74px de superfície branca
    ao redor de um device de 280px). Reduz a moldura e amplia o aparelho — o
    dispositivo continua sendo o destaque, sem a borda competindo com ele. */
-.feature-art--app{width:100%;max-width:min(380px,100%);justify-self:center;min-height:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow);padding:clamp(14px,2vw,20px);}
+.feature-art--app{width:100%;max-width:min(380px,100%);justify-self:center;min-height:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow);padding:clamp(var(--space-4),2vw,var(--space-5));}
 .device{position:relative;width:min(280px,72vw);border-radius:var(--radius-device);padding:10px;background:var(--neutral-900);box-shadow:var(--shadow);}
 .device-screen{display:block;overflow:hidden;border-radius:var(--radius-device-screen);background:var(--color-surface);}
 .device-screen .app-shot{max-height:520px;border-radius:0;box-shadow:none;}
-.app-list{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;}
+.app-list{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:var(--space-2);}
 .app-list li{font-weight:700;color:var(--color-text);}
 .app-cta{display:inline-flex;min-height:44px;align-items:center;margin-top:22px;}
 .section--white{background:var(--color-surface);}
@@ -904,23 +935,23 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 #beneficiosForm{scroll-margin-top:90px}
 
 /* CTA final contact form styling */
-.cta-form-wrapper{max-width:680px;margin:var(--space-6) auto 0;background:var(--color-surface);padding:clamp(20px,3vw,32px);border-radius:var(--radius-card);box-shadow:var(--shadow);text-align:left;color:var(--color-text)}
+.cta-form-wrapper{max-width:680px;margin:var(--space-6) auto 0;background:var(--color-surface);padding:clamp(var(--space-5),3vw,var(--space-8));border-radius:var(--radius-card);box-shadow:var(--shadow);text-align:left;color:var(--color-text)}
 .cta-form{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
 @media(max-width:600px){.cta-form{grid-template-columns:1fr}}
 .cta-field--full{grid-column:1/-1}
 .cta-field label{display:block;font-weight:600;font-size:var(--text-small);color:var(--color-text);margin-bottom:6px}
 .cta-input-control{position:relative;display:flex;align-items:center}
-.cta-input{width:100%;min-height:var(--space-12);padding:12px 14px;font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border-control);border-radius:var(--radius-input);transition:var(--t-fast)}
+.cta-input{width:100%;min-height:var(--space-12);padding:var(--space-3) 14px;font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border-control);border-radius:var(--radius-input);transition:var(--t-fast)}
 .cta-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
 .cta-input[aria-invalid="true"]{border-color:var(--ja-uva);box-shadow:0 0 0 2px color-mix(in srgb,var(--ja-uva) 20%,transparent)}
 .cta-field-error{margin-top:6px;font-size:var(--text-small);font-weight:600;color:var(--ja-uva-escuro);background:color-mix(in srgb,var(--error-100) 60%,var(--color-surface));padding:6px 10px;border-radius:var(--radius-input);line-height:1.35}
 .cta-submit-btn{width:100%;min-height:48px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem}
-.cta-status-ok,.cta-status-err{grid-column:1/-1;padding:var(--space-3) var(--space-4);border-radius:var(--radius-input);font-weight:600;font-size:.95rem;line-height:1.5}
+.cta-status-ok,.cta-status-err{grid-column:1/-1;padding:var(--space-3) var(--space-4);border-radius:var(--radius-input);font-weight:600;font-size:.95rem;line-height:1.5;font-variant-numeric:tabular-nums}
 .cta-status-ok{background:var(--uva-100);color:var(--ja-uva-escuro)}
 .cta-status-err{background:color-mix(in srgb,var(--error-100) 65%,var(--color-surface));color:var(--neutral-900)}
 
 /* Loading spinner animation */
-.btn-loading-wrap{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-loading-wrap{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2)}
 .btn-spinner{width:18px;height:18px;flex:none;animation:btn-spin 0.8s linear infinite}
 @keyframes btn-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.btn-spinner{animation:none!important}}
@@ -930,7 +961,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
    ao leitor de tela. Tinta Suave a 100% (7,25:1); os 58% de opacidade anteriores
    deixavam o texto em ~3,5:1. Não é controle, então não usa cursor de bloqueio. */
 .main-nav .nav-link-unavailable{white-space:nowrap;color:var(--color-text-muted);user-select:none}
-.main-nav .nav-soon{font-size:.72em;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-left:.4em}
+.main-nav .nav-soon{font-size:.78em;font-weight:700;margin-left:.4em}
 @media(max-width:1150px){.main-nav .nav-link-unavailable{padding:11px 0}}
 /* Texto acessível apenas a tecnologias assistivas. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -939,26 +970,26 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 .site-search-wrapper{position:relative;width:100%;max-width:640px;margin:0 auto}
 .site-search-input-wrap{position:relative;display:flex;align-items:center}
 .site-search-icon{position:absolute;left:16px;width:20px;height:20px;color:var(--color-text-muted);pointer-events:none}
-.site-search-input{width:100%;padding:14px 44px 14px 48px;font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:2px solid var(--color-border-control);border-radius:var(--radius-input);box-shadow:var(--shadow-sm);transition:var(--t-base)}
+.site-search-input{width:100%;padding:14px 44px 14px var(--space-12);font-size:1rem;font-family:inherit;color:var(--color-text);background:var(--color-surface);border:2px solid var(--color-border-control);border-radius:var(--radius-input);box-shadow:var(--shadow-sm);transition:var(--t-base)}
 .site-search-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 15%,transparent)}
-.site-search-clear{position:absolute;right:14px;background:none;border:none;color:var(--color-text-muted);font-size:1.4rem;line-height:1;cursor:pointer;padding:4px 8px;border-radius:50%;transition:var(--t-fast)}
+.site-search-clear{position:absolute;right:14px;background:none;border:none;color:var(--color-text-muted);font-size:1.4rem;line-height:1;cursor:pointer;padding:4px var(--space-2);border-radius:50%;transition:var(--t-fast)}
 .site-search-clear:hover{color:var(--color-text);background:var(--neutral-100)}
 
-.site-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:100;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card-sm);box-shadow:var(--shadow);max-height:420px;overflow-y:auto;padding:8px}
+.site-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:100;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card-sm);box-shadow:var(--shadow);max-height:420px;overflow-y:auto;padding:var(--space-2)}
 .site-search-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.site-search-item-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.site-search-item-head{display:flex;align-items:center;gap:var(--space-2);margin-bottom:4px}
 .site-search-category{font-size:.78rem;color:var(--color-text-muted);font-weight:600}
-.site-search-btn{width:100%;text-align:left;background:none;border:none;padding:12px 14px;border-radius:var(--radius-input);cursor:pointer;transition:var(--t-fast);font-family:inherit}
+.site-search-btn{width:100%;text-align:left;background:none;border:none;padding:var(--space-3) 14px;border-radius:var(--radius-input);cursor:pointer;transition:var(--t-fast);font-family:inherit}
 .site-search-btn:hover,.site-search-btn:focus-visible{background:var(--color-background);outline:none}
 .site-search-item-title{display:block;font-size:1rem;color:var(--color-primary);margin-bottom:4px;font-family:var(--font-display)}
 .site-search-item-desc{font-size:.88rem;color:var(--color-text-muted);margin:0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-.search-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.search-badge{display:inline-block;padding:2px var(--space-2);border-radius:12px;font-size:.72rem;font-weight:700}
 .search-badge--beneficio{background:var(--uva-100);color:var(--ja-uva-escuro)}
 .search-badge--taxa{background:var(--ja-mostarda);color:var(--ja-uva-escuro)}
 .search-badge--faq{background:var(--color-border);color:var(--color-text)}
 
-.site-search-empty{padding:24px;text-align:center;color:var(--color-text-muted)}
+.site-search-empty{padding:var(--space-6);text-align:center;color:var(--color-text-muted)}
 .site-search-empty p{margin-bottom:6px;font-size:1rem}
 .site-search-empty small{font-size:.82rem}
 
@@ -972,7 +1003,7 @@ body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-events:none}
 /* ===== Política de Privacidade (PrivacyPolicy.tsx) ===== */
 /* A página de privacidade herda o mesmo shell do site (header + footer). Aqui
    estilizamos apenas o conteúdo interno, com tokens do design system. */
-.privacy-page .container.narrow{max-width:760px;margin:var(--section-space) auto;padding:0 clamp(16px,4vw,24px)}
+.privacy-page .container.narrow{max-width:760px;margin:var(--section-space) auto;padding:0 clamp(var(--space-4),4vw,var(--space-6))}
 .privacy-page .iub_content{display:flex;flex-direction:column;gap:var(--space-6)}
 .privacy-page .iub_header{margin-bottom:var(--space-4)}
 .privacy-page .iub_header h1{font-size:clamp(1.75rem,3.5vw,2.4rem);margin-bottom:var(--space-3);line-height:1.15}

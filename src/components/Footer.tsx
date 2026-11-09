@@ -43,8 +43,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
 
         <nav aria-label="Soluções">
           <h2>Soluções</h2>
-          <a href="#custo-zero" onClick={goToSection("custo-zero")}>Para empresas</a>
-          <a href="#suporte" onClick={goToSection("suporte")}>Para colaboradores</a>
+          <a href="#custo-zero" onClick={goToSection("custo-zero")}>Empresas</a>
+          <a href="#suporte" onClick={goToSection("suporte")}>Colaboradores</a>
           <a href="#app" onClick={goToSection("app")}>Aplicativo</a>
         </nav>
 
@@ -86,7 +86,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onNavigateHome })
           <p>CNPJ 52.316.137/0001-53</p>
           <p>PAT FA000031</p>
         </div>
-        <address>Rua Barão de Teffé, 160, Sala 403, Condomínio Helbor Office · Jundiaí/SP · CEP 13208-761</address>
+        <address>Rua Barão de Teffé, 160, Sala 403, Condomínio Helbor Office, Jundiaí/SP, CEP 13208-761</address>
       </div>
 
       <div className="container footer-bottom">

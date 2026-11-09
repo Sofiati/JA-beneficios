@@ -21,15 +21,15 @@ export const Vantagens: React.FC = () => {
               Onde aceita <span className="visa-marca">VISA</span>, aceita JÁ Benefícios
             </h2>
             <p>
-              Uso imediato liberado no momento do recebimento do cartão — do almoço ao mercado, sem burocracia para começar. Compras com o cartão físico, gestão de saldo pelo app.
+              Uso imediato liberado no momento do recebimento do cartão: do almoço ao mercado, sem burocracia para começar. Compras com o cartão físico, gestão de saldo pelo app.
             </p>
             <div className="accept-block">
               <h3>Liberdade para o time, tranquilidade para o RH</h3>
               <p>
-                Milhões de estabelecimentos, no bairro ou no delivery, sem convênio nem maquininha especial — liberdade de escolha para o colaborador e gestão simples para a empresa.
+                Milhões de estabelecimentos, no bairro ou no delivery, sem convênio nem maquininha especial: liberdade de escolha para o colaborador e gestão simples para a empresa.
               </p>
               <p>
-                E o RH gerencia tudo em portal próprio — planilhas, financeiro e múltiplos CNPJs.
+                E o RH gerencia tudo em portal próprio: planilhas, financeiro e múltiplos CNPJs.
               </p>
             </div>
             <ul className="accept-methods">
@@ -82,8 +82,8 @@ export const Vantagens: React.FC = () => {
               <li>Extratos e movimentações</li>
               <li>Gestão do cartão físico e virtual</li>
             </ul>
-            <a className="btn btn-solid app-cta" href="#beneficiosForm">
-              Quero JÁ! <span aria-hidden="true">→</span>
+            <a className="btn btn-ghost app-cta" href="#beneficiosForm">
+              Quero JÁ!
             </a>
           </div>
         </div>

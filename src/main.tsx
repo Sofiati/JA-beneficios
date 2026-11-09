@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
-import "./style.css";import "./style.css";
+import "./style.css";
 
 // Document level class for JS enabled styles
 document.documentElement.classList.add("js");

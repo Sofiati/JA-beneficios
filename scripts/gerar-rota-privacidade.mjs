@@ -25,7 +25,7 @@ const URL_POLITICA = "https://jadigital.com.br/privacidade";
 /** Cada par precisa existir no `dist/index.html`; senão o build para. */
 const TROCAS = [
   {
-    de: "<title>JÁ Benefícios – Todos os benefícios do seu time em um só cartão</title>",
+    de: "<title>JÁ Benefícios: todos os benefícios em um só cartão</title>",
     para: `<title>${TITULO}</title>`,
   },
   {

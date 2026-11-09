@@ -7,6 +7,14 @@ export interface FaqItem {
   exibirNoSite: boolean;
   /** Seção alvo da busca do site para itens de catálogo (não exibem na FAQ). */
   alvo?: string;
+  /** Pessoa a quem a resposta se destina: empresa/RH, colaborador ou ambos. */
+  persona?: "empresa_RH" | "colaborador" | "ambos";
+  /** Orienta o bot sobre como tratar a resposta. */
+  comportamento?: "RESPOSTA_DIRETA" | "RESPOSTA_PARCIAL + OFERECER_HUMANO" | "HANDOFF_RAPIDO";
+  /** Versão curta usada no chat e no WhatsApp; a FAQ do site mantém `resposta`. */
+  resposta_bot_whatsapp?: string;
+  /** Regras do que o bot nunca deve dizer/inventar nesta entrada. */
+  nunca_dizer?: string[];
 }
 
 export interface FaqSearchResult {

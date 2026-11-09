@@ -127,8 +127,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder }) => {
             </ul>
           ) : (
             <div className="site-search-empty">
-              <p>Nenhum resultado encontrado para "<strong>{query}</strong>".</p>
-              <small>Tente buscar por "PAT", "16 categorias", "frete", "implantação" ou "segunda via".</small>
+              <p>Nenhum resultado encontrado para “<strong>{query}</strong>”.</p>
+              <small>Tente buscar por “PAT”, “16 categorias”, “frete”, “implantação” ou “segunda via”.</small>
             </div>
           )}
         </div>

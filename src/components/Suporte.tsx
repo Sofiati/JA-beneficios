@@ -43,8 +43,8 @@ export const Suporte: React.FC = () => {
           </div>
         </div>
         <p className="center">
-          <a href="#beneficiosForm" className="btn btn-solid">
-            Quero JÁ! <span aria-hidden="true">→</span>
+          <a href="#beneficiosForm" className="btn btn-ghost">
+            Quero JÁ!
           </a>
         </p>
       </div>

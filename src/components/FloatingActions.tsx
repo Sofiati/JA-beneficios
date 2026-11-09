@@ -4,23 +4,54 @@ import { createFaqSearch, FAQ_FALLBACK } from "../faq-search.mjs";
 import { WhatsappIcon, whatsappLink } from "./whatsapp";
 import "../chat.css";
 
+type ChatPersona = "empresa_RH" | "colaborador";
+
 interface ChatMessage {
   id: string;
   role: "bot" | "user";
   text: string;
   isPending?: boolean;
+  question?: string;
+  persona?: ChatPersona | null;
 }
 
 const STORAGE_KEY = "ja_chat_messages_v2";
+const PERSONA_STORAGE_KEY = "ja_chat_persona";
 
-const STARTER_QUESTIONS = [
-  { icon: "💳", question: "Quais cartões a JÁ oferece?" },
-  { icon: "💲", question: "Quais são as taxas e custos para a empresa?" },
-  { icon: "📱", question: "Como funciona o app do colaborador?" },
-  { icon: "📋", question: "Como contratar para minha empresa?" },
-];
+const STARTER_IDS: Record<ChatPersona | "geral", string[]> = {
+  geral: ["cartoes-oferecidos", "empresa-custos", "app-funcionalidades", "empresa-contratar"],
+  empresa_RH: ["empresa-custos", "implantacao-processo", "fornecedor-migracao"],
+  colaborador: ["cartao-perda", "saldo-compra-recusada", "app-funcionalidades"],
+};
+
+function handoffMessage(question: string, persona: ChatPersona | null): string {
+  const profile = persona === "empresa_RH" ? "RH / Empresa" : persona === "colaborador" ? "Colaborador" : "Não informado";
+  return `Olá! Preciso de ajuda sobre JA Benefícios.\nPerfil: ${profile}\nMinha dúvida: ${question}`;
+}
+
+/** Busca um item de FAQ pelo ID. Retorna undefined se não encontrar. */
+function findFaqItem(id: string): (typeof faqItems)[0] | undefined {
+  return faqItems.find((item) => item.id === id);
+}
+
+/** Extrai a persona definida na FAQ, ou null se não houver. */
+export function getFaqPersona(id: string): "empresa_RH" | "colaborador" | "ambos" | null {
+  const item = findFaqItem(id);
+  if (!item) return null;
+  return item.persona ?? null;
+}
+
+/** Extrai o comportamento definido na FAQ. */
+export function getFaqBehavior(id: string): "RESPOSTA_DIRETA" | "RESPOSTA_PARCIAL + OFERECER_HUMANO" | "HANDOFF_RAPIDO" | null {
+  const item = findFaqItem(id);
+  if (!item) return null;
+  return item.comportamento ?? null;
+}
 
 const searchLocalFaq = createFaqSearch(faqItems);
+
+/** Consulta local de FAQ */
+export { searchLocalFaq };
 
 const INITIAL_MESSAGE: ChatMessage = {
   id: "init",
@@ -28,20 +59,30 @@ const INITIAL_MESSAGE: ChatMessage = {
   text: "Olá! 👋 Sou o Assistente JÁ. Posso esclarecer dúvidas sobre benefícios corporativos, taxas, implantação e aplicativo. Como posso ajudar?",
 };
 
+
 interface FloatingActionsProps {
   /** Página ativa: só a home tem #beneficiosForm para observar. */
   page: "home" | "privacy";
 }
 
-export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
+export function FloatingActions({ page }: FloatingActionsProps) {
   const [showToTop, setShowToTop] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        const parsed: unknown = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const valid = parsed.filter((m: unknown): m is ChatMessage =>
+            typeof m === "object" && m !== null && "id" in m && typeof m.id === "string"
+            && "role" in m && (m.role === "bot" || m.role === "user")
+            && "text" in m && typeof m.text === "string"
+            && (!("question" in m) || typeof m.question === "string")
+            && (!("persona" in m) || m.persona === null || m.persona === "empresa_RH" || m.persona === "colaborador")
+            && !("isPending" in m && m.isPending));
+          if (valid.length > 0) return valid;
+        }
       }
     } catch {
       // Fallback on storage error
@@ -56,9 +97,32 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
   const [handoffText, setHandoffText] = useState("Olá! Gostaria de falar com a equipe JÁ Benefícios.");
   const [endpoint, setEndpoint] = useState("");
   const [feedbackMap, setFeedbackMap] = useState<Record<string, "up" | "down">>({});
+  /** Persona selecionada pelo usuário: empresa_RH ou colaborador. */
+  const [personaSelected, setPersonaSelected] = useState<ChatPersona | null>(() => {
+    try {
+      const saved = sessionStorage.getItem(PERSONA_STORAGE_KEY);
+      return saved === "empresa_RH" || saved === "colaborador" ? saved : null;
+    } catch {
+      return null;
+    }
+  });
 
   const feedRef = useRef<HTMLDivElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    try {
+      if (personaSelected) sessionStorage.setItem(PERSONA_STORAGE_KEY, personaSelected);
+      else sessionStorage.removeItem(PERSONA_STORAGE_KEY);
+    } catch {
+      // O chat continua disponível quando o navegador bloqueia armazenamento.
+    }
+  }, [personaSelected]);
+
+  useEffect(() => {
+    if (isChatOpen && !isBusy) inputRef.current?.focus();
+  }, [isChatOpen, isBusy]);
 
   // Save messages to sessionStorage
   useEffect(() => {
@@ -151,10 +215,13 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
   };
 
   const handleResetChat = () => {
+    if (isBusy) return;
     setMessages([INITIAL_MESSAGE]);
     setSuggestions([]);
     setShowHandoff(false);
     setFeedbackMap({});
+    setPersonaSelected(null);
+    setInputValue("");
     try {
       sessionStorage.removeItem(STORAGE_KEY);
     } catch {
@@ -162,8 +229,12 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
     }
   };
 
-  const handleFeedback = (msgId: string, rating: "up" | "down") => {
-    setFeedbackMap((prev) => ({ ...prev, [msgId]: rating }));
+  const handleFeedback = (message: ChatMessage, rating: "up" | "down") => {
+    setFeedbackMap((prev) => ({ ...prev, [message.id]: rating }));
+    if (rating === "down") {
+      setHandoffText(handoffMessage(message.question || "Preciso de ajuda com a resposta do assistente.", message.persona ?? null));
+      setShowHandoff(true);
+    }
   };
 
   const handleSendMessage = async (textToSend: string) => {
@@ -174,7 +245,7 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
     setShowHandoff(false);
 
     // Add user message
-    const userMsgId = Date.now().toString();
+    const userMsgId = crypto.randomUUID();
     setMessages((prev) => [...prev, { id: userMsgId, role: "user", text: msg }]);
     setInputValue("");
     setIsBusy(true);
@@ -186,54 +257,60 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
       { id: pendingId, role: "bot", text: "", isPending: true },
     ]);
 
-    const formattedHandoff = `Olá! Preciso de ajuda sobre JÁ Benefícios: ${msg.slice(0, 130)}`;
-    setHandoffText(formattedHandoff);
+    const lastQuestion = messages.filter((m) => m.role === "user").at(-1)?.text;
+    const question = /^(?:quero )?(?:falar (?:com (?:um |uma )?)?(?:humano|atendente)|atendimento humano|whatsapp)[.!?]?$/i.test(msg)
+      ? lastQuestion || msg : msg;
+    setHandoffText(handoffMessage(question, personaSelected));
 
     let botAnswer = "";
     let botSuggestions: string[] | undefined;
     let botHandoff = false;
+    const localResult = searchLocalFaq(msg);
+    if (localResult && ["faq_exact", "blocked", "greeting", "thanks", "farewell"].includes(localResult.path)) {
+      botAnswer = localResult.answer;
+      botSuggestions = localResult.suggestions;
+      botHandoff = localResult.handoff;
+    }
 
     // Try remote worker endpoint
-    if (endpoint) {
+    if (!botAnswer && endpoint) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
       try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 8000);
-
-    // Contexto de conversa: as últimas mensagens permitem follow-ups ("e o segundo?").
-    // ponytail: 4 mensagens × 250 caracteres cabem no limite de 4KB do Worker.
-    const history = messages
-      .filter((m) => !m.isPending)
-      .slice(-4)
-      .map((m) => ({ role: m.role, text: m.text.slice(0, 250) }));
-
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ message: msg, history }),
-      signal: controller.signal,
-    });
-
-        clearTimeout(timer);
+        // shortcut: quatro mensagens de 250 caracteres; ampliar junto do limite de corpo do Worker.
+        const history = messages.filter((m) => !m.isPending).slice(-4)
+          .map((m) => ({ role: m.role, text: m.text.slice(0, 250) }));
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ message: msg, history }),
+          signal: controller.signal,
+        });
 
         if (res.ok) {
-          const data = await res.json();
-          if (data && data.answer) {
+          const data: unknown = await res.json();
+          if (typeof data === "object" && data !== null
+            && "answer" in data && typeof data.answer === "string" && data.answer.trim()
+            && "handoff" in data && typeof data.handoff === "boolean") {
             botAnswer = data.answer;
-            botSuggestions = data.suggestions;
-            botHandoff = !!data.handoff;
+            if ("suggestions" in data && Array.isArray(data.suggestions)) {
+              botSuggestions = data.suggestions.filter((q: unknown): q is string => typeof q === "string" && q.length > 0 && q.length <= 450).slice(0, 6);
+            }
+            botHandoff = data.handoff;
           }
         }
       } catch (err) {
         console.warn("[Assistente JÁ] Remote call failed, using local search:", err);
+      } finally {
+        clearTimeout(timer);
       }
     }
 
     // Fallback to local search
     if (!botAnswer) {
-      const localResult = searchLocalFaq(msg) || { answer: FAQ_FALLBACK, suggestions: undefined, handoff: true };
-      botAnswer = localResult.answer;
-      botSuggestions = localResult.suggestions;
-      botHandoff = !!localResult.handoff;
+      botAnswer = localResult?.answer || FAQ_FALLBACK;
+      botSuggestions = localResult?.suggestions;
+      botHandoff = localResult?.handoff ?? true;
     }
 
     // Update message feed
@@ -241,22 +318,23 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
       prev
         .filter((m) => m.id !== pendingId)
         .concat({
-          id: Date.now().toString(),
+          id: crypto.randomUUID(),
           role: "bot",
           text: botAnswer,
+          question,
+          persona: personaSelected,
         })
     );
 
     if (botSuggestions && botSuggestions.length > 0) {
       setSuggestions(botSuggestions);
-    } else if (botHandoff) {
-      setShowHandoff(true);
     }
+    setShowHandoff(botHandoff);
 
     setIsBusy(false);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSendMessage(inputValue);
   };
@@ -313,7 +391,8 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
     });
   };
 
-  const isOnlyInitialMessage = messages.length === 1 && messages[0].id === "init";
+  const starterQuestions = STARTER_IDS[personaSelected ?? "geral"]
+    .map((id) => findFaqItem(id)).filter((item) => item !== undefined);
 
   return (
     <>
@@ -387,6 +466,7 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
               title="Reiniciar conversa"
               aria-label="Reiniciar conversa"
               onClick={handleResetChat}
+              disabled={isBusy}
             >
               ↺
             </button>
@@ -399,6 +479,27 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
             >
               ×
             </button>
+          </div>
+        </div>
+
+        <div className="ja-chat-persona-select">
+          <span className="ja-chat-persona-select-title">Como podemos ajudar?</span>
+          <div className="ja-chat-persona-buttons" role="group" aria-label="Seu perfil de atendimento">
+            {(["empresa_RH", "colaborador"] as const).map((persona) => (
+              <button
+                key={persona}
+                type="button"
+                className={`ja-chat-persona-btn ${personaSelected === persona ? "ja-chat-persona-btn--active" : ""}`}
+                aria-pressed={personaSelected === persona}
+                disabled={isBusy}
+                onClick={() => {
+                  setPersonaSelected(persona);
+                  setSuggestions(faqItems.filter((item) => STARTER_IDS[persona].includes(item.id)).map((item) => item.pergunta));
+                }}
+              >
+                {persona === "empresa_RH" ? "RH / Empresa" : "Colaborador"}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -430,27 +531,33 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
               {m.role === "bot" && !m.isPending && m.id !== "init" && (
                 <div className="ja-chat-feedback">
                   {feedbackMap[m.id] ? (
-                    <span className="ja-chat-feedback-thanks">Obrigado pelo feedback!</span>
+                    <span className="ja-chat-feedback-thanks">
+                      {feedbackMap[m.id] === "up" ? "Que bom! Se precisar, é só perguntar." : "Vamos ajudar pelo atendimento abaixo."}
+                    </span>
                   ) : (
                     <>
-                      <span>Esta resposta foi útil?</span>
+                      <span>Isso resolveu?</span>
                       <button
                         type="button"
                         className="ja-chat-feedback-btn"
-                        title="Sim, foi útil"
-                        aria-label="Marcar resposta como útil"
-                        onClick={() => handleFeedback(m.id, "up")}
+                        title="Sim, resolveu"
+                        aria-label="Sim, resolveu"
+                        disabled={isBusy}
+                        onClick={() => handleFeedback(m, "up")}
                       >
-                        👍
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+                        </svg>
                       </button>
                       <button
                         type="button"
                         className="ja-chat-feedback-btn"
-                        title="Não foi útil"
-                        aria-label="Marcar resposta como não útil"
-                        onClick={() => handleFeedback(m.id, "down")}
+                        title="Não resolveu, falar com humano"
+                        aria-label="Não resolveu, falar com humano"
+                        disabled={isBusy}
+                        onClick={() => handleFeedback(m, "down")}
                       >
-                        👎
+                        Falar com humano
                       </button>
                     </>
                   )}
@@ -460,18 +567,17 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
           ))}
 
           {/* Quick starter question pills */}
-          {isOnlyInitialMessage && (
+          {messages.length === 1 && !isBusy && suggestions.length === 0 && (
             <div className="ja-chat-starters">
               <span className="ja-chat-starters-title">Dúvidas frequentes:</span>
-              {STARTER_QUESTIONS.map((sq) => (
+              {starterQuestions.map((item) => (
                 <button
-                  key={sq.question}
+                  key={item.id}
                   type="button"
                   className="ja-chat-starter-btn"
-                  onClick={() => handleSendMessage(sq.question)}
+                  onClick={() => handleSendMessage(item.pergunta)}
                 >
-                  <span>{sq.icon}</span>
-                  <span>{sq.question}</span>
+                  <span>{item.pergunta}</span>
                 </button>
               ))}
             </div>
@@ -503,13 +609,13 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
             >
               Falar pelo WhatsApp
             </a>
-            <button
+            {page === "home" && personaSelected !== "colaborador" && <button
               id="jaChatSales"
               type="button"
               onClick={handleScrollToForm}
             >
-              Solicitar contato comercial
-            </button>
+              Falar com comercial
+            </button>}
           </div>
         )}
 
@@ -519,6 +625,7 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
           </label>
           <input
             id="jaChatInput"
+            ref={inputRef}
             type="text"
             name="message"
             maxLength={450}
@@ -535,7 +642,10 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
             aria-label="Enviar pergunta"
             disabled={isBusy || !inputValue.trim()}
           >
-            ➜
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M22 2 11 13" />
+              <path d="M22 2 15 22l-4-9-9-4Z" />
+            </svg>
           </button>
         </form>
 
@@ -545,4 +655,4 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ page }) => {
       </section>
     </>
   );
-};
+}

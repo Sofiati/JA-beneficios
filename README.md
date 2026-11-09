@@ -58,6 +58,22 @@ tsconfig.json           # TS estrito, react-jsx, noEmit, types: vite/client
 vite.config.ts          # plugin React, porta 5173, outDir dist, sourcemap
 ```
 
+## Assistente JÁ
+
+O chat mantém a FAQ em `src/faq.json` como fonte única. Perguntas canônicas,
+equivalentes e saudações respondem localmente; o Worker interpreta perguntas que
+precisam de contexto, com busca local disponível quando a conexão falha.
+No chat, `resposta_bot_whatsapp` fornece a versão curta; a FAQ visual mantém `resposta`.
+
+O perfil RH / Empresa ou Colaborador muda as sugestões e pode ser trocado durante
+a conversa. Perfil e mensagens ficam na sessão do navegador. “Reiniciar conversa”
+limpa ambos. “Falar com humano” prepara um link para o WhatsApp com a pergunta e o
+perfil daquela resposta; o visitante decide se quer abrir e enviar a mensagem.
+
+Valide a busca e o Worker com `node --test src/faq-search.test.mjs chat-worker/index.test.mjs`
+e rode `npm run check`. A publicação do Worker é separada da landing; consulte
+[`chat-worker/README.md`](chat-worker/README.md).
+
 ## Design tokens
 
 Definidos em `:root` no topo de `src/style.css` e reutilizados por todo o CSS:
