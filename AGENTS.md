@@ -77,6 +77,14 @@ docs/design-references/ # evidências visuais (screenshots de crítica/QA)
 - Ao capturar via Playwright/MCP, aponte o destino para essa pasta (`downloadsDir`/`outputPath`) e
   remova o sufixo de data que a ferramenta acrescenta ao nome.
 
+- **Retenção:** cada rodada de QA/crítica guarda só o **antes × depois** do viewport comparado
+  (mais o par 1366×768 e 390×844 quando o caso for responsivo). Rodadas superadas vão para
+  `_quarantine/design-references/` — ignorado no Git, não engorda o repositório.
+- **Formato:** screenshots em **WebP** por padrão (5–10× menores); PNG só quando a **cor
+  exata** for o objeto da análise (auditoria de paleta/contraste).
+- **Checagem de peso:** `du -sh docs/design-references` deve ficar na casa das dezenas de MB,
+  nunca das centenas.
+
 ## Regras de código
 
 - **TypeScript estrito, sem `any`.** Funções utilitárias recebem tipo de retorno explícito.

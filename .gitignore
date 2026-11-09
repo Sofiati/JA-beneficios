@@ -3,6 +3,7 @@ dist
 deploy.zip
 *.local
 .env
+.hallmark
 .env.*
 !.env.example
 .DS_Store
@@ -11,6 +12,8 @@ _quarantine/
 # Artefatos de auditoria local e logs
 .gstack/
 .playwright-mcp/
+.aistudio/
+graphify-out/
 .hallmark/
 dev-server.log
 # Estado local do Wrangler e segredos de desenvolvimento
