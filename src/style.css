@@ -35,7 +35,7 @@
 .brand{display:inline-flex;flex:0 0 auto;align-items:center}
 /* Os SVGs incluem área livre = largura do acento em cada lado (manual p.3).
    As medidas abaixo incluem essa área; não recortar o viewBox. */
-.brand--header{background:transparent;border-radius:14px;padding:6px 10px}
+.brand--header{background:transparent;border-radius:var(--radius-input);padding:6px 10px}
 .brand-logo{display:block;height:auto;width:90px}
 .brand-logo--footer{width:132px}
 /* Nav: 4 itens medidos (PIL/Trebuchet) para caber em 1112px úteis; nowrap impede quebra. */
@@ -890,7 +890,9 @@ html.js body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-even
       color-mix(in srgb,var(--ja-uva-escuro) 90%,transparent) 58%,
       color-mix(in srgb,var(--ja-uva-escuro) 28%,transparent) 100%)}
   .hero-copy{width:100%;margin-top:4%}
-  .hero-copy h1{font-size:clamp(14px,4.3vw,22px);line-height:1.2}
+  /* Piso 20px: headline abaixo do corpo de texto (16px) matava a hierarquia na dobra de conversão.
+     O piso 2.2rem do token --text-h1 não cabe no corte 816/941 — exceção documentada no DESIGN.md. */
+  .hero-copy h1{font-size:clamp(20px,4.3vw,22px);line-height:1.2}
   /* Quebra obrigatória após "TIME": preserva o resultado em exatamente 2 linhas */
   .hero-copy h1 br{display:inline}
   .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}
