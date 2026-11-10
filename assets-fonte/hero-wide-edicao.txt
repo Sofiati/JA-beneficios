@@ -1,0 +1,14 @@
+Edição: image_gen integrada, seguida de normalização com FFmpeg.
+Base: hero-wide.png integrado na rodada anterior (casal derivado de Gemini_Generated_Image_7qtiuy7qtiuy7qti.jpg).
+Referência de produto: frente cinza JA Benefícios, página 3 do plastico_AT3.pdf fornecido pelo usuário.
+Pedido: reduzir cartão e adaptar pegada, recuperar grafismo de marca atrás do casal.
+Grafismo: SVG oficial logo-ja-negativo.svg rasterizado sem alterar geometria ou cores, em 18% de opacidade.
+
+Prompt da edição:
+Use case: precise-object-edit, identity-preserving. Image 1 is the EDIT TARGET, the currently deployed JA Benefícios hero photograph. Image 2 is ONLY the OFFICIAL PRODUCT REFERENCE for the gray JA Benefícios VISA card front, not a new background or extra object. Correct ONE local defect in image 1: the woman is holding an oversized card like a plaque. Reduce the card's projected width AND height by approximately 25%, preserve portrait bank-card proportions width/height approximately 0.635 (53.98mm x85.6mm), and adapt ONLY the woman's fingers and contact points to hold the smaller card naturally between thumb and fingers. Keep believable human scale and perspective: real bank card, not large placard. The card remains fully visible in front of her torso, not covering her face. Faithfully use reference 2's card face: JA benefícios original white logo, benefits BELOW JA, original gray repeated-monogram pattern, chip/contactless above and VISA bottom. DO NOT redesign or hallucinate the brand, do not add a generic JÁ typeface. Preserve woman and man's exact faces, expressions, identity, hair, clothes, pose, arm scale and locations from image 1; preserve ALL other scene proportions and composition, including clear empty left 45% and right 8% margin. The man's pointing hand stays naturally directed at the card. No face retouch or beautification, no pose changes, no ghost faces, no extra fingers, no duplicates, no distortions. Remove only the flat grape background to output a true transparent RGBA PNG cutout of the same couple in exactly the same location on the same full 1920x810 canvas. Transparent everywhere outside couple/card, no graphics, no shadow, no black backdrop, no checkerboard pixels. Bodies may exit bottom only. Preserve highest detail possible; target 1920x810. Local card-and-grip correction plus background extraction ONLY.
+
+Normalização do recorte IA: scale=1920:810:flags=lanczos,lut=a='if(lt(val,3),0,val)', PNG RGBA.
+Vetor rasterizado pelo Canvas nativo do navegador em 768x346, opacidade .18, geometria proporcional 86.77/39.07.
+Composição FFmpeg: fundo RGB #732E4A de 1920x810 + grafismo em x=998,y=48 + casal RGBA em x=0,y=0.
+Fonte final em PNG RGB, com grafismo incorporado; WebP e JPEG usam a mesma fonte por npm run hero:fallbacks.
+Área cinza do cartão medida por componente de pixels: antes ~130x183; depois ~97x149 (perspectiva incluída).
