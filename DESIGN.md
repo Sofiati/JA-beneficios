@@ -23,6 +23,9 @@ colors:
   whatsapp-teal: "#128C7E"
   whatsapp-teal-tinta: "#07463E"
 typography:
+  available-inactive:
+    fontFamily: "Source Serif 4"
+    usage: "Arquivos e @font-face preservados; fora dos tokens ativos. Títulos usam Arvo e corpo usa Trebuchet MS."
   display:
     fontFamily: "Arvo, 'Trebuchet MS', Verdana, sans-serif"
     fontSize: "clamp(2.2rem, 5vw, 3.6rem)"

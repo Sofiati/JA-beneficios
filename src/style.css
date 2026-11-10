@@ -68,7 +68,7 @@
 /* ===== Hero ===== */
 .hero{overflow:hidden;background:var(--ja-uva);color:var(--color-on-primary)}
 /* A largura explícita impede que o limite de altura encolha o banner.
-   Em telas largas, apenas o conteúdo é limitado; a arte alcança a borda direita. */
+   Em telas largas, texto e arte compartilham um palco centralizado. */
 .hero-banner{position:relative;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva);color:var(--color-on-primary)}
 /* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
    direta do banner (posicionamento absoluto e contexto de container intactos). */
@@ -85,9 +85,8 @@
     color-mix(in srgb,var(--ja-uva) 94%,transparent) 32%,
     color-mix(in srgb,var(--ja-uva) 40%,transparent) 52%,
     transparent 68%)}
-/* Sem logo no hero: o header sticky já carrega a marca a 77px de distância
-   (crítica: "a marca ocupa o espaço mais caro da página antes de dizer o valor").
-   O espaço livre fica com a headline. */
+/* A marca principal permanece no header; o grafismo incorporado à arte desktop
+   fica atrás do casal, sem ocupar a área da headline. */
 .hero-copy{width:48%;max-width:700px;margin-top:0;margin-bottom:0;flex:0 1 auto;display:flex;flex-direction:column;justify-content:center}
 .hero-copy h1{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,2.7vw,42px);
   line-height:1.15;letter-spacing:-.015em}
@@ -121,10 +120,9 @@
   .hero-benefits span{font-size:clamp(.875rem,2.5cqi,.9375rem)}
 }
 @media (min-width:1440px){
-  .hero-banner{max-width:none;aspect-ratio:auto;height:calc(1440px * 941 / 1672)}
-  .hero-img{left:auto;width:auto;max-width:none;
-    mask-image:linear-gradient(90deg,transparent,var(--neutral-black) 40%)}
-  .hero-overlay{max-width:1440px;margin-inline:auto;padding-left:calc(1440px * .06)}
+  .hero-banner{max-width:1920px;aspect-ratio:1920/810;height:auto}
+  .hero-img{object-position:center bottom}
+  .hero-overlay{max-width:1440px;margin-inline:auto;padding-left:calc(1440px * .06);background:none}
 }
 /* Notebook 1366×768 */
 @media (min-width:1024px) and (max-height:820px){

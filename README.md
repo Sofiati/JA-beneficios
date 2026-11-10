@@ -10,7 +10,7 @@ com o conteúdo que vai para produção e total conformidade com o design system
 - **Linguagem:** TypeScript estrito (`strict`, `noUnusedLocals`, `noUnusedParameters`), target ES2022
 - **UI:** React componentes + CSS puro com design tokens em `:root`
 - **Interações:** React hooks + IntersectionObserver para animações on-scroll
-- **Fontes:** Trebuchet MS para HTML; Nexa Slab preferencial quando instalada. Sem download de fontes.
+- **Fontes:** Arvo local nos títulos (aproximação da Nexa Slab); Trebuchet MS no corpo e controles, conforme alternativa HTML do manual. Sem requests de fontes a terceiros.
 - **Node:** >= 24 (`.nvmrc`)
 
 ## Comandos

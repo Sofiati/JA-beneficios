@@ -19,14 +19,26 @@
    --ja-uva:#732E4A (R115 G46 B74 — Pantone 7642 C)
    --ja-verde:#40C1AC (R64 G193 B172 — Pantone 7465 C)
    --ja-cinza:#97999B (R151 G153 B155 — Cool Gray 7 C, texto corrido)
-   Tipografia: Arvo (substituta livre da Nexa Slab nos títulos, Apache-2.0, self-host em public/fonts/;
-   ver docs/brand-conformidade.md) / Trebuchet MS (secundária autorizada para HTML, p.4).
+   Tipografia: Arvo (Apache-2.0, self-host) nos títulos como aproximação da Nexa Slab;
+   Trebuchet MS no corpo, alternativa autorizada para HTML no manual p.4.
    Extensões digitais: uva-escuro #5A2339 para estados; fundo neutro #F8F7F3
    como "fundo neutro" da versão positiva (p.2). Ver docs/brand-conformidade.md. */
 @font-face{font-family:"Arvo";font-style:normal;font-weight:400;font-display:swap;
   src:url("/fonts/arvo-regular.woff2") format("woff2")}
 @font-face{font-family:"Arvo";font-style:normal;font-weight:700;font-display:swap;
   src:url("/fonts/arvo-bold.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:400;font-display:swap;
+  src:url("/fonts/sourceserif4-regular-latin.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:600;font-display:swap;
+  src:url("/fonts/sourceserif4-semibold-latin.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:700;font-display:swap;
+  src:url("/fonts/sourceserif4-bold-latin.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:400;font-display:swap;
+  src:url("/fonts/sourceserif4-italic-latin.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:600;font-display:swap;
+  src:url("/fonts/sourceserif4-semibold-italic-latin.woff2") format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:700;font-display:swap;
+  src:url("/fonts/sourceserif4-bold-italic-latin.woff2") format("woff2")}
 :root{
   /* Primitivos: marca (manual p.3) e extensões digitais, separadas. */
   --ja-mostarda:#FFC72C; --ja-uva:#732E4A; --ja-uva-escuro:#5A2339; --ja-verde:#40C1AC;
