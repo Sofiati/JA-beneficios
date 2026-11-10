@@ -5,6 +5,8 @@ export const Hero: React.FC = () => {
     <section className="hero">
       <div className="hero-banner" data-animate>
         <picture className="hero-picture">
+          <source media="(min-width:1440px)" type="image/webp" srcSet="/hero-wide.webp" />
+          <source media="(min-width:1440px)" type="image/jpeg" srcSet="/hero-wide.jpg" />
           <source media="(max-width:767px)" type="image/webp" srcSet="/hero01-mobile.webp" />
           <source media="(max-width:767px)" type="image/jpeg" srcSet="/hero01-mobile.jpg" />
           <source type="image/webp" srcSet="/hero01.webp" />

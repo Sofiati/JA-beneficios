@@ -45,11 +45,12 @@ segurança = largura do acento do ã (padding do chip), redução preferencial �
 
 ## 3. Tipografia (p.4)
 
-- Preferencial: **Nexa Slab** (THIN→BLACK). Requer licença e nenhum arquivo é distribuído aqui;
-  enquanto indisponível, títulos usam **Arvo** (Apache-2.0, self-host `public/fonts/`,
-  evidência `design-references/font-compare-h1-560x1827.png`) e corpo usa a
-  **secundária autorizada para HTML: Trebuchet MS** — `:root --font-body/--font-display`.
-- Google Fonts (Sora/Fraunces) removido do `JA-beneficios/index.html`; Arvo é servido
+- Preferencial: **Nexa Slab** (THIN→BLACK). Requer licença e nenhum arquivo é distribuído aqui.
+  Enquanto indisponível, títulos usam **Arvo** (`public/fonts/arvo-{regular,bold}.woff2`,
+  Apache-2.0) como aproximação slab; corpo e controles usam **Trebuchet MS**, alternativa
+  autorizada para HTML pelo manual. Aplicação em `:root --font-body/--font-display`.
+  Source Serif 4 permanece disponível nos arquivos, mas não é a fonte ativa dos tokens.
+- Google Fonts (Sora/Fraunces) removido do `JA-beneficios/index.html`; as fontes são servidas
   localmente (nenhum request externo de fonte).
 - Corridos com alinhamento à esquerda (hero centralizado = pendência conhecida, ver §5).
 

@@ -1,5 +1,5 @@
 /**
- * Gera os fallbacks do hero para navegadores sem WebP.
+ * Gera os fallbacks do hero e os derivados da composição desktop larga.
  *
  * Por quê: o `<picture>` do Hero serve WebP primeiro. O fallback antigo era PNG —
  * formato errado para foto, que rendia 1,8 MB (desktop) e 1,6 MB (mobile) para um
@@ -14,6 +14,8 @@
  * Saídas:
  *   public/hero01.jpg         1040×585  (fallback desktop)
  *   public/hero01-mobile.jpg   600×692  (fallback do recorte mobile)
+ *   public/hero-wide.jpg      1920×810  (fallback desktop largo)
+ *   public/hero-wide.webp     1920×810  (desktop largo, lossless para manter o fundo)
  */
 
 import { execFileSync } from "node:child_process";
@@ -36,6 +38,19 @@ const SAIDAS = [
     arquivo: "public/hero01-mobile.jpg",
     filtro: `crop=${CORTE_MOBILE.largura}:941:${CORTE_MOBILE.x0}:0,scale=600:692:flags=lanczos`,
     dimensoes: "600×692",
+  },
+  {
+    arquivo: "public/hero-wide.jpg",
+    fonte: "assets-fonte/hero-wide.png",
+    filtro: "scale=1920:810:flags=lanczos",
+    dimensoes: "1920×810",
+  },
+  {
+    arquivo: "public/hero-wide.webp",
+    fonte: "assets-fonte/hero-wide.png",
+    filtro: "scale=1920:810:flags=lanczos",
+    dimensoes: "1920×810",
+    encoder: ["-c:v", "libwebp", "-lossless", "1", "-compression_level", "6"],
   },
 ];
 
@@ -63,11 +78,10 @@ for (const saida of SAIDAS) {
       "error",
       "-y",
       "-i",
-      SRC,
+      saida.fonte ? `${RAIZ}${saida.fonte}` : SRC,
       "-vf",
       saida.filtro,
-      "-q:v",
-      "3",
+      ...(saida.encoder ?? ["-q:v", "3"]),
       `${RAIZ}${saida.arquivo}`,
     ],
     saida.arquivo,

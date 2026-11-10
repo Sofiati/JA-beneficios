@@ -11,8 +11,10 @@
 .btn:disabled{background:color-mix(in srgb,currentColor 12%,var(--color-surface));
   border-color:color-mix(in srgb,currentColor 35%,var(--color-surface));
   color:color-mix(in srgb,currentColor 65%,var(--color-surface));cursor:wait;transform:none}
-/* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez). */
-.btn-sm{padding:calc(9px - .08em) var(--space-5) calc(9px + .08em);font-size:.92rem;white-space:nowrap}
+/* .btn-sm só existe no header: nowrap evita a cápsula quebrar em 2 linhas (outra vez).
+   11px/1rem ⇒ 44.4px de altura — piso de toque e mais perto do CTA do hero (50.7px),
+   sem disputar a primazia dele. (FINDING-003, design-review R2.) */
+.btn-sm{padding:calc(11px - .08em) var(--space-5) calc(11px + .08em);font-size:1rem;white-space:nowrap}
 /* CTA do header: rótulo completo no desktop; curto em telas estreitas (medido p/ caber em 360px). */
 .btn-label-short{display:none}
 /* Cápsula fantasma: repetições do CTA primário ao longo da página. Transparente
@@ -35,7 +37,7 @@
 .brand{display:inline-flex;flex:0 0 auto;align-items:center}
 /* Os SVGs incluem área livre = largura do acento em cada lado (manual p.3).
    As medidas abaixo incluem essa área; não recortar o viewBox. */
-.brand--header{background:transparent;border-radius:14px;padding:6px 10px}
+.brand--header{background:transparent;border-radius:var(--radius-input);padding:6px 10px}
 .brand-logo{display:block;height:auto;width:90px}
 .brand-logo--footer{width:132px}
 /* Nav: 4 itens medidos (PIL/Trebuchet) para caber em 1112px úteis; nowrap impede quebra. */
@@ -66,7 +68,7 @@
 /* ===== Hero ===== */
 .hero{overflow:hidden;background:var(--ja-uva);color:var(--color-on-primary)}
 /* A largura explícita impede que o limite de altura encolha o banner.
-   Em telas largas, apenas o conteúdo é limitado; a arte alcança a borda direita. */
+   Em telas largas, texto e arte compartilham um palco centralizado. */
 .hero-banner{position:relative;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:1672/941;max-height:calc(100svh - 76px);min-height:0;container-type:inline-size;background:var(--ja-uva);color:var(--color-on-primary)}
 /* `display:contents` tira o <picture> do fluxo: a imagem continua sendo filha
    direta do banner (posicionamento absoluto e contexto de container intactos). */
@@ -83,9 +85,8 @@
     color-mix(in srgb,var(--ja-uva) 94%,transparent) 32%,
     color-mix(in srgb,var(--ja-uva) 40%,transparent) 52%,
     transparent 68%)}
-/* Sem logo no hero: o header sticky já carrega a marca a 77px de distância
-   (crítica: "a marca ocupa o espaço mais caro da página antes de dizer o valor").
-   O espaço livre fica com a headline. */
+/* A marca principal permanece no header; o grafismo incorporado à arte desktop
+   fica atrás do casal, sem ocupar a área da headline. */
 .hero-copy{width:48%;max-width:700px;margin-top:0;margin-bottom:0;flex:0 1 auto;display:flex;flex-direction:column;justify-content:center}
 .hero-copy h1{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,2.7vw,42px);
   line-height:1.15;letter-spacing:-.015em}
@@ -119,10 +120,9 @@
   .hero-benefits span{font-size:clamp(.875rem,2.5cqi,.9375rem)}
 }
 @media (min-width:1440px){
-  .hero-banner{max-width:none;aspect-ratio:auto;height:calc(1440px * 941 / 1672)}
-  .hero-img{left:auto;width:auto;max-width:none;
-    mask-image:linear-gradient(90deg,transparent,var(--neutral-black) 40%)}
-  .hero-overlay{max-width:1440px;margin-inline:auto;padding-left:calc(1440px * .06)}
+  .hero-banner{max-width:1920px;aspect-ratio:1920/810;height:auto}
+  .hero-img{object-position:center bottom}
+  .hero-overlay{max-width:1440px;margin-inline:auto;padding-left:calc(1440px * .06);background:none}
 }
 /* Notebook 1366×768 */
 @media (min-width:1024px) and (max-height:820px){
@@ -890,7 +890,9 @@ html.js body.form-in-view .whatsapp-fab{opacity:0;visibility:hidden;pointer-even
       color-mix(in srgb,var(--ja-uva-escuro) 90%,transparent) 58%,
       color-mix(in srgb,var(--ja-uva-escuro) 28%,transparent) 100%)}
   .hero-copy{width:100%;margin-top:4%}
-  .hero-copy h1{font-size:clamp(14px,4.3vw,22px);line-height:1.2}
+  /* Piso 20px: headline abaixo do corpo de texto (16px) matava a hierarquia na dobra de conversão.
+     O piso 2.2rem do token --text-h1 não cabe no corte 816/941 — exceção documentada no DESIGN.md. */
+  .hero-copy h1{font-size:clamp(20px,4.3vw,22px);line-height:1.2}
   /* Quebra obrigatória após "TIME": preserva o resultado em exatamente 2 linhas */
   .hero-copy h1 br{display:inline}
   .hero-copy p{margin-top:2.5%;font-size:clamp(14px,3.7vw,17px);width:96%}

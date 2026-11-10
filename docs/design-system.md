@@ -64,13 +64,17 @@ Não há significado de negócio documentado para as cores antigas das categoria
 
 - Nexa Slab é a família preferencial do manual. Nenhum arquivo dessa fonte é distribuído aqui
   (requer licença).
-- Enquanto a Nexa Slab não for licenciada, títulos usam **Arvo** (Apache-2.0, self-host em
-  `public/fonts/arvo-{regular,bold}.woff2`, sem request a terceiros). Escolha por ser a
-  slab serifada livre mais próxima da Nexa Slab; evidência em
-  `design-references/font-compare-h1-560x1827.png`.
-- Trebuchet MS é a alternativa autorizada para HTML no corpo. Verdana/sans-serif são fallbacks
-  técnicos quando as fontes não estão instaladas; não garantem fidelidade tipográfica.
-- Títulos usam `--font-display` (Arvo); corpo usa `--font-body`.
+- Enquanto a Nexa Slab não for licenciada, títulos usam **Arvo**, aproximação slab
+  disponível no projeto (Apache-2.0, self-host em `public/fonts/arvo-{regular,bold}.woff2`).
+  Arvo é uma adaptação digital, não a família oficial do manual.
+- Corpo e controles usam **Trebuchet MS**, alternativa expressamente autorizada
+  para HTML na página 4 do manual; Nexa Slab, Verdana e sans-serif são fallbacks.
+- Títulos usam `--font-display` (Arvo); corpo usa `--font-body` (Trebuchet MS).
+- Parágrafos de apresentação e depoimentos ficam à esquerda. Títulos e ações podem
+  permanecer centralizados. Texto incorporado às imagens não é controlado pelo CSS.
+- Arvo tem arquivos locais nos pesos 400 e 700; o corpo usa os pesos disponíveis
+  na fonte do sistema. Os arquivos e declarações de Source Serif 4 permanecem
+  preservados, mas a família não integra os tokens ativos.
 - Parágrafos de apresentação e depoimentos ficam à esquerda. Títulos e ações podem
   permanecer centralizados. Texto incorporado às imagens não é controlado pelo CSS.
 - Mantidos raios de 24px em cards e 40px em botões, container de 1200px (`--max`) e

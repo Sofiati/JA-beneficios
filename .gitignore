@@ -37,3 +37,6 @@ Thumbs.db
 *.tsbuildinfo
 .vite/
 coverage/
+
+# Intermediários de geração de imagens; fontes finais em assets-fonte/
+/output/imagegen/
