@@ -38,5 +38,8 @@ Thumbs.db
 .vite/
 coverage/
 
+# Netlify
+.netlify
+
 # Intermediários de geração de imagens; fontes finais em assets-fonte/
 /output/imagegen/
